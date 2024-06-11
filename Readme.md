@@ -13,3 +13,10 @@
 - Classes & Components: PascalCase
 
 - html-ids & css-classes: kebab-case
+
+
+## Run Project
+
+```npm install```
+```./starttailwind.sh```
+```npm start```
