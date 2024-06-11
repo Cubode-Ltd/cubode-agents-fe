@@ -1,0 +1,138 @@
+{
+    "id": 71,
+    "category": {
+        "id": 20,
+        "primary": "datascience",
+        "secondary": "interpretable"
+    },
+    "text": {
+        "id": 71,
+        "name": "Filter_RT",
+        "generator": "Filter_",
+        "hoverDefinition": "Filter the data based on conditions.",
+        "color": "black",
+        "font": "Poppins",
+        "fontsize": "12px"
+    },
+    "shape": {
+        "id": 65,
+        "dimension": {
+            "id": 1,
+            "x": 6,
+            "y": 6,
+            "width": 70,
+            "height": 70,
+            "radiusX": 6,
+            "radiusY": 6,
+            "strokewidth": 2
+        },
+        "color": {
+            "id": 2,
+            "normal": "#fce5d4",
+            "hover": "black",
+            "select": "black",
+            "drag": "black",
+            "stroke": "#e6e6e6"
+        },
+        "icon": "DataScience_Filter_RT"
+    },
+    "corners": {
+        "id": 1,
+        "number": 4,
+        "fillcolor": "#f7f7f7",
+        "fillopacity": 0.8,
+        "width": 8,
+        "height": 8,
+        "radius": 2,
+        "strokecolor": "#748b97",
+        "strokewidth": 1
+    },
+    "code": {
+        "id": 71,
+        "codevalue": "DataScience_ReadData_CodeValueCSV",
+        "modalDescription": "DataScience_Filter_RT",
+        "codetemplate": null,
+        "library": null,
+        "modalCopyValues": [
+            ">",
+            "<",
+            ">=",
+            "<=",
+            "==",
+            "!=",
+            "&&",
+            "||",
+            " AND ",
+            " OR "
+        ]
+    },
+    "events": {
+        "id": 1,
+        "drag": true,
+        "click": true,
+        "dbclick": false
+    },
+    "inport": [
+        {
+            "id": 1,
+            "properties": {
+                "id": 3,
+                "radius": 4,
+                "color": "#d6b324",
+                "colordragging": "purple",
+                "colorover": "#b0b392",
+                "stroke": "black",
+                "opacity": 0.6
+            },
+            "name": "In0",
+            "datatype": "key",
+            "dimension": "1",
+            "alloweddatatypes": [
+                "numeric",
+                "all"
+            ]
+        }
+    ],
+    "outport": [
+        {
+            "id": 6,
+            "properties": {
+                "id": 6,
+                "radius": 4,
+                "color": "red",
+                "colordragging": "green",
+                "colorover": "#b0b392",
+                "stroke": "black",
+                "opacity": 0.6
+            },
+            "name": "Out0",
+            "datatype": "all",
+            "dimension": "1"
+        }
+    ],
+    "inport_special": [],
+    "outport_special": [],
+    "user_input": [
+        {
+            "id": 62,
+            "name": "Filter",
+            "default": "",
+            "datatype": "parsedexpression",
+            "position": 0,
+            "description": "Filter your dataset with a query, like this: Column1 >= 45",
+            "nonstorable": false,
+            "optional": false
+        }
+    ],
+    "user_choice": [],
+    "name": "DataScience_Filter_RT",
+    "front_id": "e3f0da10-63cd-43f2-80a2-cbb8f2e4d7e1",
+    "inheritable": false,
+    "sink": false,
+    "source": false,
+    "specialInputs": 0,
+    "specialOutputs": 0,
+    "hasUserInputs": true,
+    "changeableInports": false,
+    "hasTrigger": false
+}

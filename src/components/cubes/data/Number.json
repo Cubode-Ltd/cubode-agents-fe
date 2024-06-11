@@ -1,0 +1,107 @@
+{
+    "id": 1,
+    "category": {
+        "id": 1,
+        "primary": "basic",
+        "secondary": "constant"
+    },
+    "text": {
+        "id": 1,
+        "name": "Number",
+        "generator": "Number_",
+        "hoverDefinition": "This cube stores a numeric value with a name, this value you can reuse anywhere during the program execution.",
+        "color": "black",
+        "font": "Poppins",
+        "fontsize": "12px"
+    },
+    "shape": {
+        "id": 1,
+        "dimension": {
+            "id": 1,
+            "x": 6,
+            "y": 6,
+            "width": 70,
+            "height": 70,
+            "radiusX": 6,
+            "radiusY": 6,
+            "strokewidth": 2
+        },
+        "color": {
+            "id": 1,
+            "normal": "#f2faf5",
+            "hover": "black",
+            "select": "black",
+            "drag": "black",
+            "stroke": "#e6e6e6"
+        },
+        "icon": "Basic_Constant"
+    },
+    "corners": {
+        "id": 1,
+        "number": 4,
+        "fillcolor": "#f7f7f7",
+        "fillopacity": 0.8,
+        "width": 8,
+        "height": 8,
+        "radius": 2,
+        "strokecolor": "#748b97",
+        "strokewidth": 1
+    },
+    "code": {
+        "id": 1,
+        "codevalue": null,
+        "modalDescription": "Basic_Constant",
+        "codetemplate": null,
+        "library": null,
+        "modalCopyValues": null
+    },
+    "events": {
+        "id": 1,
+        "drag": true,
+        "click": true,
+        "dbclick": false
+    },
+    "inport": [],
+    "outport": [
+        {
+            "id": 1,
+            "properties": {
+                "id": 1,
+                "radius": 4,
+                "color": "red",
+                "colordragging": "#d6b324",
+                "colorover": "#b0b392",
+                "stroke": "black",
+                "opacity": 0.6
+            },
+            "name": "Out0",
+            "datatype": "numeric",
+            "dimension": "1"
+        }
+    ],
+    "inport_special": [],
+    "outport_special": [],
+    "user_input": [
+        {
+            "id": 1,
+            "name": "Number",
+            "default": "0",
+            "datatype": "number",
+            "position": 0,
+            "description": "Set the value of your constant",
+            "nonstorable": false,
+            "optional": false
+        }
+    ],
+    "user_choice": [],
+    "name": "Basic_Constant",
+    "front_id": "25138d7c-3c2b-40e0-8b2b-cc657320e96e",
+    "inheritable": false,
+    "sink": false,
+    "source": true,
+    "specialInputs": 0,
+    "specialOutputs": 0,
+    "hasUserInputs": true,
+    "changeableInports": false,
+    "hasTrigger": false
+}

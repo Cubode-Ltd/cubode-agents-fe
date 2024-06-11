@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Other library CSS imports */
+/* @import 'path/to/other-library.css'; */
+
+/* Not sure they are needed
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+    margin: 0;
+  }
+
+  h1 {
+    @apply text-3xl font-extrabold uppercase;
+  }
+
+  h2 {
+    @apply text-2xl font-extrabold uppercase;
+  }
+
+  h3 {
+    @apply text-xl font-extrabold uppercase;
+  }
+} */
+
