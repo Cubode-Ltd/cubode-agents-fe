@@ -15,7 +15,15 @@ import "./components/layout/panels/cb-sidepanel.js"
 // Components related to Visualization
 import "./components/layout/cb-container.js"
 import "./components/layout/cb-data-upload.js"
+
+// VISUALIZATION CHARTS
 import "./components/plot/echarts/cb-echarts-barplot.js"
+import "./components/plot/echarts/cb-echarts-pieplot.js"
+import "./components/plot/echarts/cb-echarts-scatterplot.js"
+import "./components/plot/echarts/cb-echarts-lineplot.js"
+import "./components/plot/echarts/cb-echarts-boxplot.js"
+import "./components/plot/echarts/cb-echarts-histogramplot.js"
+
 import "./components/plot/cb-plot-container.js"
 import "./components/ai/cb-ai-input.js"
 
