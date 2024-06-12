@@ -1,5 +1,4 @@
 import * as d3 from 'd3';
-
 import * as echarts from 'echarts/core';
 import { BarChart } from 'echarts/charts';
 import {
@@ -19,8 +18,6 @@ echarts.use([
     CanvasRenderer
 ]);
 
-
-
 const template = document.createElement('template');
 template.innerHTML = `
     <div class="cb-echart-barplot" style="width:100%; height:400px; overflow: hidden;">
@@ -31,19 +28,44 @@ template.innerHTML = `
 class BarPlot extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({
-            mode: 'open'
-        });
+        this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.element = this.shadowRoot.querySelector('.cb-chart-container')
+        this.element = this.shadowRoot.querySelector('.cb-chart-container');
+        this.chart_ = echarts.init(this.element);
+        this.data_ = [5, 20, 36, 10, 10];
     }
-    
-    connectedCallback() {
-        var myChart = echarts.init(this.element);
-        var data = [5, 20, 36, 10, 10];
 
-        // List of available D3 color interpolators
-        var colorScales = {
+    static get observedAttributes() {
+        return ['colorscale', 'color1', 'color2'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue !== newValue) {
+            this.render();
+        }
+    }
+
+    connectedCallback() {
+        this.render();
+        this.observeResize({
+            animation: {
+              duration: 500,
+              easing: 'cubicInOut',
+            },
+          });;
+    }
+
+    disconnectedCallback() {
+        this.resizeObserver.disconnect();
+        window.removeEventListener('resize', this.handleResize);
+    }
+
+    render() {
+        const colorScaleAttr = this.getAttribute('colorScale') || 'Viridis';
+        const color1 = this.getAttribute('color1') || '#000000';
+        const color2 = this.getAttribute('color2') || '#ffffff';
+
+        const colorScales = {
             YlGnBu: d3.interpolateYlGnBu,
             Viridis: d3.interpolateViridis,
             Inferno: d3.interpolateInferno,
@@ -62,29 +84,42 @@ class BarPlot extends HTMLElement {
             RdPu: d3.interpolateRdPu,
             YlGn: d3.interpolateYlGn,
             YlOrBr: d3.interpolateYlOrBr,
-            YlOrRd: d3.interpolateYlOrRd
+            YlOrRd: d3.interpolateYlOrRd,
+            Turbo: d3.interpolateTurbo,
+            Cividis: d3.interpolateCividis,
+            Rainbow: d3.interpolateRainbow,
+            Sinebow: d3.interpolateSinebow,
+            Blues: d3.interpolateBlues,
+            Greens: d3.interpolateGreens,
+            Greys: d3.interpolateGreys,
+            Purples: d3.interpolatePurples,
+            Reds: d3.interpolateReds,
+            Spectral: d3.interpolateSpectral,
+            RdYlGn: d3.interpolateRdYlGn,
+            RdYlBu: d3.interpolateRdYlBu,
+            RdGy: d3.interpolateRdGy,
+            RdBu: d3.interpolateRdBu,
+            PiYG: d3.interpolatePiYG,
+            PRGn: d3.interpolatePRGn,
+            PuOr: d3.interpolatePuOr,
+            BrBG: d3.interpolateBrBG
         };
 
-        // Choose a color scale from the list
-        var chosenScale = 'Inferno'; // Change this to use a different color scale
+        let scale;
+        if (colorScaleAttr === 'custom') {
+            scale = d3.scaleSequential(d3.interpolateRgb(color1, color2)).domain([0, this.data_.length - 1]);
+        } else {
+            scale = d3.scaleSequential(colorScales[colorScaleAttr] || d3.interpolateViridis).domain([0, this.data_.length - 1]);
+        }
 
-        // Create a color scale using D3
-        var colorScale = d3.scaleSequential(colorScales[chosenScale])
-            .domain([0, data.length - 1]);
-
-        // Apply the color scale to the data
-        var coloredData = data.map((value, index) => ({
+        const coloredData = this.data_.map((value, index) => ({
             value: value,
             itemStyle: { 
-                color: colorScale(index) 
+                color: scale(index) 
             }
         }));
 
-        // Initialize ECharts
-        var chartDom = document.getElementById('main');
-        var option;
-
-        option = {
+        const option = {
             title: {
                 text: 'Bar Plot',
                 left: 'center'
@@ -98,32 +133,47 @@ class BarPlot extends HTMLElement {
                 type: 'bar',
                 data: coloredData
             }],
+            animationDuration: 1000
 
-            renderer: {
-                resize: true
-            }
         };
-        option && myChart.setOption(option);
 
-        // Observe size changes of the container
+        this.chart_.setOption(option);
+        this.chart_.resize({
+            animation: {
+                duration: 500,
+                easing: 'cubicInOut',
+            },
+        });
+    }
+
+    observeResize() {
         const resizeObserver = new ResizeObserver(() => {
-            myChart.resize();
+            if (this.chart_) {
+                this.chart_.resize({
+                    animation: {
+                    duration: 500,
+                    easing: 'quadraticOut',
+                    },
+                });
+            }
         });
+
         resizeObserver.observe(this.element);
-
-        // Resize on window resize
-        window.addEventListener('resize', () => {
-            myChart.resize();
-        });
-
-        // Store the observer so it can be disconnected later
         this.resizeObserver = resizeObserver;
-        this.myChart = myChart;
+
+        window.addEventListener('resize', this.handleResize.bind(this));
     }
 
-    disconnectedCallback() {
+    handleResize() {
+        if (this.chart_) {
+            this.chart_.resize({
+            animation: {
+              duration: 500,
+              easing: 'cubicInOut',
+            },
+          });;
+        }
     }
-
 }
 
 customElements.define('cb-echart-barplot', BarPlot);
