@@ -23,8 +23,6 @@ template.innerHTML = `
     <style>@import "./css/main.css";</style>
 
     <div class="cb-echart-barplot" style="width:100%; height:400px; overflow: hidden;">
-
-
         <div class="cb-chart-container" style="width:100%; height:100%"></div>
 
         <div id="openModalButton" class="cursor-pointer absolute top-0 left-0 fill-gray-700 hover:fill-gray-900 drop-shadow-md ml-2 mt-2">
@@ -35,10 +33,39 @@ template.innerHTML = `
 
         <dialog id="my_modal_1" class="modal">
             <div class="modal-box bg-white rounded-md">
-                <h3 class="font-bold text-lg">Hello!</h3>
+                <h3 class="font-bold text-lg">Plot Features</h3>
                 <p class="py-4">
-                <div class="modal-action">
-                    <button class="btn" id="closeModalButton">Close</button>
+                <div class="modal-action flex flex-col">
+                    <div></div>
+                    <input type="text" placeholder="Type here" class="input input-bordered w-full my-2" />
+
+                    <input type="text" placeholder="Type here" class="input input-bordered w-full my-2" />
+
+                    <input type="text" placeholder="Type here" class="input input-bordered w-full my-2" />
+
+                    <input type="text" placeholder="Type here" class="input input-bordered w-full my-2" />
+
+                    <select class="select select-bordered w-full my-2 ml-0">
+                        <option disabled selected>Choose a color</option>
+                        <option>Custom</option>
+                        <option>Blue</option>
+                        <option>Red</option>
+                        <option>Green</option>
+                    </select>
+
+                    <select class="select select-bordered w-full my-2 ml-0">
+                        <option disabled selected>Choose a color</option>
+                        <option>Custom</option>
+                        <option>Blue</option>
+                        <option>Red</option>
+                        <option>Green</option>
+                    </select>
+
+
+
+
+
+                    <button class="btn w-full mt-5" id="closeModalButton">Close</button>
                 </div>
             </div>
         </dialog>
