@@ -63,7 +63,7 @@ A live Cubode AI Agent application is available at [https://cubode.com/](https:/
    ./starttailwind.sh
    npm start
 
-2. Open your web browser and navigate to http://localhost:8080 to access the Cubode Front-End AI Agent application.
+2. Open your web browser and navigate to http://localhost:9000 to access the Cubode Front-End AI Agent application.
 
 ## Development Conventions
 
