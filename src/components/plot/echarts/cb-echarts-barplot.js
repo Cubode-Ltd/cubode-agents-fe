@@ -49,10 +49,10 @@ class BarPlot extends HTMLElement {
         this.render();
         this.observeResize({
             animation: {
-              duration: 500,
-              easing: 'cubicInOut',
+                duration: 500,
+                easing: 'cubicInOut',
             },
-          });;
+        });;
     }
 
     disconnectedCallback() {
