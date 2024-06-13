@@ -20,6 +20,7 @@ import r2wc from "react-to-webcomponent"
 //   }
 // }
 
+// Functional Component
 const ParentComponent = ({ name = 'Cubode is Rocks' }) => {
   return (
     <div>

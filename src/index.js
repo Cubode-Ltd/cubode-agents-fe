@@ -20,8 +20,9 @@ import "./components/plot/cb-plot-container.js"
 import "./components/ai/cb-ai-input.js"
 
 // Import React Components
-import "./components/react/cb-react-compiled-test.js"
-import TestComponent from './components/react/cb-react-test.js';
+import "./components/react/cb-react-compiled-test.js" // Directly Compiled from React
+import "./components/react/cb-webcomponet-with-react.js" // React embedded inside WebComponent
+import TestComponent from './components/react/cb-react-basic-integration.js'; // To integrate directly in a root element (classic way of using react)
 
 
 
