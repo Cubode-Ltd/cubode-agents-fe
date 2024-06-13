@@ -14,8 +14,38 @@ template.innerHTML = `
         .menu.visible {
             display: block;
         }
+
+        .menu.hidden {
+            display: none;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: visible; /* Ensure overflow is visible */
+        }
+
+        .cb-plot {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .z-10 {
+            z-index: 10; /* Ensure the menu is on top */
+        }
+
+        .scrollable {
+            max-height: 200px; /* Adjust as needed */
+            overflow-y: auto;
+        }
     </style>
-    <div class="cb-plot relative container mx-auto px-4 sm:w-full lg:w-1/2" style="width:100%; height:400px; overflow: hidden;">
+    <div class="container mx-auto px-4 sm:w-full lg:w-1/2">
         <slot></slot>
         <div class="absolute top-0 left-0 fill-gray-700 hover:fill-gray-900 drop-shadow-md ml-2 mt-2 cursor-pointer">
             <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="gearIcon" viewBox="0 0 45.973 45.973" xml:space="preserve">
@@ -23,12 +53,8 @@ template.innerHTML = `
             </svg>
         </div>
         
-        <div id="menu" class="menu absolute top-10 left-2 bg-white border rounded border-gray-300 p-2 hidden z-10" >
-            <ul class="p-2">
-                <li>Option 1</li>
-                <li>Option 2</li>
-                <li>Option 3</li>
-            </ul>
+        <div id="menu" class="menu hidden absolute top-10 left-2 bg-white border rounded border-gray-300 p-2 z-10 scrollable">
+            <ul id="color-list" class="p-2"></ul>
         </div>
     </div>
 `;
@@ -36,14 +62,13 @@ template.innerHTML = `
 class PlotContainer extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({
-            mode: 'open'
-        });
+        this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
 
         // Reference to the gear icon and menu
         this.gearIcon = this.shadowRoot.getElementById('gearIcon');
         this.menu = this.shadowRoot.getElementById('menu');
+        this.colorList = this.shadowRoot.getElementById('color-list');
 
         // Bind event listener
         this.toggleMenu = this.toggleMenu.bind(this);
@@ -53,6 +78,13 @@ class PlotContainer extends HTMLElement {
     connectedCallback() {
         this.gearIcon.addEventListener('click', this.toggleMenu);
         document.addEventListener('click', this.handleClickOutside);
+
+        // Listen for slot content changes
+        const slot = this.shadowRoot.querySelector('slot');
+        slot.addEventListener('slotchange', () => {
+            this.updateColorList();
+        });
+        this.updateColorList(); // Initial population of the color list
     }
 
     disconnectedCallback() {
@@ -62,17 +94,47 @@ class PlotContainer extends HTMLElement {
 
     toggleMenu(event) {
         event.stopPropagation();
-        this.menu.classList.toggle('visible');
+        this.menu.classList.toggle('hidden');
     }
 
     handleClickOutside(event) {
         if (!this.contains(event.target)) {
-            this.menu.classList.remove('visible');
+            this.menu.classList.add('hidden');
         }
     }
 
     contains(target) {
         return this.shadowRoot.contains(target) || this === target;
+    }
+
+    updateColorList() {
+        // Clear the existing color list
+        this.colorList.innerHTML = '';
+    
+        // Get the cb-echart plot elements from the slot
+        const slot = this.shadowRoot.querySelector('slot');
+        const assignedElements = slot.assignedElements();
+        // ADD TO THIS LIST THE SPECIFIED CB ECHART PLOT 
+        const plotTypes = ['cb-echart-barplot', 'cb-echart-scatterplot', 'cb-echart-pieplot', 'cb-echart-lineplot'];
+    
+        plotTypes.forEach(plotType => {
+            const plotElement = assignedElements.find(el => el.tagName.toLowerCase() === plotType);
+    
+            if (plotElement) {
+                // Extract color scales from the plot component
+                const colorScales = plotElement.getColorScales();
+    
+                // Render color scales as list items
+                for (const [scaleName, scaleFunction] of Object.entries(colorScales)) {
+                    const li = document.createElement('li');
+                    li.textContent = scaleName;
+                    li.addEventListener('click', () => {
+                        plotElement.setAttribute('colorscale', scaleName);
+                    });
+                    this.colorList.appendChild(li);
+                }
+            }
+        });
     }
 }
 
