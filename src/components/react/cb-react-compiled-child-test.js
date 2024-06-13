@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTable } from 'react-table';
+import '../../css/main.css';
 
 const ChildComponent = ({ message }) => {
   const data = React.useMemo(

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,34 +8,24 @@
 </head>
 
 <body>
-  <script src="index.js"></script>
 
+  <!-- <cb-canvas><cb-canvas-controls slot="cb-canvas-child"></cb-canvas-controls></cb-canvas>-->
+  <!-- <cb-sidepanel></cb-sidepanel> -->
   <!-- <cb-ai-input></cb-ai-input> -->
   <!-- <cb-data-upload></cb-data-upload> -->
 
-
   <cb-container>
     <h2 class="text-2xl font-bold mb-4">Cubode</h2>
-
     <cb-plot-container>
       <cb-echart-barplot></cb-echart-barplot>
     </cb-plot-container>
   </cb-container>
 
-  <br>
   <react-webcomponent-compiled></react-webcomponent-compiled>
-  <br>
   <webcomponent-with-react></webcomponent-with-react>
   <div id="react-root"></div>
-  <div class="mockup-code">
-    <pre data-prefix="$"><code>npm i daisyui</code></pre>
-  </div>
+  <script src="index.js"></script>
+
 </body>
 </html>
 
-<!-- 
-<cb-canvas>
-    <cb-canvas-controls slot="cb-canvas-child"></cb-canvas-controls>
-</cb-canvas>
-<cb-sidepanel></cb-sidepanel> 
--->
