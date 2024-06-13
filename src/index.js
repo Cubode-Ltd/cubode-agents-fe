@@ -7,7 +7,7 @@ import "./components/canvas/cb-canvas-background.js"
 import "./components/canvas/cb-canvas-controls.js"
 import "./components/canvas/cb-canvas-svg.js"
 import "./components/canvas/cb-canvas-layer.js"
-import "./components/canvas/cb-canvas-main.js"
+import "./components/canvas/cb-canvas-main.js" 
 import "./components/cubes/cb-shape.js"
 import "./components/cubes/cb-cube.js"
 import "./components/layout/panels/cb-sidepanel.js"
@@ -20,9 +20,15 @@ import "./components/plot/cb-plot-container.js"
 import "./components/ai/cb-ai-input.js"
 
 // Import React Components
-import TestComponent from './components/cb-react-test.js';
+import "./components/react/cb-react-compiled-test.js"
+import TestComponent from './components/react/cb-react-test.js';
+
+
+
 
 // Integrating React with Vanilla
+
+// Basic Integration of React just using react-root (not scalable to use as elements coming from B.E.)
 const reactContainer = document.getElementById('react-root');
 ReactDOM.render(<TestComponent />, reactContainer);
 
