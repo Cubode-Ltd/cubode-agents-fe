@@ -20,10 +20,28 @@ echarts.use([
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "./css/main.css";</style>
+    <style>
+        @import "./css/main.css";
+        .cb-echart-barplot {
+            width: 100%;
+            height: 30vh;
+        }
 
-    <div class="cb-echart-barplot" style="width:100%; height:400px; overflow: hidden;">
-        <div class="cb-chart-container" style="width:100%; height:100%"></div>
+        @media (min-width: 640px) {
+            .cb-echart-barplot {
+                height: 40vh; /* Different height for small screens and above */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .cb-echart-barplot {
+                height: 40vh; /* Different height for large screens and above */
+            }
+        }
+    </style>
+
+    <div class="cb-echart-barplot relative w-full overflow-hidden">
+        <div class="cb-chart-container w-full h-full"></div>
 
         <div id="openModalButton" class="cursor-pointer absolute top-0 left-0 fill-gray-700 hover:fill-gray-900 drop-shadow-md ml-2 mt-2">
             <svg width="20" class="pointer-events-none	" height="20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="gearIcon" viewBox="0 0 45.973 45.973" xml:space="preserve">
