@@ -59,6 +59,10 @@ module.exports = {
         hot: true
     },
 
+    watchOptions: {
+        ignored: /node_modules/,
+    },
+
     mode: 'development',
     devtool: 'source-map'
 

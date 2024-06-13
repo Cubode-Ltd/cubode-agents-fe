@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from "react-dom/client"
-import ChildComponent from './cb-react-child-compiled-test';
+import ChildComponent from './cb-react-compiled-child-test';
 
 // Compile
 import r2wc from "react-to-webcomponent"
@@ -22,7 +22,7 @@ import r2wc from "react-to-webcomponent"
 
 // Functional Component
 const ParentComponent = ({ name = 'Cubode is Rocks' }) => {
-  return (
+  return ( 
     <div>
       <h1>React Component Compiled, {name}!</h1>
       <ChildComponent message="This is a child component inside the compiled" />

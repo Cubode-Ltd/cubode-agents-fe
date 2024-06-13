@@ -1,6 +1,6 @@
 // MyWebComponent.js
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import MyReactComponent from './cb-react-for-webcomponent';
 
 class MyWebComponent extends HTMLElement {
@@ -8,6 +8,9 @@ class MyWebComponent extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this._data = '';
+
+    // Create the root for React
+    this.root = createRoot(this.shadowRoot);
   }
 
   connectedCallback() {
@@ -36,14 +39,13 @@ class MyWebComponent extends HTMLElement {
 
   handleDataChange = (newData) => {
     this.data = newData;
-    console.log("Data from React Component: ", this.data)
+    console.log("Data from React Component: ", this.data);
     this.dispatchEvent(new CustomEvent('data-change', { detail: newData }));
   };
 
   render() {
-    ReactDOM.render(
-      <MyReactComponent data={this._data} onDataChange={this.handleDataChange} />,
-      this.shadowRoot
+    this.root.render(
+      <MyReactComponent data={this._data} onDataChange={this.handleDataChange} />
     );
   }
 }

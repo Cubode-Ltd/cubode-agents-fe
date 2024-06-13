@@ -24,8 +24,9 @@ import "./components/react/cb-react-compiled-test.js" // Directly Compiled from 
 import "./components/react/cb-webcomponet-with-react.js" // React embedded inside WebComponent
 import TestComponent from './components/react/cb-react-basic-integration.js'; // To integrate directly in a root element (classic way of using react)
 
-
-
+// React Form Components
+// import "./components/form/cb-form-example.js"
+import "./components/form/cb-form-json.js"
 
 // Integrating React with Vanilla
 
