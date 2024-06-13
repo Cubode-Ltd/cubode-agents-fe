@@ -19,7 +19,7 @@
     "webpack-dev-server": "^5.0.4"
   },
   "scripts": {
-    "start": "concurrently \"webpack serve --open\" \"./starttailwind.sh\"",
+    "start": "webpack serve --open",
     "build": "webpack --mode=development",
     "build:prod": "webpack --mode=production"
   },
@@ -32,6 +32,7 @@
     "d3": "^7.9.0",
     "echarts": "^5.5.0",
     "mitt": "^3.0.1",
+    "postcss": "^8.4.38",
     "react": "^18.3.1",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.3.1",

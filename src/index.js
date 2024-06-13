@@ -1,5 +1,8 @@
+import './css/main.css';
+
+
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 // Import of the WebComponents
 import "./components/cb-canvas.js"
@@ -23,16 +26,10 @@ import "./components/ai/cb-ai-input.js"
 import "./components/react/cb-react-compiled-test.js" // Directly Compiled from React
 import "./components/react/cb-webcomponet-with-react.js" // React embedded inside WebComponent
 import TestComponent from './components/react/cb-react-basic-integration.js'; // To integrate directly in a root element (classic way of using react)
-
-// React Form Components
-// import "./components/form/cb-form-example.js"
 import "./components/form/cb-form-json.js"
 
-// Integrating React with Vanilla
-
-// Basic Integration of React just using react-root (not scalable to use as elements coming from B.E.)
-const reactContainer = document.getElementById('react-root');
-ReactDOM.render(<TestComponent />, reactContainer);
+const root = ReactDOM.createRoot(document.getElementById('react-root'));
+root.render(<TestComponent />);
 
 
 // import Controller from "./Controller.js"

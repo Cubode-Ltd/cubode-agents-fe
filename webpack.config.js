@@ -11,42 +11,36 @@ module.exports = {
 
     module: {
         rules: [
-        {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: {
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env', '@babel/preset-react'],
-                    sourceMaps: true
-                }
-            }
-        },
-        {
-            test: /\.css$/,
-            use: [
-                MiniCssExtractPlugin.loader,
-                {
-                    loader: 'css-loader',
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
                     options: {
-                        sourceMap: true,
-                    },
-                },
-                'postcss-loader',
-            ],
-        },
-    
-    ]
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        sourceMaps: true
+                    }
+                }
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'postcss-loader',
+                ],
+            }
+        ]
     },
 
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css',
-        }),
+        // new MiniCssExtractPlugin({
+        //     filename: '[name].css',
+        //     chunkFilename: '[id].css',
+        // }),
     ],
 
     devServer: {
