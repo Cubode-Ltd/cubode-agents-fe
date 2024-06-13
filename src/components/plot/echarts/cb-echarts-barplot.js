@@ -56,6 +56,7 @@ template.innerHTML = `
                 <div class="modal-action flex flex-col">
                     <div></div>
                     <input type="text" placeholder="Type here" class="input input-bordered w-full my-2" />
+                    <input type="range" min="0" max="100" value="40" class="range range-primary" />
 
                     <input type="text" placeholder="Type here" class="input input-bordered w-full my-2" />
 
