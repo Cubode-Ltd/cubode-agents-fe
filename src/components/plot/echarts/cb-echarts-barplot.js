@@ -94,9 +94,6 @@ class BarPlot extends HTMLElement {
             "ui:options": {
               "classNames": "form-input mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             },
-            "ui:input": {
-              "classNames": "form-input mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-            }
           },
           "age": {
             "ui:widget": "updown",
