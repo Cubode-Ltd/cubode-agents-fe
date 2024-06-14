@@ -1,10 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-
+//import FormComponent from './form/cb-form-json';
 import FormComponent from './form/cb-form-json';
-
-
-
 
 const modalTemplate = document.createElement('template');
 modalTemplate.innerHTML = `
@@ -70,11 +67,11 @@ class ModalComponent extends HTMLElement {
 
   handleFormSubmit(value) {
     console.log("HENSAL", value)
+    // should take every key and update the colors and shit.
   }
 
   renderReactComponent() {
     if (this.reactForm) {
-      // ReactDOM.render(<FormComponent schema={this.schema} onFormSubmit={this.handleFormSubmit}/>, this.reactForm);
       const root = createRoot(this.reactForm);
       root.render(<FormComponent schema={this.schema} schemaUI={this.schemaUI} onFormSubmit={this.handleFormSubmit} />);
     }

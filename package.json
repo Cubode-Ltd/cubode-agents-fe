@@ -24,6 +24,9 @@
     "build:prod": "webpack --mode=production"
   },
   "dependencies": {
+    "@jsonforms/core": "^3.3.0",
+    "@jsonforms/material-renderers": "^3.3.0",
+    "@jsonforms/react": "^3.3.0",
     "@reduxjs/toolkit": "^2.2.3",
     "@rjsf/core": "^5.18.4",
     "@rjsf/validator-ajv8": "^5.18.4",

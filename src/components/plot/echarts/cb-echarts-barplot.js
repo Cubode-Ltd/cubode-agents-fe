@@ -40,82 +40,80 @@ class BarPlot extends HTMLElement {
         this.data_ = [5, 20, 36, 10, 10];
 
         this.formSchema = {
-            "title": "A registration form",
-            "description": "A simple form example.",
-            "type": "object",
-            "required": [
-              "firstName",
-              "lastName"
-            ],
-            "properties": {
-              "firstName": {
-                "type": "string",
-                "title": "First name",
-                "default": "Chuck"
-              },
-              "lastName": {
-                "type": "string",
-                "title": "Last name"
-              },
-              "age": {
-                "type": "integer",
-                "title": "Age"
-              },
-              "bio": {
-                "type": "string",
-                "title": "Bio"
-              },
-              "password": {
-                "type": "string",
-                "title": "Password",
-                "minLength": 3
-              },
-              "telephone": {
-                "type": "string",
-                "title": "Telephone",
-                "minLength": 10
-              }
+
+          "type": "object",
+          "required": [
+            "firstName",
+            "lastName"
+          ],
+          "properties": {
+            "firstName": {
+              "type": "string",
+              "title": "First name",
+              "default": "Chuck"
+            },
+            "lastName": {
+              "type": "string",
+              "title": "Last name"
+            },
+            "age": {
+              "type": "integer",
+              "title": "Age"
+            },
+            "bio": {
+              "type": "string",
+              "title": "Bio"
+            },
+            "password": {
+              "type": "string",
+              "title": "Password",
+              "minLength": 3
+            },
+            "telephone": {
+              "type": "string",
+              "title": "Telephone",
+              "minLength": 10
             }
-        };
+          }
+        }
 
         this.formSchemaUI = {
-            firstName: {
-              "ui:autofocus": true,
-              "ui:emptyValue": "",
-              "ui:placeholder": "Enter your first name",
-              "ui:autocomplete": "given-name",
-              "ui:enableMarkdownInDescription": true,
-              "ui:description": "Make text **bold** or *italic*. Take a look at other options [here](https://markdown-to-jsx.quantizor.dev/).",
-              "classNames": "my-2 p-2 border rounded"
-            },
-            lastName: {
-              "ui:autocomplete": "family-name",
-              "ui:enableMarkdownInDescription": true,
-              "ui:description": "Make things **bold** or *italic*. Embed snippets of `code`. <small>And this is a small text.</small>",
-              "classNames": "my-2 p-2 border rounded"
-            },
-            age: {
-              "ui:widget": "updown",
-              "ui:title": "Age of person",
-              "ui:description": "(earth year)",
-              "classNames": "my-2 p-2 border rounded"
-            },
-            bio: {
-              "ui:widget": "textarea",
-              "classNames": "my-2 p-2 border rounded"
-            },
-            password: {
-              "ui:widget": "password",
-              "ui:help": "Hint: Make it strong!",
-              "classNames": "my-2 p-2 border rounded"
-            },
-            telephone: {
-              "ui:options": {
-                "inputType": "tel"
-              },
-              "classNames": "my-2 p-2 border rounded"
+          "firstName": {
+            "ui:autofocus": true,
+            "ui:emptyValue": "",
+            "ui:placeholder": "ui:emptyValue causes this field to always be valid despite being required",
+            "ui:autocomplete": "family-name",
+            "ui:enableMarkdownInDescription": true,
+            "ui:options": {
+              "classNames": "form-input mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             }
-          };
+          },
+          "lastName": {
+            "ui:autocomplete": "given-name",
+            "ui:enableMarkdownInDescription": true,
+            "ui:options": {
+              "classNames": "form-input mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+            },
+            "ui:input": {
+              "classNames": "form-input mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+            }
+          },
+          "age": {
+            "ui:widget": "updown",
+            "ui:title": "Age of person",
+          },
+          "bio": {
+            "ui:widget": "textarea"
+          },
+          "password": {
+            "ui:widget": "password",
+          },
+          "telephone": {
+            "ui:options": {
+              "inputType": "tel"
+            }
+          }
+        }
     }
 
     static get observedAttributes() {
