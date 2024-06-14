@@ -11,6 +11,10 @@ module.exports = {
         'cubode-lightblue': '#80a5d6',
         'cubode-orange': '#ffb19a',
       },
+      height: {
+        '40vh': '40vh',
+        '30vh': '30vh',
+      },
     },
   },
   plugins: [
