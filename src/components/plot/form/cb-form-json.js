@@ -1,32 +1,33 @@
 import React, { useState } from 'react';
-import ReactDOM from "react-dom/client"
-
 import Form from '@rjsf/core';
-import r2wc from "react-to-webcomponent"
+import validator from '@rjsf/validator-ajv8';
 
-const FormComponent = ({ schema }) => {
+
+const FormComponent = ({ schema, schemaUI, onFormSubmit }) => {
   const [formData, setFormData] = useState({});
 
   const handleChange = (data) => {
     setFormData(data.formData);
   };
 
+  const handleSubmit = ({ formData }) => {
+    if (onFormSubmit) {
+      onFormSubmit(formData);
+    }
+  };
+
   return (
     <div style={{ margin: '20px 0' }}>
       <Form
         schema={schema}
+        uiSchema={schemaUI}
         formData={formData}
         onChange={handleChange}
+        onSubmit={handleSubmit}
+        validator={validator}
       />
     </div>
   );
 };
 
-customElements.define(
-    'cb-form', 
-    r2wc(FormComponent, React, ReactDOM, {
-        props: {
-            schema: "object",
-        }
-    }));
-
+export default FormComponent;

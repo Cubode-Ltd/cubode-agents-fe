@@ -6,11 +6,13 @@ import ReactDOM from 'react-dom/client';
 
 // Import of the WebComponents
 import "./components/cb-canvas.js"
+
 import "./components/canvas/cb-canvas-background.js"
 import "./components/canvas/cb-canvas-controls.js"
 import "./components/canvas/cb-canvas-svg.js"
 import "./components/canvas/cb-canvas-layer.js"
 import "./components/canvas/cb-canvas-main.js" 
+
 import "./components/cubes/cb-shape.js"
 import "./components/cubes/cb-cube.js"
 import "./components/layout/panels/cb-sidepanel.js"
@@ -28,7 +30,7 @@ import "./components/ai/cb-ai-input.js"
 import "./components/react/cb-react-compiled-test.js" // Directly Compiled from React
 import "./components/react/cb-webcomponet-with-react.js" // React embedded inside WebComponent
 import TestComponent from './components/react/cb-react-basic-integration.js'; // To integrate directly in a root element (classic way of using react)
-import "./components/form/cb-form-json.js"
+import "./components/plot/form/cb-form-json.js"
 
 const root = ReactDOM.createRoot(document.getElementById('react-root'));
 root.render(<TestComponent />);

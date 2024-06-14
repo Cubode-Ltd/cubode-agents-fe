@@ -34,8 +34,88 @@ class BarPlot extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
         this.element = this.shadowRoot.querySelector('.cb-chart-container');
+        this.modal = this.shadowRoot.querySelector('cb-plot-modal');
+
         this.chart_ = echarts.init(this.element);
         this.data_ = [5, 20, 36, 10, 10];
+
+        this.formSchema = {
+            "title": "A registration form",
+            "description": "A simple form example.",
+            "type": "object",
+            "required": [
+              "firstName",
+              "lastName"
+            ],
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "title": "First name",
+                "default": "Chuck"
+              },
+              "lastName": {
+                "type": "string",
+                "title": "Last name"
+              },
+              "age": {
+                "type": "integer",
+                "title": "Age"
+              },
+              "bio": {
+                "type": "string",
+                "title": "Bio"
+              },
+              "password": {
+                "type": "string",
+                "title": "Password",
+                "minLength": 3
+              },
+              "telephone": {
+                "type": "string",
+                "title": "Telephone",
+                "minLength": 10
+              }
+            }
+        };
+
+        this.formSchemaUI = {
+            firstName: {
+              "ui:autofocus": true,
+              "ui:emptyValue": "",
+              "ui:placeholder": "Enter your first name",
+              "ui:autocomplete": "given-name",
+              "ui:enableMarkdownInDescription": true,
+              "ui:description": "Make text **bold** or *italic*. Take a look at other options [here](https://markdown-to-jsx.quantizor.dev/).",
+              "classNames": "my-2 p-2 border rounded"
+            },
+            lastName: {
+              "ui:autocomplete": "family-name",
+              "ui:enableMarkdownInDescription": true,
+              "ui:description": "Make things **bold** or *italic*. Embed snippets of `code`. <small>And this is a small text.</small>",
+              "classNames": "my-2 p-2 border rounded"
+            },
+            age: {
+              "ui:widget": "updown",
+              "ui:title": "Age of person",
+              "ui:description": "(earth year)",
+              "classNames": "my-2 p-2 border rounded"
+            },
+            bio: {
+              "ui:widget": "textarea",
+              "classNames": "my-2 p-2 border rounded"
+            },
+            password: {
+              "ui:widget": "password",
+              "ui:help": "Hint: Make it strong!",
+              "classNames": "my-2 p-2 border rounded"
+            },
+            telephone: {
+              "ui:options": {
+                "inputType": "tel"
+              },
+              "classNames": "my-2 p-2 border rounded"
+            }
+          };
     }
 
     static get observedAttributes() {
@@ -56,6 +136,13 @@ class BarPlot extends HTMLElement {
                 easing: 'cubicInOut',
             },
         });;
+
+        if (this.modal) {
+            this.modal.schemaUI = this.formSchemaUI;
+            this.modal.schema = this.formSchema;
+
+            console.log(this.modal.schemaUI)
+        }
     }
 
     disconnectedCallback() {
