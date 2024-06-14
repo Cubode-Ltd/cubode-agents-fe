@@ -61,10 +61,6 @@ template.innerHTML = `
                         <option>Green</option>
                     </select>
 
-
-
-
-
                     <button class="btn w-full mt-5" id="closeModalButton">Close</button>
                 </div>
             </div>

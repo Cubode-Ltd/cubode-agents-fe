@@ -26,6 +26,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
     "@rjsf/core": "^5.18.4",
+    "@rjsf/utils": "^5.18.4",
     "@rjsf/validator-ajv8": "^5.18.4",
     "@shoelace-style/shoelace": "^2.15.1",
     "axios": "^1.7.2",
@@ -35,6 +36,7 @@
     "react": "^18.3.1",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.3.1",
+    "react-jsonschema-form": "^1.8.1",
     "react-table": "^7.8.0",
     "react-to-webcomponent": "^2.0.0",
     "roughjs": "^4.6.6"
