@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* jsoneditor-tailwind.css */
+.json-editor {
+  @apply bg-gray-100 p-4 rounded-md;
+}
+
+.json-editor .title {
+  @apply text-lg font-semibold mb-2;
+}
+
+.json-editor .form-control {
+  @apply mb-4;
+}
+
+.json-editor .form-control label {
+  @apply block text-gray-700 font-semibold mb-1;
+}
+
+.json-editor .form-control input,
+.json-editor .form-control textarea {
+  @apply border border-gray-300 rounded-md py-2 px-3 w-full;
+}
+
+
+
 
 /* Other library CSS imports */
 /* @import 'path/to/other-library.css'; */

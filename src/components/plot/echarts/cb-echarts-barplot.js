@@ -38,79 +38,25 @@ class BarPlot extends HTMLElement {
 
         this.chart_ = echarts.init(this.element);
         this.data_ = [5, 20, 36, 10, 10];
-
+        
         this.formSchema = {
-
-          "type": "object",
-          "required": [
-            "firstName",
-            "lastName"
-          ],
-          "properties": {
-            "firstName": {
-              "type": "string",
-              "title": "First name",
-              "default": "Chuck"
-            },
-            "lastName": {
-              "type": "string",
-              "title": "Last name"
-            },
-            "age": {
-              "type": "integer",
-              "title": "Age"
-            },
-            "bio": {
-              "type": "string",
-              "title": "Bio"
-            },
-            "password": {
-              "type": "string",
-              "title": "Password",
-              "minLength": 3
-            },
-            "telephone": {
-              "type": "string",
-              "title": "Telephone",
-              "minLength": 10
+            "type": "object",
+            "properties": {
+              "name": {
+                "title": "Full Name",
+                "options": {
+                  "inputAttributes": {
+                    "placeholder":  "your name here...",
+                    "class": "myclass"
+                  },
+                  "containerAttributes": {
+                    "data-container":  "my-container",
+                    "class": "my-container-class"
+                  }
+                }
+              }
             }
           }
-        }
-
-        this.formSchemaUI = {
-          "firstName": {
-            "ui:autofocus": true,
-            "ui:emptyValue": "",
-            "ui:placeholder": "ui:emptyValue causes this field to always be valid despite being required",
-            "ui:autocomplete": "family-name",
-            "ui:enableMarkdownInDescription": true,
-            "ui:options": {
-              "classNames": "form-input mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-            }
-          },
-          "lastName": {
-            "ui:autocomplete": "given-name",
-            "ui:enableMarkdownInDescription": true,
-            "ui:options": {
-              "classNames": "form-input mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-            },
-          },
-          "age": {
-            "ui:widget": "updown",
-            "ui:title": "Age of person",
-          },
-          "bio": {
-            "ui:widget": "textarea"
-          },
-          "password": {
-            "ui:widget": "password",
-          },
-          "telephone": {
-            "ui:options": {
-              "inputType": "tel"
-            }
-          }
-        }
     }
 
     static get observedAttributes() {

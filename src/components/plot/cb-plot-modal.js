@@ -1,7 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-//import FormComponent from './form/cb-form-json';
-import FormComponent from './form/cb-form-json';
+// import FormComponent from './form/cb-form-json';
+// import FormComponent from './form/cb-form-json-2';
+import FormComponent from './form/cb-form-json-3';
 
 const modalTemplate = document.createElement('template');
 modalTemplate.innerHTML = `
@@ -15,7 +16,7 @@ modalTemplate.innerHTML = `
     </div>
 
     <dialog class="modal">
-        <div class="modal-box bg-white rounded-md m-0 p-0">
+        <div class="modal-box bg-white rounded-md m-0 p-0" style="min-height:400px;">
             <div class="react-component"></div>
             <button class="cb-close-modal-button">Close</button>
         </div>
