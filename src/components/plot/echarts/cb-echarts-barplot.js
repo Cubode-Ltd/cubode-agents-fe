@@ -40,81 +40,72 @@ class BarPlot extends HTMLElement {
         this.data_ = [5, 20, 36, 10, 10];
         
         this.formSchema = {
-            "type": "object",
-            "properties": {
-              "inputTextColor": {
-                "type": "string",
-                "title": "Input Text Color",
-                "format": "color",
-                "options": {
-                  "inputAttributes": {
-                    "placeholder": "Enter text color...",
-                    "class": "input-text-color-class"
-                  },
-                  "containerAttributes": {
-                    "class": "input-text-color-container-class"
-                  }
-                }
-              },
-              "colorScale": {
-                "type": "string",
-                "title": "Color Scale",
-                "enum": ["Red", "Green", "Blue", "Yellow", "Purple", "Orange"],
-                "options": {
-                  "enum_titles": ["Red", "Green", "Blue", "Yellow", "Purple", "Orange"],
-                  "inputAttributes": {
-                    "class": "color-scale-class"
-                  },
-                  "containerAttributes": {
-                    "class": "color-scale-container-class"
-                  }
-                }
-              },
-              "titleText": {
-                "type": "string",
-                "title": "Title",
-                "options": {
-                  "inputAttributes": {
-                    "placeholder": "Enter title...",
-                    "class": "title-text-class"
-                  },
-                  "containerAttributes": {
-                    "class": "title-text-container-class"
-                  }
-                }
-              },
-              "subtitleText": {
-                "type": "string",
-                "title": "Subtitle",
-                "options": {
-                  "inputAttributes": {
-                    "placeholder": "Enter subtitle...",
-                    "class": "subtitle-text-class"
-                  },
-                  "containerAttributes": {
-                    "class": "subtitle-text-container-class"
-                  }
-                }
-              },
-              "inputTextColor2": {
-                "type": "string",
-                "title": "Input Text Color 2",
-                "format": "color",
-                "options": {
-                  "inputAttributes": {
-                    "placeholder": "Enter text color...",
-                    "class": "input-text-color-2-class"
-                  },
-                  "containerAttributes": {
-                    "class": "input-text-color-2-container-class"
-                  }
+          "title": "A registration form",
+          "description": "A simple form example.",
+          "type": "object",
+          "properties": {
+            "firstName": {
+              "type": "string",
+              "title": "First name",
+              "options": {
+                "inputAttributes": {
+                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12  hover:bg-white"
                 }
               }
             },
-            "options": {
-              "collapsed": false
+            "lastName": {
+              "type": "string",
+              "title": "Last name",
+              "options": {
+                "inputAttributes": {
+                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                }
+              }
+            },
+            "age": {
+              "type": "integer",
+              "title": "Age",
+              "options": {
+                "inputAttributes": {
+                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                }
+              }
+            },
+            "bio": {
+              "type": "string",
+              "title": "Bio",
+              "options": {
+                "inputAttributes": {
+                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                }
+              }
+            },
+            "colorscale": {
+              "type": "string",
+              "title": "Color Scale",
+              "enum": ["Red", "Green", "Blue", "Yellow", "Purple", "Orange", "Pink", "Brown", "Gray", "Black"],
+              "default": "Red",
+              "options": {
+                "inputAttributes": {
+                  "class": "block w-full mt-1 border border-gray-300 bg-white rounded-md py-2 h-12"
+                }
+              }
+            },
+            "password": {
+              "type": "string",
+              "title": "Password",
+              "minLength": 3,
+              "options": {
+                "inputAttributes": {
+                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                }
+              }
             }
-          }
+          },
+          "required": ["firstName", "lastName"]
+        }
+        
+            
           
     }
 

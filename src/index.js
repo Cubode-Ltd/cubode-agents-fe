@@ -29,13 +29,12 @@ import "./components/ai/cb-ai-input.js"
 // Import React Components
 import "./components/react/cb-react-compiled-test.js" // Directly Compiled from React
 import "./components/react/cb-webcomponet-with-react.js" // React embedded inside WebComponent
-import TestComponent from './components/react/cb-react-basic-integration.js'; // To integrate directly in a root element (classic way of using react)
+// import TestComponent from './components/react/cb-react-basic-integration.js'; // To integrate directly in a root element (classic way of using react)
 import "./components/plot/form/cb-form-json.js"
 
-const root = ReactDOM.createRoot(document.getElementById('react-root'));
-root.render(<TestComponent />);
 
-
+// const root = ReactDOM.createRoot(document.getElementById('react-root'));
+// root.render(<TestComponent />);
 // import Controller from "./Controller.js"
 // const controller = new Controller();
 // const layer1 = controller.addLayer({ id: 'layer1' });
