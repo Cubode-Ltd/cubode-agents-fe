@@ -10,8 +10,8 @@ const FormComponent = ({ schema, schemaUI, onFormSubmit }) => {
     const editor = new JSONEditor(editorRef.current, {
       schema: schema,
       startval: schema.defaultValue || {},
-      theme: 'tailwind',
-      iconlib: "fontawesome4",
+      // theme: 'tailwind',
+      // iconlib: "fontawesome4",
     });
 
     editor.on('change', () => {

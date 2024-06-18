@@ -42,21 +42,80 @@ class BarPlot extends HTMLElement {
         this.formSchema = {
             "type": "object",
             "properties": {
-              "name": {
-                "title": "Full Name",
+              "inputTextColor": {
+                "type": "string",
+                "title": "Input Text Color",
+                "format": "color",
                 "options": {
                   "inputAttributes": {
-                    "placeholder":  "your name here...",
-                    "class": "myclass"
+                    "placeholder": "Enter text color...",
+                    "class": "input-text-color-class"
                   },
                   "containerAttributes": {
-                    "data-container":  "my-container",
-                    "class": "my-container-class"
+                    "class": "input-text-color-container-class"
+                  }
+                }
+              },
+              "colorScale": {
+                "type": "string",
+                "title": "Color Scale",
+                "enum": ["Red", "Green", "Blue", "Yellow", "Purple", "Orange"],
+                "options": {
+                  "enum_titles": ["Red", "Green", "Blue", "Yellow", "Purple", "Orange"],
+                  "inputAttributes": {
+                    "class": "color-scale-class"
+                  },
+                  "containerAttributes": {
+                    "class": "color-scale-container-class"
+                  }
+                }
+              },
+              "titleText": {
+                "type": "string",
+                "title": "Title",
+                "options": {
+                  "inputAttributes": {
+                    "placeholder": "Enter title...",
+                    "class": "title-text-class"
+                  },
+                  "containerAttributes": {
+                    "class": "title-text-container-class"
+                  }
+                }
+              },
+              "subtitleText": {
+                "type": "string",
+                "title": "Subtitle",
+                "options": {
+                  "inputAttributes": {
+                    "placeholder": "Enter subtitle...",
+                    "class": "subtitle-text-class"
+                  },
+                  "containerAttributes": {
+                    "class": "subtitle-text-container-class"
+                  }
+                }
+              },
+              "inputTextColor2": {
+                "type": "string",
+                "title": "Input Text Color 2",
+                "format": "color",
+                "options": {
+                  "inputAttributes": {
+                    "placeholder": "Enter text color...",
+                    "class": "input-text-color-2-class"
+                  },
+                  "containerAttributes": {
+                    "class": "input-text-color-2-container-class"
                   }
                 }
               }
+            },
+            "options": {
+              "collapsed": false
             }
           }
+          
     }
 
     static get observedAttributes() {

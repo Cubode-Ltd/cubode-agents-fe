@@ -16,10 +16,12 @@ modalTemplate.innerHTML = `
     </div>
 
     <dialog class="modal">
-        <div class="modal-box bg-white rounded-md m-0 p-0" style="min-height:400px;">
-            <div class="react-component"></div>
-            <button class="cb-close-modal-button">Close</button>
+      <div class="modal-box bg-white rounded-md m-0 p-0 flex flex-col" style="height:400px; min-height:400px;">
+        <div class="flex-grow h-full" style="overflow: auto;">
+            <div class="react-component h-full"></div>
         </div>
+        <button class="cb-close-modal-button bg-gray-50">Close</button>
+    </div>
     </dialog>
   </div>
 `;
