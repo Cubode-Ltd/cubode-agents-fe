@@ -43,13 +43,21 @@ class BarPlot extends HTMLElement {
           "title": "A registration form",
           "description": "A simple form example.",
           "type": "object",
+          "options": {
+            "inputAttributes": {
+              "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+            },
+          },
           "properties": {
             "firstName": {
               "type": "string",
               "title": "First name",
               "options": {
                 "inputAttributes": {
-                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12  hover:bg-white"
+                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12 bg-blue-50"
+                },
+                "containerAttributes": {
+                  "class": "text-gray-200"
                 }
               }
             },
@@ -59,6 +67,9 @@ class BarPlot extends HTMLElement {
               "options": {
                 "inputAttributes": {
                   "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                },
+                "containerAttributes": {
+                  "class": "text-gray-200"
                 }
               }
             },
@@ -68,6 +79,9 @@ class BarPlot extends HTMLElement {
               "options": {
                 "inputAttributes": {
                   "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                },
+                "containerAttributes": {
+                  "class": "text-gray-200"
                 }
               }
             },
@@ -77,6 +91,9 @@ class BarPlot extends HTMLElement {
               "options": {
                 "inputAttributes": {
                   "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                },
+                "containerAttributes": {
+                  "class": "text-gray-200"
                 }
               }
             },
@@ -87,7 +104,10 @@ class BarPlot extends HTMLElement {
               "default": "Red",
               "options": {
                 "inputAttributes": {
-                  "class": "block w-full mt-1 border border-gray-300 bg-white rounded-md py-2 h-12"
+                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                },
+                "containerAttributes": {
+                  "class": "text-gray-200"
                 }
               }
             },
@@ -98,12 +118,15 @@ class BarPlot extends HTMLElement {
               "options": {
                 "inputAttributes": {
                   "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                },
+                "containerAttributes": {
+                  "class": "text-gray-200"
                 }
               }
             }
           },
           "required": ["firstName", "lastName"]
-        }
+        };
         
             
           
