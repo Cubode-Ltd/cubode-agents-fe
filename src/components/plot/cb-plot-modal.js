@@ -16,7 +16,7 @@ modalTemplate.innerHTML = `
     </div>
 
     <dialog class="modal">
-      <div class="modal-box bg-white rounded-md m-0 p-0 flex flex-col" style="height:400px; min-height:400px;">
+      <div class="modal-box bg-white rounded-md m-0 p-0 flex flex-col" style="height:600px; min-height:400px;">
         <div class="flex-grow h-full" style="overflow: auto;">
             <div class="react-component h-full"></div>
         </div>
@@ -39,6 +39,16 @@ class ModalComponent extends HTMLElement {
 
     this.closeButton.addEventListener('click', this.closeModal.bind(this));
     this.openButton.addEventListener('click', this.openModal.bind(this));
+
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+  }
+
+  set callBack(cb) {
+    this._callBack = cb;
+  }
+
+  get callBack() {
+    return this._callBack;
   }
 
   set schema(value) {
@@ -69,8 +79,10 @@ class ModalComponent extends HTMLElement {
   }
 
   handleFormSubmit(value) {
-    console.log("HENSAL", value)
-    // should take every key and update the colors and shit.
+    // Store the values of the form?
+    if (this.callBack) {
+      this._callBack(value);
+    }
   }
 
   renderReactComponent() {

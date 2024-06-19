@@ -45,7 +45,7 @@ class BarPlot extends HTMLElement {
           "type": "object",
           "options": {
             "inputAttributes": {
-              "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+              "class": "w-full mt-1 rounded-lg p-2 h-12"
             },
           },
           "properties": {
@@ -54,11 +54,8 @@ class BarPlot extends HTMLElement {
               "title": "First name",
               "options": {
                 "inputAttributes": {
-                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12 bg-blue-50"
+                  "class": "w-full mt-1 border border-gray-300 p-2 h-12 bg-blue-50 text-blue-100"
                 },
-                "containerAttributes": {
-                  "class": "text-gray-200"
-                }
               }
             },
             "lastName": {
@@ -66,11 +63,8 @@ class BarPlot extends HTMLElement {
               "title": "Last name",
               "options": {
                 "inputAttributes": {
-                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
                 },
-                "containerAttributes": {
-                  "class": "text-gray-200"
-                }
               }
             },
             "age": {
@@ -78,11 +72,8 @@ class BarPlot extends HTMLElement {
               "title": "Age",
               "options": {
                 "inputAttributes": {
-                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
                 },
-                "containerAttributes": {
-                  "class": "text-gray-200"
-                }
               }
             },
             "bio": {
@@ -90,11 +81,8 @@ class BarPlot extends HTMLElement {
               "title": "Bio",
               "options": {
                 "inputAttributes": {
-                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
                 },
-                "containerAttributes": {
-                  "class": "text-gray-200"
-                }
               }
             },
             "colorscale": {
@@ -104,32 +92,23 @@ class BarPlot extends HTMLElement {
               "default": "Red",
               "options": {
                 "inputAttributes": {
-                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
                 },
-                "containerAttributes": {
-                  "class": "text-gray-200"
-                }
               }
             },
             "password": {
-              "type": "string",
+              "type": "password",
               "title": "Password",
               "minLength": 3,
               "options": {
                 "inputAttributes": {
-                  "class": "block w-full mt-1 border border-gray-300 rounded-md py-2 h-12"
+                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
                 },
-                "containerAttributes": {
-                  "class": "text-gray-200"
-                }
               }
             }
           },
           "required": ["firstName", "lastName"]
         };
-        
-            
-          
     }
 
     static get observedAttributes() {
@@ -142,6 +121,10 @@ class BarPlot extends HTMLElement {
         }
     }
 
+    handleFormSubmit(value) {
+      console.log("values", value)
+    }
+
     connectedCallback() {
         this.render();
         this.observeResize({
@@ -152,10 +135,9 @@ class BarPlot extends HTMLElement {
         });;
 
         if (this.modal) {
+            this.modal.callBack = this.handleFormSubmit;
             this.modal.schemaUI = this.formSchemaUI;
             this.modal.schema = this.formSchema;
-
-            console.log(this.modal.schemaUI)
         }
     }
 
