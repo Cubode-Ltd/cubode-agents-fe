@@ -117,7 +117,10 @@ class BarPlot extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue !== newValue) {
-            this.render();
+          if (name === 'data') {
+            this.data_ = JSON.parse(newValue);
+          }
+          this.render();
         }
     }
 
@@ -144,6 +147,11 @@ class BarPlot extends HTMLElement {
     disconnectedCallback() {
         this.resizeObserver.disconnect();
         window.removeEventListener('resize', this.handleResize);
+    }
+
+    set data(data) {
+      this.data_ = data;
+      this.setAttribute('data', JSON.stringify(data));
     }
 
     render() {
