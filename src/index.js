@@ -20,6 +20,7 @@ import "./components/cubes/cb-cube.js"
 
 // Components related to Visualization
 import "./components/data/cb-data-upload.js"
+import "./components/data/cb-data-vis.js"
 
 import "./components/plot/cb-plot-modal.js"
 import "./components/plot/echarts/cb-echarts-barplot.js"
@@ -29,14 +30,14 @@ import "./components/layout/cb-container.js"
 import "./components/layout/panels/cb-sidepanel.js"
 import "./components/ai/cb-ai-input.js"
 
+import dataNursery from './components/data/DataNursery';
+
+let dataStorage = dataNursery;
+
 // Import React Components
 // import "./components/react/cb-react-compiled-test.js" // Directly Compiled from React
 // import "./components/react/cb-webcomponet-with-react.js" // React embedded inside WebComponent
 // import "./components/plot/form/cb-form-json.js"
-
-
-let dataNusery = new DataNursery();
-
 
 // const root = ReactDOM.createRoot(document.getElementById('react-root'));
 // root.render(<TestComponent />);
