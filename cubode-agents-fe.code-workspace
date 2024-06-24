@@ -2,6 +2,10 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"name": "data-nursery",
+			"path": "../../CUBODE_PACKAGE/data-nursery"
 		}
 	],
 	"settings": {}
