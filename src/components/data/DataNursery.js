@@ -48,5 +48,5 @@ class DataNursery {
 
 }
 
-
-export default DataNursery;
+const dataNursery = new DataNursery();
+export default dataNursery;

@@ -5,23 +5,20 @@ import { JSONEditor } from '@json-editor/json-editor';
 const injectCustomStyles = (container) => {
   const style = document.createElement('style');
   style.innerHTML = `
-    div[data-schematype]:not([data-schematype="object"]):hover {
-      background-color: transparent !important;
-    }
     .je-header.je-object__title {
-      color: red;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #4B5563; 
     }
+    
     .je-object__container .je-indented-panel {
       border-width: 0px !important;
       margin:0 !important;
       padding:0 !important;
     }
-    .je-object__container p {
-      color: blue;
-    }
-
     .errmsg {
       font-size: 0.75rem;
+      color: #FCA5A5 !important; 
     }
   `;
   container.appendChild(style);

@@ -40,8 +40,7 @@ class BarPlot extends HTMLElement {
         this.data_ = [5, 20, 36, 10, 10];
         
         this.formSchema = {
-          "title": "A registration form",
-          "description": "A simple form example.",
+          "title": "Bar Plot Customization",
           "type": "object",
           "options": {
             "inputAttributes": {
@@ -54,11 +53,10 @@ class BarPlot extends HTMLElement {
               "title": "First name",
               "options": {
                 "inputAttributes": {
-                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
+                  "class": "w-full bg-transparent outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
                 "containerAttributes": {
-                  "data-container":  "my-container",
-                  "class": "text-sm text-blue-700"
+                  "class": "text-sm text-gray-600 font-bold	"
                 }
               }
             },
@@ -67,8 +65,11 @@ class BarPlot extends HTMLElement {
               "title": "Last name",
               "options": { 
                 "inputAttributes": {
-                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
+                "containerAttributes": {
+                  "class": "text-sm text-gray-600 font-bold	"
+                }
               }
             },
             "age": {
@@ -76,8 +77,11 @@ class BarPlot extends HTMLElement {
               "title": "Age",
               "options": {
                 "inputAttributes": {
-                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
+                "containerAttributes": {
+                  "class": "text-sm text-gray-600 font-bold	"
+                }
               }
             },
             "bio": {
@@ -85,8 +89,11 @@ class BarPlot extends HTMLElement {
               "title": "Bio",
               "options": {
                 "inputAttributes": {
-                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
+                "containerAttributes": {
+                  "class": "text-sm text-gray-600 font-bold	"
+                }
               }
             },
             "colorscale": {
@@ -106,8 +113,11 @@ class BarPlot extends HTMLElement {
               "minLength": 3,
               "options": {
                 "inputAttributes": {
-                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
+                "containerAttributes": {
+                  "class": "text-sm text-gray-600 font-bold	"
+                }
               }
             }
           },

@@ -9,11 +9,11 @@ modalTemplate.innerHTML = `
   <div>
     
     <dialog class="modal rounded-2xl">
-      <div class="modal-box bg-white rounded-2xl dark:bg-gray-600 border-2 border-gray-300  m-0 p-3 flex flex-col" style="height:600px; min-width:500px; min-height:400px;">
+      <div class="modal-box bg-white rounded-2xl dark:bg-gray-600 border-2 border-gray-300  m-0 p-5 flex flex-col" style="height:600px; min-width:500px; min-height:400px;">
         <div class="flex-grow h-full" style="overflow: auto;">
             <div class="react-component h-full"></div>
         </div>
-        <button class="cb-close-modal-button bg-gray-50">Close</button>
+        <button class="cb-close-modal-button h-12 border rounded-xl bg-gray-50">Close</button>
     </div>
     </dialog>
 
