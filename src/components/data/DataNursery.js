@@ -1,7 +1,9 @@
-class CsvFileManager {
+import localforage from 'localforage';
+
+
+class DataNursery {
 
   constructor() {
-    // Initialize localforage instance if needed
     this.localforage = localforage;
   }
 
@@ -45,3 +47,6 @@ class CsvFileManager {
   }
 
 }
+
+
+export default DataNursery;

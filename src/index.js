@@ -4,6 +4,8 @@ import './css/main.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import DataNursery from './components/data/DataNursery.js';
+
 // Import of the WebComponents
 import "./components/cb-canvas.js"
 
@@ -27,10 +29,12 @@ import "./components/layout/cb-data-upload.js"
 import "./components/ai/cb-ai-input.js"
 
 // Import React Components
-import "./components/react/cb-react-compiled-test.js" // Directly Compiled from React
-import "./components/react/cb-webcomponet-with-react.js" // React embedded inside WebComponent
-// import TestComponent from './components/react/cb-react-basic-integration.js'; // To integrate directly in a root element (classic way of using react)
-import "./components/plot/form/cb-form-json.js"
+// import "./components/react/cb-react-compiled-test.js" // Directly Compiled from React
+// import "./components/react/cb-webcomponet-with-react.js" // React embedded inside WebComponent
+// import "./components/plot/form/cb-form-json.js"
+
+
+let dataNusery = new DataNursery();
 
 
 // const root = ReactDOM.createRoot(document.getElementById('react-root'));

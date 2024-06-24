@@ -2,6 +2,7 @@ module.exports = {
   content: [
     "./src/**/*.{html,js}",
     "./src/**/**/*.{html,js}",
+    "./src/**/**/**/*.{html,js}",
     "./src/*.{html,js}",
   ],
   darkMode: 'class',
@@ -20,9 +21,5 @@ module.exports = {
   },
   plugins: [
     require('tailwindcss-animated'),
-    //require('daisyui')
   ],
-  // daisyui: {
-  //   themes: ["light", "dark"],
-  // },
 }

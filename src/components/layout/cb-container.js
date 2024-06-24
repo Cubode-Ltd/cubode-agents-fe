@@ -2,7 +2,7 @@ const template = document.createElement('template');
 template.innerHTML = `
     <style>@import "./css/main.css";</style>
     <div class="cb-maincontainer container bg-white dark:bg-gray-700 mx-auto px-4 sm:w-full lg:w-1/2">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="bg-white py-3 rounded-lg shadow-lg">
             <slot></slot>    
         </div>
     </div>
