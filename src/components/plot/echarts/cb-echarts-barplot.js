@@ -46,7 +46,7 @@ class BarPlot extends HTMLElement {
           "options": {
             "inputAttributes": {
               "class": "w-full mt-1 rounded-lg p-2 h-12"
-            },
+            }
           },
           "properties": {
             "firstName": {
@@ -54,16 +54,20 @@ class BarPlot extends HTMLElement {
               "title": "First name",
               "options": {
                 "inputAttributes": {
-                  "class": "w-full mt-1 border border-gray-300 p-2 h-12 bg-blue-50 text-blue-100"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
                 },
+                "containerAttributes": {
+                  "data-container":  "my-container",
+                  "class": "text-sm text-blue-700"
+                }
               }
             },
             "lastName": {
               "type": "string",
               "title": "Last name",
-              "options": {
+              "options": { 
                 "inputAttributes": {
-                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
                 },
               }
             },
@@ -72,7 +76,7 @@ class BarPlot extends HTMLElement {
               "title": "Age",
               "options": {
                 "inputAttributes": {
-                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
                 },
               }
             },
@@ -81,7 +85,7 @@ class BarPlot extends HTMLElement {
               "title": "Bio",
               "options": {
                 "inputAttributes": {
-                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
                 },
               }
             },
@@ -102,7 +106,7 @@ class BarPlot extends HTMLElement {
               "minLength": 3,
               "options": {
                 "inputAttributes": {
-                  "class": "w-full mt-1 border border-gray-300 rounded-md p-2 h-12"
+                  "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-300"
                 },
               }
             }
