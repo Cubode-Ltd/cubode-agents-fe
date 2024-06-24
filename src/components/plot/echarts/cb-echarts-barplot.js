@@ -46,7 +46,7 @@ class BarPlot extends HTMLElement {
           "options": {
             "inputAttributes": {
               "class": "w-full mt-1 rounded-lg p-2 h-12"
-            }
+            },
           },
           "properties": {
             "firstName": {
