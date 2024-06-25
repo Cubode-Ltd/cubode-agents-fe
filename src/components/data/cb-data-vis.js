@@ -64,6 +64,7 @@ class CBDataVis extends HTMLElement {
         this.shadowRoot.appendChild(templateContent);
 
         this.gridOptions = {
+            pagination: true,
             columnDefs: [],
             rowData: [],
             defaultColDef: {
