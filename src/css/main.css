@@ -1,3 +1,7 @@
+@import "./ag-grid.min.css";
+@import "./ag-theme-alpine.css";
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
