@@ -1,5 +1,7 @@
 import * as d3 from 'd3';
 import * as echarts from 'echarts/core';
+import Papa from 'papaparse';
+
 import { BarChart } from 'echarts/charts';
 import {
     TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent
@@ -29,17 +31,20 @@ template.innerHTML = `
 `;
 
 class BarPlot extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.element = this.shadowRoot.querySelector('.cb-chart-container');
-        this.modal = this.shadowRoot.querySelector('cb-plot-modal');
+  constructor() {
+      super();
+      this.attachShadow({ mode: 'open' });
+      this.shadowRoot.appendChild(template.content.cloneNode(true));
+      this.element = this.shadowRoot.querySelector('.cb-chart-container');
+      this.modal = this.shadowRoot.querySelector('cb-plot-modal');
 
-        this.chart_ = echarts.init(this.element);
-        this.data_ = [5, 20, 36, 10, 10];
-        
-        this.formSchema = {
+      this.chart_ = echarts.init(this.element);
+      this.data_ = [];
+      this.columns_ = [];
+
+      this.handleDataSelected = this.handleDataSelected.bind(this);
+   
+      this.formSchema = {
           "title": "Bar Plot Customization",
           "type": "object",
           "options": {
@@ -122,7 +127,7 @@ class BarPlot extends HTMLElement {
             }
           },
           "required": ["firstName", "lastName"]
-        };
+      };
     }
 
     static get observedAttributes() {
@@ -156,12 +161,29 @@ class BarPlot extends HTMLElement {
             this.modal.schemaUI = this.formSchemaUI;
             this.modal.schema = this.formSchema;
         }
+
+        // Event coming from data source selector
+        window.addEventListener('data-selected', this.handleDataSelected);
+
     }
 
     disconnectedCallback() {
         this.resizeObserver.disconnect();
         window.removeEventListener('resize', this.handleResize);
+        window.removeEventListener('data-selected', this.handleDataSelected);
     }
+
+    handleDataSelected(event) {
+      const { csvContent } = event.detail;
+      const parsedData = Papa.parse(csvContent, {
+          header: true,
+          dynamicTyping: true
+      });
+
+      this.columns_ = parsedData.meta.fields;
+      this.data_ = parsedData.data;
+      this.render();
+    } 
 
     set data(data) {
       this.data_ = data;
@@ -220,10 +242,11 @@ class BarPlot extends HTMLElement {
             scale = d3.scaleSequential(colorScales[colorScaleAttr] || d3.interpolateViridis).domain([0, this.data_.length - 1]);
         }
 
-        const coloredData = this.data_.map((value, index) => ({
-            value: value,
-            itemStyle: { 
-                color: scale(index) 
+        const xAxisData = this.columns_;
+        const seriesData = this.data_.map((d, index) => ({
+            value: d[xAxisData[1]], // Assuming the second column contains the data for the bars
+            itemStyle: {
+                color: scale(index)
             }
         }));
 
@@ -234,15 +257,14 @@ class BarPlot extends HTMLElement {
             },
             tooltip: {},
             xAxis: {
-                data: ['Category1', 'Category2', 'Category3', 'Category4', 'Category5']
+                data: xAxisData
             },
             yAxis: {},
             series: [{
                 type: 'bar',
-                data: coloredData
+                data: seriesData
             }],
             animationDuration: 1000
-
         };
 
         this.chart_.setOption(option);
