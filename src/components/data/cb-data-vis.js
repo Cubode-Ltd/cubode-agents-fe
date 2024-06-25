@@ -1,4 +1,3 @@
-import dataNursery from '../data/DataNursery';
 import { createGrid } from 'ag-grid-community';
 import Papa from 'papaparse';
 
@@ -11,7 +10,6 @@ template.innerHTML = `
             flex-direction: column;
             gap: 1rem;
         }
-
         
         #data-table {
             height: 400px;
@@ -49,12 +47,10 @@ template.innerHTML = `
         }
     </style>
 
-    <div class="cb-data-visual container mx-auto px-4 sm:w-full lg:w-1/2 bg-white border pb-2 pt-3 rounded-2xl shadow-lg my-3">
-        <select id="data-source-selector" class="mb-3 p-3 rounded-2xl border"></select>
+    <div class="cb-data-visual container mx-auto py-4 px-4 sm:w-full lg:w-1/2 bg-white border pb-2 pt-3 rounded-2xl shadow-lg my-3">
         <div id="data-table" class="ag-theme-alpine"></div>
     </div>
 `;
-
 
 class CBDataVis extends HTMLElement {
     constructor() {
@@ -78,8 +74,7 @@ class CBDataVis extends HTMLElement {
             onGridReady: this.onGridReady.bind(this)
         };
 
-        this.handleFileSelection = this.handleFileSelection.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
+        this.handleDataSelected = this.handleDataSelected.bind(this);
     }
 
     static get observedAttributes() {
@@ -114,16 +109,14 @@ class CBDataVis extends HTMLElement {
     }
 
     connectedCallback() {
-        this.populateDropdown();
         this.gridDiv = this.shadowRoot.querySelector('#data-table');
         createGrid(this.gridDiv, this.gridOptions);
-        this.shadowRoot.querySelector('#data-source-selector').addEventListener('change', this.handleFileSelection);
-        this.shadowRoot.querySelector('#search-input').addEventListener('input', this.handleSearch);
+
+        window.addEventListener('data-selected', this.handleDataSelected);
     }
 
     disconnectedCallback() {
-        this.shadowRoot.querySelector('#data-source-selector').removeEventListener('change', this.handleFileSelection);
-        this.shadowRoot.querySelector('#search-input').removeEventListener('input', this.handleSearch);
+        window.removeEventListener('data-selected', this.handleDataSelected);
     }
 
     onGridReady(params) {
@@ -131,31 +124,9 @@ class CBDataVis extends HTMLElement {
         this.gridColumnApi = params.columnApi;
     }
 
-    async populateDropdown() {
-        const selector = this.shadowRoot.querySelector('#data-source-selector');
-        const nameToHashMapping = await dataNursery.name2hash.keys();
-        
-        selector.innerHTML = '<option value="">Select a data source</option>';
-        nameToHashMapping.forEach(fileName => {
-            const option = document.createElement('option');
-            option.value = fileName;
-            option.textContent = fileName;
-            selector.appendChild(option);
-        });
-    }
-
-    async handleFileSelection(event) {
-        const fileName = event.target.value;
-        if (fileName) {
-            const hash = await dataNursery.name2hash.getItem(fileName);
-            const csvContent = await dataNursery.hashes2data.getItem(hash);
-            this.loadDataTable(csvContent);
-        }
-    }
-
-    handleSearch(event) {
-        const searchText = event.target.value;
-        this.gridApi.setQuickFilter(searchText);
+    handleDataSelected(event) {
+        const { csvContent } = event.detail;
+        this.loadDataTable(csvContent);
     }
 
     loadDataTable(csvContent) {
@@ -168,7 +139,16 @@ class CBDataVis extends HTMLElement {
         const tableData = parsedData.data;
 
         const columnDefs = [
-            { headerCheckboxSelection: true, checkboxSelection: true, rowDrag: true, width: 70 },
+            {
+                headerCheckboxSelection: true,
+                checkboxSelection: true,
+                rowDrag: true,
+                width: 50,
+                headerName: '',
+                resizable: false,
+                //pinned: 'left',
+                lockPosition: true
+            },
             ...tableHeaders.map(header => ({ headerName: header, field: header }))
         ];
 

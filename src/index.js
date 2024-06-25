@@ -21,6 +21,7 @@ import "./components/cubes/cb-cube.js"
 // Components related to Visualization
 import "./components/data/cb-data-upload.js"
 import "./components/data/cb-data-vis.js"
+import "./components/data/cb-data-source-selector.js"
 
 import "./components/plot/cb-plot-modal.js"
 import "./components/plot/echarts/cb-echarts-barplot.js"
