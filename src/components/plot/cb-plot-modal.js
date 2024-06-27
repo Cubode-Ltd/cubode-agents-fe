@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormComponent from './form/cb-form-json-3'; // './form/cb-form-json';  './form/cb-form-json-2';
+import FormComponent from './form/cb-form-json'; // './form/cb-form-json';  './form/cb-form-json-2';
 
 const modalTemplate = document.createElement('template');
 modalTemplate.innerHTML = `

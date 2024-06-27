@@ -1,32 +1,59 @@
-import React, { useState } from 'react';
-import Form from '@rjsf/core';
-import validator from '@rjsf/validator-ajv8';
+import React, { useEffect, useRef } from 'react';
+import { JSONEditor } from '@json-editor/json-editor';
+import CustomReactSelectEditor from "./custom-react-select.js"
 
+
+const injectCustomStyles = (container) => {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .je-header.je-object__title {
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #4B5563; 
+    }
+    
+    .je-object__container .je-indented-panel {
+      border-width: 0px !important;
+      margin:0 !important;
+      padding:0 !important;
+    }
+    .errmsg {
+      font-size: 0.75rem;
+      color: #FCA5A5 !important; 
+    }
+  `;
+  container.appendChild(style);
+};
 
 const FormComponent = ({ schema, schemaUI, onFormSubmit }) => {
-  const [formData, setFormData] = useState({});
+  const editorRef = useRef(null);
 
-  const handleChange = (data) => {
-    setFormData(data.formData);
-  };
+  useEffect(() => {
+    JSONEditor.defaults.editors.reactselect = CustomReactSelectEditor;
 
-  const handleSubmit = ({ formData }) => {
-    if (onFormSubmit) {
-      onFormSubmit(formData);
-    }
-  };
+    const editor = new JSONEditor(editorRef.current, {
+      schema: schema,
+      disable_collapse: true,
+      disable_edit_json: true,
+      disable_properties: true,
+    });
+
+    editor.on('change', () => {
+      const formData = editor.getValue();
+      if (onFormSubmit) {
+        onFormSubmit(formData);
+      }
+    });
+
+    injectCustomStyles(editorRef.current);
+    return () => {
+      editor.destroy();
+    };
+
+  }, [schema, onFormSubmit]);
 
   return (
-    <div style={{ margin: '20px 0' }}>
-      <Form
-        schema={schema}
-        uiSchema={schemaUI}
-        formData={formData}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        validator={validator}
-      />
-    </div>
+    <div ref={editorRef} />
   );
 };
 
