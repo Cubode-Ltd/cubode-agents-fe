@@ -16,16 +16,20 @@ class CBDataSourceSelector extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         const templateContent = template.content.cloneNode(true);
         this.shadowRoot.appendChild(templateContent);
+
         this.handleFileSelection = this.handleFileSelection.bind(this);
+        this.updateDropdown = this.updateDropdown.bind(this);
     }
 
     connectedCallback() {
         this.populateDropdown();
         this.shadowRoot.querySelector('#data-source-selector').addEventListener('change', this.handleFileSelection);
+        window.addEventListener('fileStored', this.updateDropdown);
     }
 
     disconnectedCallback() {
         this.shadowRoot.querySelector('#data-source-selector').removeEventListener('change', this.handleFileSelection);
+        window.removeEventListener('fileStored', this.updateDropdown);
     }
 
     async populateDropdown() {
@@ -41,13 +45,24 @@ class CBDataSourceSelector extends HTMLElement {
         });
     }
 
+    async updateDropdown(event) {
+        const { fileName } = event.detail;
+        const selector = this.shadowRoot.querySelector('#data-source-selector');
+        const option = document.createElement('option');
+        option.value = fileName;
+        option.textContent = fileName;
+        selector.appendChild(option);
+    }
+
     async handleFileSelection(event) {
         const fileName = event.target.value;
         if (fileName) {
             const hash = await dataNursery.name2hash.getItem(fileName);
             const csvContent = await dataNursery.hashes2data.getItem(hash);
+            const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
+            const columns = await dataNursery.hash2columns.getItem(hash);
             this.dispatchEvent(new CustomEvent('data-selected', {
-                detail: { csvContent },
+                detail: { csvContent, csvDataRows, columns },
                 bubbles: true,
                 composed: true
             }));

@@ -1,6 +1,4 @@
-import * as d3 from 'd3';
 import * as echarts from 'echarts/core';
-import Papa from 'papaparse';
 
 import ColorScale from './ColorScales';
 import { formSchema } from './schemas/barplot';
@@ -84,14 +82,9 @@ class BarPlot extends HTMLElement {
     }
 
     handleDataSelected(event) {
-      const { csvContent } = event.detail;
-      const parsedData = Papa.parse(csvContent, {
-          header: true,
-          dynamicTyping: true
-      });
-
-      this.columns_ = parsedData.meta.fields;
-      this.data_ = parsedData.data;
+      const { csvContent, columns } = event.detail;
+      this.columns_ = columns;
+      this.data_ = csvContent;
       this.render();
     } 
 

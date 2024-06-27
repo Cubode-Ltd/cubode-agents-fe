@@ -1,5 +1,4 @@
 import { createGrid } from 'ag-grid-community';
-import Papa from 'papaparse';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -111,7 +110,6 @@ class CBDataVis extends HTMLElement {
     connectedCallback() {
         this.gridDiv = this.shadowRoot.querySelector('#data-table');
         createGrid(this.gridDiv, this.gridOptions);
-
         window.addEventListener('data-selected', this.handleDataSelected);
     }
 
@@ -125,18 +123,13 @@ class CBDataVis extends HTMLElement {
     }
 
     handleDataSelected(event) {
-        const { csvContent } = event.detail;
-        this.loadDataTable(csvContent);
+        const { csvDataRows, columns } = event.detail;
+        this.loadDataTable(csvDataRows, columns);
     }
 
-    loadDataTable(csvContent) {
-        const parsedData = Papa.parse(csvContent, {
-            header: true,
-            dynamicTyping: true
-        });
-
-        const tableHeaders = parsedData.meta.fields;
-        const tableData = parsedData.data;
+    loadDataTable(csvDataRows, columns) {
+        const tableHeaders = columns;
+        const tableData = csvDataRows;
 
         const columnDefs = [
             {

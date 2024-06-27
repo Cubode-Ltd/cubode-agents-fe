@@ -14,7 +14,7 @@ modalTemplate.innerHTML = `
             <div class="react-component h-full"></div>
         </div>
         <button class="cb-close-modal-button h-12 border rounded-xl bg-gray-50">Close</button>
-    </div>
+      </div>
     </dialog>
 
     <div class="cb-open-modal-button cursor-pointer absolute -top-0 left-1 drop-shadow-md hover:drop-shadow-lg ml-2 mt-2 fill-gray-400 hover:fill-gray-500">

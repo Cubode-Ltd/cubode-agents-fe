@@ -1,18 +1,30 @@
 import localforage from 'localforage';
+import Papa from 'papaparse';
 
-
-class DataNursery {
+class DataNursery extends EventTarget {
 
   constructor() {
+    super();
     this.hashes2data = localforage.createInstance({
       name: 'dataNursery',
       storeName: 'hashes2data'
+    });
+
+    this.hashes2dataRows = localforage.createInstance({
+      name: 'dataNursery',
+      storeName: 'hashes2dataRows'
+    });
+
+    this.hash2columns = localforage.createInstance({
+      name: 'dataNursery',
+      storeName: 'hashes2columns'
     });
 
     this.name2hash = localforage.createInstance({
       name: 'dataNursery',
       storeName: 'name2hash'
     });
+
   }
 
   async generateHash(file) {
@@ -23,16 +35,42 @@ class DataNursery {
     return hashHex;
   }
 
+  parseCsv(csvContent) {
+    const parsedData = Papa.parse(csvContent, {
+      header: true,
+      dynamicTyping: true
+    });
+    return parsedData;
+  }
+
+  csvToObject(csv) {
+    const result = {};
+    csv.meta.fields.forEach(field => {
+      result[field] = csv.data.map(row => row[field]);
+    });
+    return result;
+  }
+
   async storeCsvFile(file) {
     const hash = await this.generateHash(file);
     const reader = new FileReader();
 
     reader.onload = async (event) => {
       const csvContent = event.target.result;
+      const csvParsed = this.parseCsv(csvContent);
+      const csvData = this.csvToObject(csvParsed);
+
       try {
-        await this.hashes2data.setItem(hash, csvContent);
+        await this.hashes2data.setItem(hash, csvData);
+        await this.hashes2dataRows.setItem(hash, csvParsed.data);
         await this.name2hash.setItem(file.name, hash);
+        await this.hash2columns.setItem(hash, csvParsed.meta.fields);
+
         console.log('File stored successfully with hash:', hash);
+        window.dispatchEvent(new CustomEvent('fileStored', { 
+          detail: { fileName: file.name, hash } 
+        }));
+
       } catch (err) {
         console.error('Error storing the file:', err);
       }
@@ -43,6 +81,19 @@ class DataNursery {
   async getCsvFileByHash(hash) {
     try {
       const csvContent = await this.hashes2data.getItem(hash);
+      if (csvContent) {
+        console.log('File content:', csvContent);
+      } else {
+        console.log('File not found for hash:', hash);
+      }
+    } catch (err) {
+      console.error('Error retrieving the file:', err);
+    }
+  }
+
+  async getCsvFileRowsByHash(hash) {
+    try {
+      const csvContent = await this.hashes2dataRows.getItem(hash);
       if (csvContent) {
         console.log('File content:', csvContent);
       } else {
@@ -66,6 +117,18 @@ class DataNursery {
     }
   }
 
+  async getCsvFileRowsByName(fileName) {
+    try {
+      const hash = await this.name2hash.getItem(fileName);
+      if (hash) {
+        await this.getCsvFileRowsByHash(hash);
+      } else {
+        console.log('File not found for name:', fileName);
+      }
+    } catch (err) {
+      console.error('Error retrieving the file:', err);
+    }
+  }
 }
 
 const dataNursery = new DataNursery();
