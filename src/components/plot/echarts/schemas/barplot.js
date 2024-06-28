@@ -38,7 +38,7 @@ export const formSchema = {
             "default": "Sum",
             "options": {
                 "inputAttributes": {
-                    "class": "w-full mt-1 border border-gray-300 rounded-xl p-2 h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-2 block w-full p-2.5"
+                    "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
                 "containerAttributes": {
                     "class": "mt-2 text-sm text-gray-600 font-bold"
@@ -100,7 +100,7 @@ export const formSchema = {
             "default": "top",
             "options": {
                 "inputAttributes": {
-                    "class": "w-full mt-1 border border-gray-300 rounded-xl p-2 h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5"
+                    "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
                 "containerAttributes": {
                     "class": "mt-2 text-sm text-gray-600 font-bold"
@@ -114,7 +114,7 @@ export const formSchema = {
             "default": "Red",
             "options": {
                 "inputAttributes": {
-                    "class": "w-full mt-1 border border-gray-300 rounded-xl p-2 h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5"
+                    "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
                 "containerAttributes": {
                     "class": "mt-2 text-sm text-gray-600 font-bold"
@@ -150,6 +150,20 @@ export const formSchema = {
             }
         },
 
+        "data_source": {
+            "type": "string",
+            "title": "Dataset",
+            "enum": [""],
+            "default": "",
+            "options": {
+                "inputAttributes": {
+                    "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
+                },
+                "containerAttributes": {
+                    "class": "mt-2 text-sm text-gray-600 font-bold"
+                }
+            }
+        },
     },
     // "required": ["title", "xAxisLabel", "yAxisLabel", "seriesData", "colorScale"]
 };
