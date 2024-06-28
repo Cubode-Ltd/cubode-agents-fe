@@ -1,4 +1,7 @@
 import * as echarts from 'echarts/core';
+const { DataFrame } = require('dataframe-js');
+
+// import dataNursery from './DataNursery';
 
 import ColorScale from './ColorScales';
 import { formSchema } from './schemas/barplot';
@@ -20,7 +23,7 @@ template.innerHTML = `
 `;
 
 class BarPlot extends HTMLElement {
-  constructor() {
+    constructor() {
       super();
       this.attachShadow({ mode: 'open' });
       this.shadowRoot.appendChild(template.content.cloneNode(true));
@@ -39,20 +42,26 @@ class BarPlot extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['colorscale', 'color1', 'color2'];
+        // Create attributes from the Schema
+        const attrs = ['hash', 'fileName'];
+        const schemaProperties = formSchema.properties;
+        Object.keys(schemaProperties).forEach(key => {
+            attrs.push(key);
+        });
+        return attrs;
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue !== newValue) {
-          if (name === 'data') {
-            this.data_ = JSON.parse(newValue);
-          }
-          this.render();
+            this.render();
         }
     }
 
     handleFormSubmit(value) {
-      console.log("values", value)
+        console.log("values", value);
+        Object.keys(value).forEach(key => {
+            this.setAttribute(key, value[key]);
+        });
     }
 
     connectedCallback() {
@@ -82,50 +91,117 @@ class BarPlot extends HTMLElement {
     }
 
     handleDataSelected(event) {
-      const { csvContent, columns } = event.detail;
+      const { csvContent, csvDataRows, columns, hash, fileName } = event.detail;
       this.columns_ = columns;
-      this.data_ = csvContent;
+      this.data_ = csvDataRows;
+      this.hash = hash;
+      this.fileName = fileName
+
+      this.setAttribute('hash', hash);
+      this.setAttribute('fileName', fileName);
       this.render();
     } 
 
-    set data(data) {
-      this.data_ = data;
-      this.setAttribute('data', JSON.stringify(data));
+    plotData() {
+        let columnCategory = this.getAttribute('column-category') || '';
+        let columnsValues = this.getAttribute('column-values') || '';
+        let aggregation = this.getAttribute('aggregation') || '';
+        let series = {
+            'type': 'bar', 
+            'name': '',
+            'data': [],
+            'style': {
+                'color': 'black'
+            }
+        }
+
+        // TODO: ADD LOGIC TO GET THE DATA IF THERE IS A HASH / FILENAME.
+        if (!this.data_ || columnCategory === '' || columnsValues === '') {
+            return series;
+        }
+
+        const validColumns = columnsValues.split(',').filter(col => this.columns_.includes(col));
+        if (validColumns.length === 0) {
+            return series;
+        }
+
+        this.df = new DataFrame(this.data_);
+        const grouped = this.df.groupBy(columnCategory);
+    
+        const aggregations = {
+            'sum': (df, col) => df.stat.sum(col),
+            'mean': (df, col) => df.stat.mean(col),
+            'median': (df, col) => df.stat.median(col),
+            'min': (df, col) => df.stat.min(col),
+            'max': (df, col) => df.stat.max(col)
+        };
+    
+        const aggregatedData = grouped.aggregate(group => {
+            const result = {};
+            validColumns.forEach(col => {
+                result[col] = aggregations[aggregation](group, col);
+            });
+            return result;
+        }).toArray();
+    
+        const scale = ColorScale.getColorScale(
+            this.getAttribute('color-scale') || 'Viridis',
+            this.getAttribute('color-primary') || '#000000',
+            this.getAttribute('color-secundary') || '#ffffff',
+            aggregatedData.length
+        );
+    
+        const xAxisData = aggregatedData.map(item => item[0]); // Group keys for x-axis
+    
+        series.data = aggregatedData.map((item, index) => ({
+            value: item[1][validColumns[0]], // Using the first valid column for the value
+            name: item[0], // The group key (e.g., "Female" or "Male")
+            itemStyle: { color: scale(index) }
+        }));
+    
+        return {
+            series,
+            xAxisData
+        };
     }
 
-    render() {
-        const colorScaleAttr = this.getAttribute('colorScale') || 'Viridis';
-        const color1 = this.getAttribute('color1') || '#000000';
-        const color2 = this.getAttribute('color2') || '#ffffff';
-        const scale = ColorScale.getColorScale(colorScaleAttr, color1, color2, this.dataTemp_.length);
+    updateOption() {
+        let title = this.getAttribute('title') || 'Bar Plot';
+        let xAxisLabel = this.getAttribute('x-axis-label') || '';
+        let yAxisLabel = this.getAttribute('y-axis-label') || '';
 
+        let subtitle = this.getAttribute('subtitle') || '';
+        let legendPosition = this.getAttribute('legend-position') || '';
+        let colorScale = this.getAttribute('color-scale') || 'Viridis';
+        let colorPrimary = this.getAttribute('color-primary') || '#000000';
+        let colorSecundary = this.getAttribute('color-secundary') || '#ffffff';
+ 
+        const plotData = this.plotData();
+        const seriesData = plotData.series;
+        const xAxisData = plotData.xAxisData;
 
-        const xAxisData = this.columnsTemp_;
-        const seriesData = this.dataTemp_.map((value, index) => ({
-          value: value,
-          itemStyle: { 
-              color: scale(index) 
-          }
-        }));
-
-        const option = {
+        this.option = {
             title: {
-                text: 'Bar Plot',
+                text: title,
                 left: 'center'
             },
             tooltip: {},
             xAxis: {
-                data: xAxisData
+                data: xAxisData,
+                name: xAxisLabel
             },
-            yAxis: {},
-            series: [{
-                type: 'bar',
-                data: seriesData
-            }],
+            yAxis: {
+                name: yAxisLabel
+            },
+            series: [seriesData],
             animationDuration: 1000
         };
 
-        this.chart_.setOption(option);
+        this.chart_.setOption(this.option);
+    }
+
+    render() {
+        this.updateOption();
         this.chart_.resize({
             animation: {
                 duration: 500,

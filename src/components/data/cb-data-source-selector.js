@@ -62,7 +62,13 @@ class CBDataSourceSelector extends HTMLElement {
             const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
             const columns = await dataNursery.hash2columns.getItem(hash);
             this.dispatchEvent(new CustomEvent('data-selected', {
-                detail: { csvContent, csvDataRows, columns },
+                detail: { 
+                    csvContent, 
+                    csvDataRows, 
+                    columns, 
+                    hash, 
+                    fileName 
+                },
                 bubbles: true,
                 composed: true
             }));

@@ -7,9 +7,10 @@ export const formSchema = {
         },
     },
     "properties": {
-        "column_category": {
+        "column-category": {
             "type": "string",
             "title": "Category Column",
+            "blastoiser": "henso",
             "options": {
                 "inputAttributes": {
                     "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
@@ -19,7 +20,7 @@ export const formSchema = {
                 }
             }
         },
-        "columns_values": {
+        "column-values": {
             "type": "string",
             "title": "Value Column(s)",
             "options": {
@@ -69,7 +70,7 @@ export const formSchema = {
                 }
             }
         },
-        "xAxisLabel": {
+        "x-axis-label": {
             "type": "string",
             "title": "X-Axis Label",
             "options": {
@@ -81,7 +82,7 @@ export const formSchema = {
                 }
             }
         },
-        "yAxisLabel": {
+        "y-axis-label": {
             "type": "string",
             "title": "Y-Axis Label",
             "options": {
@@ -93,7 +94,7 @@ export const formSchema = {
                 }
             }
         },
-        "legendPosition": {
+        "legend-position": {
             "type": "string",
             "title": "Legend Position",
             "enum": ["left", "right", "top", "bottom"],
@@ -107,7 +108,7 @@ export const formSchema = {
                 }
             }
         },
-        "colorScale": {
+        "color-scale": {
             "type": "string",
             "title": "Color Scale",
             "enum": ["Red", "Green", "Blue", "Yellow", "Purple", "Orange", "Pink", "Brown", "Gray", "Black"],
@@ -121,7 +122,7 @@ export const formSchema = {
                 }
             }
         },
-        "colorPrimary": {
+        "color-primary": {
             "type": "string",
             "format": "color",
             "title": "Color Primary",
@@ -136,7 +137,7 @@ export const formSchema = {
                 }
             }
         },
-        "colorSecundary": {
+        "color-secundary": {
             "type": "string",
             "format": "color",
             "title": "Color Secondary",
@@ -149,21 +150,20 @@ export const formSchema = {
                 }
             }
         },
-
-        "data_source": {
-            "type": "string",
-            "title": "Dataset",
-            "enum": [""],
-            "default": "",
-            "options": {
-                "inputAttributes": {
-                    "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
-                },
-                "containerAttributes": {
-                    "class": "mt-2 text-sm text-gray-600 font-bold"
-                }
-            }
-        },
+        // "data-source": {
+        //     "type": "string",
+        //     "title": "Dataset",
+        //     "enum": [""],
+        //     "default": "",
+        //     "options": {
+        //         "inputAttributes": {
+        //             "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
+        //         },
+        //         "containerAttributes": {
+        //             "class": "mt-2 text-sm text-gray-600 font-bold"
+        //         }
+        //     }
+        // },
     },
     // "required": ["title", "xAxisLabel", "yAxisLabel", "seriesData", "colorScale"]
 };
