@@ -33,11 +33,9 @@ class BarPlot extends HTMLElement {
       this.chart_ = echarts.init(this.element);
       this.data_ = [];
       this.columns_ = [];
-      
-      this.dataTemp_ = [5, 20, 36, 10, 10];
-      this.columnsTemp_ = ['Category1', 'Category2', 'Category3', 'Category4', 'Category5'];
 
-      this.handleDataSelected = this.handleDataSelected.bind(this);
+      this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
+      this.handleFormSubmit = this.handleFormSubmit.bind(this);
       this.formSchema = formSchema;
     }
 
@@ -62,6 +60,7 @@ class BarPlot extends HTMLElement {
         Object.keys(value).forEach(key => {
             this.setAttribute(key, value[key]);
         });
+        this.render();
     }
 
     connectedCallback() {
@@ -80,17 +79,17 @@ class BarPlot extends HTMLElement {
         }
 
         // Event coming from data source selector
-        window.addEventListener('data-selected', this.handleDataSelected);
+        window.addEventListener('data-selected', this.handleDataSetSelected);
 
     }
 
     disconnectedCallback() {
         this.resizeObserver.disconnect();
         window.removeEventListener('resize', this.handleResize);
-        window.removeEventListener('data-selected', this.handleDataSelected);
+        window.removeEventListener('data-selected', this.handleDataSetSelected);
     }
 
-    handleDataSelected(event) {
+    handleDataSetSelected(event) {
       const { csvContent, csvDataRows, columns, hash, fileName } = event.detail;
       this.columns_ = columns;
       this.data_ = csvDataRows;
@@ -99,13 +98,30 @@ class BarPlot extends HTMLElement {
 
       this.setAttribute('hash', hash);
       this.setAttribute('fileName', fileName);
+
+      this.updateFormSchema(columns);
+
       this.render();
-    } 
+    }
+     
+    updateFormSchema(columns) {
+        const categoryColumnEnum = columns;
+        const valueColumnEnum = columns;
+    
+        this.formSchema.properties['column-category'].enum = categoryColumnEnum;
+        this.formSchema.properties['column-values'].enum = valueColumnEnum;
+    
+        if (this.modal) {
+            this.modal.schema = this.formSchema;
+        }
+    }
 
     plotData() {
         let columnCategory = this.getAttribute('column-category') || '';
         let columnsValues = this.getAttribute('column-values') || '';
         let aggregation = this.getAttribute('aggregation') || '';
+
+        aggregation = aggregation.toLowerCase();
         let series = {
             'type': 'bar', 
             'name': '',
@@ -175,11 +191,13 @@ class BarPlot extends HTMLElement {
         let colorScale = this.getAttribute('color-scale') || 'Viridis';
         let colorPrimary = this.getAttribute('color-primary') || '#000000';
         let colorSecundary = this.getAttribute('color-secundary') || '#ffffff';
- 
+        let showBackground = this.getAttribute('showBackground') || false;
+
         const plotData = this.plotData();
-        const seriesData = plotData.series;
+        let seriesData = plotData.series;
         const xAxisData = plotData.xAxisData;
 
+        seriesData = {...seriesData, showBackground: true}
         this.option = {
             title: {
                 text: title,
@@ -187,6 +205,7 @@ class BarPlot extends HTMLElement {
             },
             tooltip: {},
             xAxis: {
+                type: 'category',
                 data: xAxisData,
                 name: xAxisLabel
             },

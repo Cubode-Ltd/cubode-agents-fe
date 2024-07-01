@@ -42,7 +42,7 @@ class ColorScale {
     };
 
     static getColorScale(colorScaleAttr, color1, color2, dataLength) {
-        if (colorScaleAttr === 'custom') {
+        if (colorScaleAttr === 'custom' || colorScaleAttr === 'Custom') {
             return d3.scaleSequential(d3.interpolateRgb(color1, color2)).domain([0, dataLength - 1]);
         } else {
             return d3.scaleSequential(ColorScale.colorScales[colorScaleAttr] || d3.interpolateViridis).domain([0, dataLength - 1]);
