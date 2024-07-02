@@ -36,7 +36,7 @@ export const formSchema = {
         "aggregation": {
             "type": "string",
             "title": "Aggregation Function",
-            "enum": ["None", "Sum", "Mean", "Max", "Min"],
+            "enum": ["Sum", "Mean", "Max", "Min"],
             "default": "Sum",
             "options": {
                 "inputAttributes": {

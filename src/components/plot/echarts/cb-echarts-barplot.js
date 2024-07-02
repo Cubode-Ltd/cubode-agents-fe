@@ -19,6 +19,7 @@ template.innerHTML = `
     <div class="cb-echart-barplot relative w-full overflow-hidden" style="height:40vh;">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-modal class="absolute top-0"></cb-plot-modal>
+        <cb-plot-sidebar class="absolute top-0"></cb-plot-sidebar>
     </div>
 `;
 
@@ -168,11 +169,11 @@ class BarPlot extends HTMLElement {
             aggregatedData.length
         );
     
-        const xAxisData = aggregatedData.map(item => item[0]); // Group keys for x-axis
+        const xAxisData = aggregatedData.map(item => item[0]);
     
         series.data = aggregatedData.map((item, index) => ({
-            value: item[1][validColumns[0]], // Using the first valid column for the value
-            name: item[0], // The group key (e.g., "Female" or "Male")
+            value: item[1][validColumns[0]],
+            name: item[0],
             itemStyle: { color: scale(index) }
         }));
     
