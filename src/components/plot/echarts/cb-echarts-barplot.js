@@ -191,13 +191,15 @@ class BarPlot extends HTMLElement {
         let colorScale = this.getAttribute('color-scale') || 'Viridis';
         let colorPrimary = this.getAttribute('color-primary') || '#000000';
         let colorSecundary = this.getAttribute('color-secundary') || '#ffffff';
-        let showBackground = this.getAttribute('showBackground') || false;
+        let showBackground = this.getAttribute('show-background') === 'true' || false;
 
         const plotData = this.plotData();
         let seriesData = plotData.series;
         const xAxisData = plotData.xAxisData;
 
-        seriesData = {...seriesData, showBackground: true}
+        seriesData = {...seriesData, showBackground: showBackground}
+
+        console.log("BLASTOISER: ",showBackground)
         this.option = {
             title: {
                 text: title,
