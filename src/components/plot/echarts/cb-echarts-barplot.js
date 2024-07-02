@@ -56,7 +56,7 @@ class BarPlot extends HTMLElement {
     }
 
     handleFormSubmit(value) {
-        console.log("values", value);
+        console.log("aaa", value);
         Object.keys(value).forEach(key => {
             this.setAttribute(key, value[key]);
         });
@@ -116,15 +116,16 @@ class BarPlot extends HTMLElement {
         }
     }
 
-    plotData() {
+    plotData(seriesName) {
         let columnCategory = this.getAttribute('column-category') || '';
         let columnsValues = this.getAttribute('column-values') || '';
         let aggregation = this.getAttribute('aggregation') || '';
+        aggregation = aggregation === '' ? 'none' : aggregation.toLowerCase();
 
-        aggregation = aggregation.toLowerCase();
+
         let series = {
             'type': 'bar', 
-            'name': '',
+            'name': seriesName,
             'data': [],
             'style': {
                 'color': 'black'
@@ -180,30 +181,29 @@ class BarPlot extends HTMLElement {
             xAxisData
         };
     }
-
+    
     updateOption() {
         let title = this.getAttribute('title') || 'Bar Plot';
         let xAxisLabel = this.getAttribute('x-axis-label') || '';
         let yAxisLabel = this.getAttribute('y-axis-label') || '';
-
+    
         let subtitle = this.getAttribute('subtitle') || '';
         let legendPosition = this.getAttribute('legend-position') || '';
-        let colorScale = this.getAttribute('color-scale') || 'Viridis';
-        let colorPrimary = this.getAttribute('color-primary') || '#000000';
-        let colorSecundary = this.getAttribute('color-secundary') || '#ffffff';
         let showBackground = this.getAttribute('show-background') === 'true' || false;
+        let seriesName = this.getAttribute('series-name') || 'Series';  // Add a series name attribute
 
-        const plotData = this.plotData();
+    
+        const plotData = this.plotData(seriesName);
         let seriesData = plotData.series;
         const xAxisData = plotData.xAxisData;
-
+    
         seriesData = {...seriesData, showBackground: showBackground}
-
-        console.log("BLASTOISER: ",showBackground)
+        
         this.option = {
             title: {
                 text: title,
-                left: 'center'
+                subtext: subtitle,
+                left: 'center',
             },
             tooltip: {},
             xAxis: {
@@ -214,10 +214,16 @@ class BarPlot extends HTMLElement {
             yAxis: {
                 name: yAxisLabel
             },
-            series: [seriesData],
+            series: seriesData,
             animationDuration: 1000
         };
-
+    
+        // if (legendPosition !== 'none') {
+        //     this.option.legend = {
+        //         data: ['blastoiser'],
+        //         left: legendPosition
+        //     };
+        // }
         this.chart_.setOption(this.option);
     }
 

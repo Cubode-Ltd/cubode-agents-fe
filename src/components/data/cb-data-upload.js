@@ -60,6 +60,8 @@ template.innerHTML = `
                 </svg>
             </div>
         </div>
+        <label class="w-fit pl-0.5 mt-2 mb-2 text-sm text-neutral-800 dark:text-neutral-300 font-bold" for="fileInput">Select your Files</label>
+        <slot></slot>
     </div>
 `;
 

@@ -6,7 +6,7 @@ template.innerHTML = `
         @import "./css/main.css";
     </style>
     <div class="data-source-selector">
-        <select id="data-source-selector" class="mb-3 p-2 rounded-xl border ml-3"></select>
+        <select id="data-source-selector" class="mb-3 p-2 rounded-2xl border border-neutral-300 w-full"></select>
     </div>
 `;
 
