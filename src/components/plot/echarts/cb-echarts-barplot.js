@@ -121,6 +121,9 @@ class BarPlot extends HTMLElement {
     
         if (this.modal) {
             this.modal.schema = this.formSchema;
+        }    
+        if (this.sidebar) {
+            this.sidebar.schema = this.formSchema;
         }
     }
 
