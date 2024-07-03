@@ -22,6 +22,7 @@ import "./components/plot/cb-plot-modal.js"
 import "./components/plot/cb-plot-sidebar.js"
 
 import "./components/plot/echarts/cb-echarts-barplot.js"
+import "./components/plot/echarts/cb-echarts-piechart.js"
 import "./components/plot/cb-plot-container.js"
 
 import "./components/layout/cb-container.js"
