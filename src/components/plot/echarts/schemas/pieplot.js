@@ -95,6 +95,20 @@ export const formSchema = {
         //         }
         //     }
         // },
+        "pie-type": {
+            "type": "string",
+            "title": "Pie Type",
+            "enum": ["Basic", "Ring", "Rose"],
+            "default": "Basic",
+            "options": {
+                "inputAttributes": {
+                    "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
+                },
+                "containerAttributes": {
+                    "class": "mt-2 text-sm text-gray-600 font-bold"
+                }
+            }
+        },
         "legend-position": {
             "type": "string",
             "title": "Legend Position",

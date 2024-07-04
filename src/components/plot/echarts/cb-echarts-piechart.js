@@ -147,16 +147,30 @@ class PiePlot extends HTMLElement {
     let columnCategory = this.getAttribute("column-category") || "";
     let columnsValues = this.getAttribute("column-values") || "";
     let aggregation = this.getAttribute("aggregation") || "";
+    let typePie = this.getAttribute("pie-type") || "";
     aggregation = aggregation === "" ? "none" : aggregation.toLowerCase();
+
+    let radius = typePie === "Ring" ? ["40%", "70%"] : "50%";
+    let rose = typePie == "Rose" ? "area" : "";
 
     let series = {
       type: "pie",
       name: seriesName,
+      radius: radius,
+      roseType: rose,
       data: [],
       style: {
         color: "black",
       },
     };
+
+    if (typePie === "Ring" || typePie ==="Rose") {
+      series.itemStyle = {
+        borderRadius: 5,
+        borderColor: "#fff",
+        borderWidth: 2,
+      };
+    }
 
     // TODO: ADD LOGIC TO GET THE DATA IF THERE IS A HASH / FILENAME.
     if (!this.data_ || columnCategory === "" || columnsValues === "") {
@@ -198,7 +212,7 @@ class PiePlot extends HTMLElement {
       this.getAttribute("color-secundary") || "#ffffff",
       aggregatedData.length
     );
-    
+
     series.data = aggregatedData.map((item, index) => ({
       value: item[1][validColumns[0]],
       name: item[0],
@@ -210,7 +224,6 @@ class PiePlot extends HTMLElement {
       (item) =>
         !(item.value === 0 && (item.name === null || item.name === undefined))
     );
-
 
     return {
       series,
@@ -227,7 +240,6 @@ class PiePlot extends HTMLElement {
     const plotData = this.plotData(seriesName);
     let seriesData = plotData.series;
 
-
     seriesData = { ...seriesData };
 
     this.option = {
@@ -237,10 +249,9 @@ class PiePlot extends HTMLElement {
         left: "center",
       },
       legend: {
-        show:legendPosition !== 'none',
-        orient: 'vertical',
+        show: legendPosition !== "none",
+        orient: "vertical",
         left: legendPosition,
-
       },
       emphasis: {
         itemStyle: {
@@ -253,7 +264,7 @@ class PiePlot extends HTMLElement {
       tooltip: { trigger: "item" },
       series: seriesData,
       animationDuration: 1000,
-    }
+    };
 
     this.chart_.setOption(this.option);
   }
