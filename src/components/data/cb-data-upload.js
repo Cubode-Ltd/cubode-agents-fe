@@ -4,7 +4,7 @@ const template = document.createElement('template');
 template.innerHTML = `
     <style>@import "./css/main.css";</style>
 
-    <div class="cb-data-upload container mx-auto px-4 sm:w-full lg:w-1/2 bg-green-800 border pb-2 pt-3 rounded-2xl shadow-lg flex-col gap-1 my-3">
+    <div class="cb-data-upload container mx-auto px-4 sm:w-full lg:w-1/2 bg-white border pb-2 pt-3 rounded-2xl shadow-lg flex-col gap-1 my-3">
     
     <label class="w-fit pl-0.5 mb-2 text-sm text-neutral-800 dark:text-neutral-300 font-bold" for="fileInput">Load your File</label>
         <input id="fileInput" type="file" class="w-full overflow-clip rounded-2xl border border-neutral-300 bg-neutral-200/50 text-sm text-neutral-800 file:mr-4 file:cursor-pointer file:border-none file:bg-neutral-200 file:px-4 file:py-2 file:font-medium file:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-neutral-300 dark:file:bg-neutral-900 dark:file:text-neutral-100 dark:focus-visible:outline-blue-400" />
