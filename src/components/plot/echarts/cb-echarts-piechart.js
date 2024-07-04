@@ -159,12 +159,21 @@ class PiePlot extends HTMLElement {
       },
     };
 
-    if (typePie === "Ring" || typePie === "Rose") {
+    if (typePie === "Ring") {
       series.itemStyle = {
         borderRadius: 5,
         borderColor: "#fff",
         borderWidth: 2,
       };
+    }
+
+    if (typePie === "Rose") {
+      (series.radius = ["15%", "80%"]),
+        (series.itemStyle = {
+          borderRadius: 5,
+          borderColor: "#fff",
+          borderWidth: 2,
+        });
     }
 
     if (!this.data_ || columnCategory === "" || columnsValues === "") {
@@ -181,8 +190,7 @@ class PiePlot extends HTMLElement {
     this.df = new DataFrame(this.data_);
     const grouped = this.df.groupBy(columnCategory);
 
-    console.log(grouped,'<<Grouped');
-    
+    console.log(grouped, "<<Grouped");
 
     const aggregations = {
       sum: (df, col) => df.stat.sum(col),
@@ -199,7 +207,10 @@ class PiePlot extends HTMLElement {
       })
       .toArray();
 
-    const totalSum = aggregatedData.reduce((acc, item) => acc + item[1][validColumns[0]], 0);
+    const totalSum = aggregatedData.reduce(
+      (acc, item) => acc + item[1][validColumns[0]],
+      0
+    );
 
     const scale = ColorScale.getColorScale(
       this.getAttribute("color-scale") || "Viridis",
@@ -208,25 +219,20 @@ class PiePlot extends HTMLElement {
       aggregatedData.length
     );
 
-    console.log(series.data,'<<<<DAta series before cleaning');
-    
-
     series.data = series.data.filter(
       (item) =>
-        !(item.value === 0 (item.name === null || item.name === undefined))
+        !(item.value === 0(item.name === null || item.name === undefined))
     );
     series.data = aggregatedData.map((item, index) => ({
       value: item[1][validColumns[0]],
       name: item[0],
       itemStyle: { color: scale(index) },
-      percentage: ((item[1][validColumns[0]] / totalSum) * 100).toFixed(2) + '%',
+      percentage:
+        ((item[1][validColumns[0]] / totalSum) * 100).toFixed(2) + "%",
     }));
 
-    series.data.pop()
-
-    console.log(series.data);
-    
-
+    // This is a not a good way to clean the dataset
+    series.data.pop();
 
     return {
       series,
@@ -235,10 +241,10 @@ class PiePlot extends HTMLElement {
 
   updateOption() {
     let title = this.getAttribute("title") || "Pie Plot";
-
     let subtitle = this.getAttribute("subtitle") || "";
     let seriesName = this.getAttribute("series-name") || "Series";
     let legendPosition = this.getAttribute("legend-position") || "";
+    let showPercentage = this.getAttribute("show-percentage") === "true";
 
     const plotData = this.plotData(seriesName);
     let seriesData = plotData.series;
@@ -255,7 +261,6 @@ class PiePlot extends HTMLElement {
         show: legendPosition !== "none",
         orient: "vertical",
         left: legendPosition,
-      
       },
       emphasis: {
         itemStyle: {
@@ -264,16 +269,19 @@ class PiePlot extends HTMLElement {
           shadowColor: "rgba(0, 0, 0, 0.5)",
         },
       },
-
       tooltip: {
         trigger: "item",
-        formatter: (params) => {
-          return `${params.name}: ${params.value} (${params.data.percentage})`;
-        },
       },
       series: seriesData,
       animationDuration: 1000,
     };
+
+    if (showPercentage) {
+      this.option.tooltip.formatter = (params) =>
+        `${params.name}: ${params.value} (${params.data.percentage})`;
+    } else {
+      this.option.tooltip.formatter = undefined;
+    }
 
     this.chart_.setOption(this.option);
   }
