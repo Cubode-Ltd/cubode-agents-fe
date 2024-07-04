@@ -36,7 +36,7 @@ export const formSchema = {
         "aggregation": {
             "type": "string",
             "title": "Aggregation Function",
-            "enum": ["Sum","Count","Percentage"],
+            "enum": ["Sum", "Mean", "Max", "Min"],
             "default": "Sum",
             "options": {
                 "inputAttributes": {
@@ -71,58 +71,44 @@ export const formSchema = {
                 }
             }
         },
-        // "x-axis-label": {
-        //     "type": "string",
-        //     "title": "X-Axis Label",
-        //     "options": {
-        //         "inputAttributes": {
-        //             "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
-        //         },
-        //         "containerAttributes": {
-        //             "class": "mt-2 text-sm text-gray-600 font-bold"
-        //         }
-        //     }
-        // },
-        // "y-axis-label": {
-        //     "type": "string",
-        //     "title": "Y-Axis Label",
-        //     "options": {
-        //         "inputAttributes": {
-        //             "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
-        //         },
-        //         "containerAttributes": {
-        //             "class": "mt-2 text-sm text-gray-600 font-bold"
-        //         }
-        //     }
-        // },
-        "pie-type": {
+        "x-axis-label": {
             "type": "string",
-            "title": "Pie Type",
-            "enum": ["Basic", "Ring", "Rose"],
-            "default": "Basic",
+            "title": "X-Axis Label",
             "options": {
                 "inputAttributes": {
-                    "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
+                    "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
                 "containerAttributes": {
                     "class": "mt-2 text-sm text-gray-600 font-bold"
                 }
             }
         },
-        "legend-position": {
+        "y-axis-label": {
             "type": "string",
-            "title": "Legend Position",
-            "enum": ["none", "left", "right"],
-            "default": "right",
+            "title": "Y-Axis Label",
             "options": {
                 "inputAttributes": {
-                    "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
+                    "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
                 },
                 "containerAttributes": {
                     "class": "mt-2 text-sm text-gray-600 font-bold"
                 }
             }
         },
+        // "legend-position": {
+        //     "type": "string",
+        //     "title": "Legend Position",
+        //     "enum": ["none", "left", "right", "top", "bottom"],
+        //     "default": "top",
+        //     "options": {
+        //         "inputAttributes": {
+        //             "class": "w-full mb-4 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
+        //         },
+        //         "containerAttributes": {
+        //             "class": "mt-2 text-sm text-gray-600 font-bold"
+        //         }
+        //     }
+        // },
         "color-scale": {
             "type": "string",
             "title": "Color Scale",
@@ -176,46 +162,46 @@ export const formSchema = {
                 }
             }
         },
-        // "color-primary": {
-        //     "type": "string",
-        //     "format": "color",
-        //     "title": "Color Primary",
+        "color-primary": {
+            "type": "string",
+            "format": "color",
+            "title": "Color Primary",
             
-        //     "options": {
-        //         "inputAttributes": {
-        //             "class": "w-20 h-12 bg-transparent text-blue-gray-700 outline-none focus:outline-none transition-all border border-blue-gray-200 focus:border-2 text-sm px-3 py-2.5 rounded-xl focus:border-gray-300 cursor-pointer",
+            "options": {
+                "inputAttributes": {
+                    "class": "w-20 h-12 bg-transparent text-blue-gray-700 outline-none focus:outline-none transition-all border border-blue-gray-200 focus:border-2 text-sm px-3 py-2.5 rounded-xl focus:border-gray-300 cursor-pointer",
 
-        //         },
-        //         "containerAttributes": {
-        //             "class": "mt-2 text-sm text-gray-600 font-bold"
-        //         }
-        //     }
-        // },
-        // "color-secundary": {
-        //     "type": "string",
-        //     "format": "color",
-        //     "title": "Color Secondary",
-        //     "options": {
-        //         "inputAttributes": {
-        //             "class": "w-20 h-12 bg-transparent text-blue-gray-700 outline-none focus:outline-none transition-all border border-blue-gray-200 focus:border-2 text-sm px-3 py-2.5 rounded-xl focus:border-gray-300 cursor-pointer"
-        //         },
-        //         "containerAttributes": {
-        //             "class": "mt-2 text-sm text-gray-600 font-bold"
-        //         }
-        //     }
-        // },
-        // "show-background": {
-        //     "type": "boolean",
-        //     "format": "bool",
-        //     "title": "Show Background",
-        //     "options": {
-        //       "inputAttributes": {
-        //             "class": "w-20 h-12 bg-transparent text-blue-gray-700 outline-none focus:outline-none transition-all border border-blue-gray-200 focus:border-2 text-sm px-3 py-2.5 rounded-xl focus:border-gray-300 cursor-pointer"
-        //         },
-        //         "containerAttributes": {
-        //             "class": "mt-2 text-sm text-gray-600 font-bold"
-        //         }
-        //     }
-        // }
+                },
+                "containerAttributes": {
+                    "class": "mt-2 text-sm text-gray-600 font-bold"
+                }
+            }
+        },
+        "color-secundary": {
+            "type": "string",
+            "format": "color",
+            "title": "Color Secondary",
+            "options": {
+                "inputAttributes": {
+                    "class": "w-20 h-12 bg-transparent text-blue-gray-700 outline-none focus:outline-none transition-all border border-blue-gray-200 focus:border-2 text-sm px-3 py-2.5 rounded-xl focus:border-gray-300 cursor-pointer"
+                },
+                "containerAttributes": {
+                    "class": "mt-2 text-sm text-gray-600 font-bold"
+                }
+            }
+        },
+        "show-background": {
+            "type": "boolean",
+            "format": "bool",
+            "title": "Show Background",
+            "options": {
+              "inputAttributes": {
+                    "class": "w-20 h-12 bg-transparent text-blue-gray-700 outline-none focus:outline-none transition-all border border-blue-gray-200 focus:border-2 text-sm px-3 py-2.5 rounded-xl focus:border-gray-300 cursor-pointer"
+                },
+                "containerAttributes": {
+                    "class": "mt-2 text-sm text-gray-600 font-bold"
+                }
+            }
+        }
     },
 };

@@ -6,6 +6,7 @@ import { formSchema, initialValues } from '../form/schemas/barplot'
 import { BarChart } from 'echarts/charts';
 
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent } from 'echarts/components';
+import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LegendComponent } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 
@@ -80,7 +81,7 @@ class BarPlot extends HTMLElement {
                 duration: 500,
                 easing: 'cubicInOut',
             },
-        });;
+        });
 
         if (this.modal) {
             this.modal.initialValues = this.initialValues;
@@ -97,7 +98,6 @@ class BarPlot extends HTMLElement {
         }
 
         window.addEventListener('data-selected', this.handleDataSetSelected);
-
     }
 
     disconnectedCallback() {
@@ -130,7 +130,7 @@ class BarPlot extends HTMLElement {
     
         if (this.modal) {
             this.modal.schema = this.formSchema;
-        }    
+        }
         if (this.sidebar) {
             this.sidebar.schema = this.formSchema;
         }
@@ -140,7 +140,7 @@ class BarPlot extends HTMLElement {
         aggregation = aggregation === '' ? 'none' : aggregation.toLowerCase();
     
         let series = {
-            'type': 'bar', 
+            'type': 'bar',
             'name': seriesName,
             'data': [],
             'style': {
@@ -160,7 +160,7 @@ class BarPlot extends HTMLElement {
     
         this.df = new DataFrame(this.data_);
         const grouped = this.df.groupBy(columnCategory);
-    
+
         const aggregations = {
             'sum': (df, col) => df.stat.sum(col),
             'mean': (df, col) => df.stat.mean(col),
@@ -190,21 +190,28 @@ class BarPlot extends HTMLElement {
             secondaryColor || '#ffffff',
             aggregatedData.length
         );
-    
+
         const xAxisData = aggregatedData.map(item => item[0]);
-    
+
         series.data = aggregatedData.map((item, index) => ({
             value: item[1][validColumns[0]],
             name: item[0],
             itemStyle: { color: scale(index) }
         }));
-    
+
+        //Below attempt to extract the names to pass in the update option
+        // const labels = series.labels.map(item => item.name) 
+
+        // console.log(data,'<<<DATAAAAAAA');
+        
+        
+
         return {
             series,
             xAxisData
         };
     }
-    
+
     updateOption() {
         // Chart Attributes chart-xxxx
         let title = this.getAttribute('chart-title') || 'Bar Plot';
@@ -265,6 +272,12 @@ class BarPlot extends HTMLElement {
             },
             yAxis: {
                 name: yAxisLabel
+            },
+            legend: {
+                show: legendPosition !== 'none',
+                orient: 'vertical',
+                left: legendPosition,
+                // data: labels  // Set legend data to category labels
             },
             series: seriesData,
             animationDuration: 1000
