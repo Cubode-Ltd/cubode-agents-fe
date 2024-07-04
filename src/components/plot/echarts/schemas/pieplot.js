@@ -36,7 +36,7 @@ export const formSchema = {
         "aggregation": {
             "type": "string",
             "title": "Aggregation Function",
-            "enum": ["Sum"],
+            "enum": ["Sum","Count","Percentage"],
             "default": "Sum",
             "options": {
                 "inputAttributes": {
@@ -98,7 +98,7 @@ export const formSchema = {
         "legend-position": {
             "type": "string",
             "title": "Legend Position",
-            "enum": ["none", "left", "right", "top", "bottom"],
+            "enum": ["none", "left", "right"],
             "default": "right",
             "options": {
                 "inputAttributes": {
