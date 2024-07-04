@@ -33,6 +33,10 @@ module.exports = {
                     'css-loader',
                     'postcss-loader',
                 ],
+            },
+            {
+                test: /\.svg$/,
+                use: 'file-loader'
             }
         ]
     },
