@@ -31,7 +31,7 @@
     "@rjsf/core": "^5.18.4",
     "@rjsf/validator-ajv8": "^5.18.4",
     "@shoelace-style/shoelace": "^2.15.1",
-    "ag-grid-community": "^32.0.0",
+    "ag-grid-community": "^31.3.2",
     "axios": "^1.7.2",
     "d3": "^7.9.0",
     "dataframe-js": "^1.4.4",

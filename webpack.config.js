@@ -1,12 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        index: './src/index.js',
+        login: './src/login.js',
+        register: './src/register.js'
+    },
+
     output: {
         path: path.resolve(__dirname, 'dist/dev/'),
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
     },
 
     module: {
@@ -35,7 +39,19 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: './src/html/index.html',
+            filename: 'index.html',
+            chunks: ['index']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/html/login.html',
+            filename: 'login.html',
+            chunks: ['login']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/html/register.html',
+            filename: 'register.html',
+            chunks: ['register']
         }),
     ],
 
