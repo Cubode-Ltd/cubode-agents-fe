@@ -21,6 +21,15 @@ class DataScience {
     static max(values) {
         return Math.max(...values);
     }
+
+    static count(values) {
+        return values.length;
+    }
+
+    static percentage(values) {
+        const total = DataScience.sum(values);
+        return values.map(value => (value / total) * 100);
+    }
 }
 
 export default DataScience;

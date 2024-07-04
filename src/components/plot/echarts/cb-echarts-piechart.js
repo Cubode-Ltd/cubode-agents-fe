@@ -13,6 +13,7 @@ import {
   GridComponent,
   DatasetComponent,
   TransformComponent,
+  LegendComponent,
 } from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
@@ -20,6 +21,7 @@ echarts.use([
   PieChart,
   TitleComponent,
   TooltipComponent,
+  LegendComponent,
   GridComponent,
   DatasetComponent,
   TransformComponent,
@@ -196,25 +198,22 @@ class PiePlot extends HTMLElement {
       this.getAttribute("color-secundary") || "#ffffff",
       aggregatedData.length
     );
-
-    const xAxisData = aggregatedData.map((item) => item[0]);
-
+    
     series.data = aggregatedData.map((item, index) => ({
       value: item[1][validColumns[0]],
       name: item[0],
       itemStyle: { color: scale(index) },
     }));
 
-    // THE CODE BELOW CLEAN THE DATA BEFORE USE IT 
-    series.data = series.data.filter(item => !(item.value === 0 && (item.name === null || item.name === undefined)));
+    // THE CODE BELOW CLEAN THE DATA BEFORE USE IT
+    series.data = series.data.filter(
+      (item) =>
+        !(item.value === 0 && (item.name === null || item.name === undefined))
+    );
 
-    const legendData = series.data.map(item =>({ name:item.name,value:item.value}));
-    
-    console.log(legendData,'legen');
+
     return {
       series,
-      xAxisData,
-      legendData
     };
   }
 
@@ -223,18 +222,13 @@ class PiePlot extends HTMLElement {
 
     let subtitle = this.getAttribute("subtitle") || "";
     let seriesName = this.getAttribute("series-name") || "Series"; // Add a series name attribute
-    let legendPosition = this.getAttribute('legend-position') || '';
+    let legendPosition = this.getAttribute("legend-position") || "";
 
     const plotData = this.plotData(seriesName);
     let seriesData = plotData.series;
-    let legendData = plotData.legendData;
-    console.log(legendData,'Data legend inside update');
-    
+
 
     seriesData = { ...seriesData };
-
-    console.log(seriesData.data,'Series Data');
-  
 
     this.option = {
       title: {
@@ -243,27 +237,23 @@ class PiePlot extends HTMLElement {
         left: "center",
       },
       legend: {
-        show:true,
+        show:legendPosition !== 'none',
         orient: 'vertical',
         left: legendPosition,
-        data:legendData,
+
       },
       emphasis: {
-
         itemStyle: {
           shadowBlur: 10,
           shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }},
-      
+          shadowColor: "rgba(0, 0, 0, 0.5)",
+        },
+      },
+
       tooltip: { trigger: "item" },
       series: seriesData,
       animationDuration: 1000,
-    };
-
-
-    console.log(this.option);
-    
+    }
 
     this.chart_.setOption(this.option);
   }
