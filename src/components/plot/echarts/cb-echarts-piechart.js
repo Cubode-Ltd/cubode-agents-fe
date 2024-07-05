@@ -11,7 +11,7 @@ import {
   GridComponent,
   DatasetComponent,
   TransformComponent,
-  LegendComponent,
+  LegendComponent,ToolboxComponent 
 } from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
@@ -25,7 +25,7 @@ echarts.use([
   TransformComponent,
   LabelLayout,
   UniversalTransition,
-  CanvasRenderer,
+  CanvasRenderer,ToolboxComponent
 ]);
 
 const template = document.createElement("template");
@@ -190,8 +190,6 @@ class PiePlot extends HTMLElement {
     this.df = new DataFrame(this.data_);
     const grouped = this.df.groupBy(columnCategory);
 
-    console.log(grouped, "<<Grouped");
-
     const aggregations = {
       sum: (df, col) => df.stat.sum(col),
       count: (df, col) => df.count(),
@@ -223,13 +221,28 @@ class PiePlot extends HTMLElement {
       (item) =>
         !(item.value === 0(item.name === null || item.name === undefined))
     );
-    series.data = aggregatedData.map((item, index) => ({
-      value: item[1][validColumns[0]],
-      name: item[0],
-      itemStyle: { color: scale(index) },
-      percentage:
-        ((item[1][validColumns[0]] / totalSum) * 100).toFixed(2) + "%",
-    }));
+
+    // series.data = aggregatedData.map((item, index) => ({
+    //   value: item[1][validColumns[0]].toFixed(2),
+    //   name: item[0],
+    //   itemStyle: { color: scale(index) },
+    //   percentage:
+    //     ((item[1][validColumns[0]] / totalSum) * 100).toFixed(2) + "%",
+    // }));
+
+    series.data = aggregatedData.map((item, index) => {
+      let value = item[1][validColumns[0]];
+      if (value % 1 !== 0) {
+        value = value.toFixed(2); // Round the value to two decimal places only if it has decimals
+      }
+      return {
+        value: value,
+        name: item[0],
+        itemStyle: { color: scale(index) },
+        percentage:
+          ((item[1][validColumns[0]] / totalSum) * 100).toFixed(2) + "%", // Round the percentage to two decimal places
+      };
+    });
 
     // This is a not a good way to clean the dataset
     series.data.pop();
@@ -257,9 +270,13 @@ class PiePlot extends HTMLElement {
         subtext: subtitle,
         left: "center",
       },
+      label: {
+        formatter: "{b}: {c} ({d}%)",
+      },
       legend: {
         show: legendPosition !== "none",
         orient: "vertical",
+        top: '15%',
         left: legendPosition,
       },
       emphasis: {
@@ -272,15 +289,28 @@ class PiePlot extends HTMLElement {
       tooltip: {
         trigger: "item",
       },
+      toolbox: {
+        feature: {
+          saveAsImage: {
+            title: "Save as Image",
+            type: "png",
+            backgroundColor: "#fff",
+            pixelRatio: 2,
+          },
+        },
+      },
+
       series: seriesData,
       animationDuration: 1000,
     };
 
     if (showPercentage) {
+      this.option.label.formatter = "{b}: {c} ({d}%)";
       this.option.tooltip.formatter = (params) =>
         `${params.name}: ${params.value} (${params.data.percentage})`;
     } else {
       this.option.tooltip.formatter = undefined;
+      this.option.label.formatter = "{b}: {c} ";
     }
 
     this.chart_.setOption(this.option);
