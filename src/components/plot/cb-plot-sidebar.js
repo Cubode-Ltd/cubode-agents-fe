@@ -1,11 +1,11 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormComponent from './form/cb-form-json'; // './form/cb-form-json';  './form/cb-form-json-2';
+import FormComponent from './form/cb-form-json';
 
 const sidebarTemplate = document.createElement('template');
 sidebarTemplate.innerHTML = 
   `<style>
-    @import "../../css/main.css";
+    @import "dev/css/main.css";
     .sidebar {
       transition: transform 0.3s ease, opacity 0.3s ease;
     }

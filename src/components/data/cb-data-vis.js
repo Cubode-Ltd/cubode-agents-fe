@@ -3,7 +3,7 @@ import { createGrid } from 'ag-grid-community';
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
-        @import "./css/main.css";
+        @import "dev/css/main.css";
         .cb-data-visual {
             display: flex;
             flex-direction: column;

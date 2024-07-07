@@ -2,7 +2,7 @@ import dataNursery from '../data/DataNursery';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "./css/main.css";</style>
+    <style>@import "dev/css/main.css";</style>
 
     <div class="cb-data-upload container mx-auto px-4 sm:w-full lg:w-1/2 bg-white border pb-2 pt-3 rounded-2xl shadow-lg flex-col gap-1 my-3">
     

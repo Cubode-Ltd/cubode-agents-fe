@@ -3,7 +3,7 @@ import { Resizable } from './Corners.js';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "./css/main.css"</style>
+    <style>@import "dev/css/main.css"</style>
     <cb-shape></cb-shape>
 `;
 

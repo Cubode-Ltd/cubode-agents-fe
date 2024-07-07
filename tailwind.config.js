@@ -1,10 +1,9 @@
 module.exports = {
-  purge: ['./dist/*.html'],
-
   content: [
     "./src/**/*.{html,js}",
     "./src/**/**/*.{html,js}",
     "./src/**/**/**/*.{html,js}",
+    "./src/**/**/**/**/*.{html,js}",
     "./src/*.{html,js}",
   ],
   darkMode: 'class',

@@ -1,6 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "./css/main.css";</style>
+    <style>@import "dev/css/main.css";</style>
 
     <svg style="z-index:0;" class="fill-white dark:fill-gray-800 overflow-visible" x="0" y="0" width="100%" height="100%">    
         <defs>
