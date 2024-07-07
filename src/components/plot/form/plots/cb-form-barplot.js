@@ -1,7 +1,10 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
+
+
 import { SketchPicker } from 'react-color';
 import TagifyField from './cb-form-tagify';
+import AdvancedTagifyField from './cb-form-tagify-advanced';
 
 class FormikComponent extends React.Component {
   render() {
@@ -29,6 +32,11 @@ class FormikComponent extends React.Component {
               <div>
                 <label htmlFor="tags">Tags</label>
                 <Field name="tags" component={TagifyField} />
+              </div>
+
+              <div>
+                <label htmlFor="tags2">Tags</label>
+                <Field name="tags2" component={AdvancedTagifyField} />
               </div>
 
               <div>

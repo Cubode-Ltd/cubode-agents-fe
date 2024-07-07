@@ -23,6 +23,7 @@ export const formSchema = {
         "column-values": {
             "type": "string",
             "enum": [],
+            "format": "tagify", 
             "title": "Value Column(s)",
             "options": {
                 "inputAttributes": {

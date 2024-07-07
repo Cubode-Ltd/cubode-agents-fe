@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Tagify from '@yaireo/tagify';
+import "../../../../css/main.css";
 
 const TagifyField = ({ field, form }) => {
   const tagifyRef = useRef();
@@ -21,90 +22,7 @@ const TagifyField = ({ field, form }) => {
         dropdownHeader: dropdownHeaderTemplate
       },
       whitelist: [
-        {
-          value: 1,
-          name: "Justinian Hattersley",
-          avatar: "https://i.pravatar.cc/80?img=1",
-          email: "jhattersley0@ucsd.edu",
-          team: "A"
-        },
-        {
-          value: 2,
-          name: "Antons Esson",
-          avatar: "https://i.pravatar.cc/80?img=2",
-          email: "aesson1@ning.com",
-          team: "B"
-        },
-        {
-          value: 3,
-          name: "Ardeen Batisse",
-          avatar: "https://i.pravatar.cc/80?img=3",
-          email: "abatisse2@nih.gov",
-          team: "A"
-        },
-        {
-          value: 4,
-          name: "Graeme Yellowley",
-          avatar: "https://i.pravatar.cc/80?img=4",
-          email: "gyellowley3@behance.net",
-          team: "C"
-        },
-        {
-          value: 5,
-          name: "Dido Wilford",
-          avatar: "https://i.pravatar.cc/80?img=5",
-          email: "dwilford4@jugem.jp",
-          team: "A"
-        },
-        {
-          value: 6,
-          name: "Celesta Orwin",
-          avatar: "https://i.pravatar.cc/80?img=6",
-          email: "corwin5@meetup.com",
-          team: "C"
-        },
-        {
-          value: 7,
-          name: "Sally Main",
-          avatar: "https://i.pravatar.cc/80?img=7",
-          email: "smain6@techcrunch.com",
-          team: "A"
-        },
-        {
-          value: 8,
-          name: "Grethel Haysman",
-          avatar: "https://i.pravatar.cc/80?img=8",
-          email: "ghaysman7@mashable.com",
-          team: "B"
-        },
-        {
-          value: 9,
-          name: "Marvin Mandrake",
-          avatar: "https://i.pravatar.cc/80?img=9",
-          email: "mmandrake8@sourceforge.net",
-          team: "B"
-        },
-        {
-          value: 10,
-          name: "Corrie Tidey",
-          avatar: "https://i.pravatar.cc/80?img=10",
-          email: "ctidey9@youtube.com",
-          team: "A"
-        },
-        {
-          value: 11,
-          name: "foo",
-          avatar: "https://i.pravatar.cc/80?img=11",
-          email: "foo@bar.com",
-          team: "B"
-        },
-        {
-          value: 12,
-          name: "foo",
-          avatar: "https://i.pravatar.cc/80?img=12",
-          email: "foo.aaa@foo.com",
-          team: "A"
-        },
+        // Your whitelist items...
       ],
     });
 
@@ -120,12 +38,15 @@ const TagifyField = ({ field, form }) => {
   }, [field.name, form]);
 
   return (
-    <input
-      type="text"
-      ref={inputRef}
-      defaultValue={field.value}
-      onChange={(e) => form.setFieldValue(field.name, e.target.value)}
-    />
+    <div className="w-full">
+      <input
+        type="text"
+        ref={inputRef}
+        defaultValue={field.value}
+        onChange={(e) => form.setFieldValue(field.name, e.target.value)}
+        className="w-full p-2 border border-gray-300 rounded"
+      />
+    </div>
   );
 };
 

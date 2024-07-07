@@ -6,7 +6,7 @@ const template = document.createElement('template');
 template.innerHTML = `
   <style>@import "dev/css/main.css";</style>
   
-  <div class="relative container mx-auto w-full overflow-hidden p-10 rounded-lg border-4 bg-green-100">
+  <div class="container mx-auto px-4 sm:w-full lg:w-1/2 bg-white border pb-2 pt-3 rounded-2xl shadow-lg flex-col gap-1 my-3">
     <div class="react-component w-full"></div>
   </div>
 `;
