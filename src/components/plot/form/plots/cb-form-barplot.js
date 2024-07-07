@@ -6,7 +6,7 @@ import TagifyField from './cb-form-tagify';
 class FormikComponent extends React.Component {
   render() {
     return (
-      <div className="p-4 border rounded-md shadow-md bg-green-700">
+      <div className="p-4 border rounded-md shadow-md">
         <h1 className="text-2xl font-bold mb-4">Formik Inside Web Component</h1>
         <Formik
           initialValues={{ email: '', colors: '', color: '' }}

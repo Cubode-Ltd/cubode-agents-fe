@@ -4,11 +4,9 @@ import FormikComponent from './plots/cb-form-barplot';
 
 const template = document.createElement('template');
 template.innerHTML = `
-  <style>
-    @import "dev/css/main.css";
-    @import "https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css";
-  </style>
-  <div class="relative container mx-auto w-full overflow-hidden p-10 rounded-lg border-4 bg-slate-500 border-green-600 bg-green-400">
+  <style>@import "dev/css/main.css";</style>
+  
+  <div class="relative container mx-auto w-full overflow-hidden p-10 rounded-lg border-4 bg-green-100">
     <div class="react-component w-full"></div>
   </div>
 `;
