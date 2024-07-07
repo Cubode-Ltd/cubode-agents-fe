@@ -156,12 +156,12 @@ function advancedTagTemplate(tagData) {
         contenteditable='false'
         spellcheck='false'
         tabIndex="-1"
-        class="tagify__tag ${tagData.class ? tagData.class : ""}"
+        class="tagify__tag inline-block text-sm text-white bg-blue-500 rounded px-2 py-1 mr-1 mb-1"
         ${this.getAttributes(tagData)}>
-      <x title='' class='tagify__tag__removeBtn' role='button' aria-label='remove tag'></x>
-      <div>
-        <div class='tagify__tag__avatar-wrap'>
-          <img onerror="this.style.visibility='hidden'" src="${tagData.avatar}">
+      <x title='' class='tagify__tag__removeBtn inline-block ml-1 text-xs cursor-pointer' role='button' aria-label='remove tag'>×</x>
+      <div class="inline-flex items-center">
+        <div class='tagify__tag__avatar-wrap w-4 h-4 rounded-full overflow-hidden bg-gray-200 mr-2'>
+          <img onerror="this.style.visibility='hidden'" class="w-full h-full object-cover" src="${tagData.avatar}">
         </div>
         <span class='tagify__tag-text'>${tagData.name}</span>
       </div>
@@ -172,26 +172,26 @@ function advancedTagTemplate(tagData) {
 function advancedSuggestionItemTemplate(tagData) {
   return `
     <div ${this.getAttributes(tagData)}
-        class='tagify__dropdown__item ${tagData.class ? tagData.class : ""}'
+        class='tagify__dropdown__item flex items-center p-2 cursor-pointer hover:bg-gray-100 ${tagData.class ? tagData.class : ""}'
         tabindex="0"
         role="option">
       ${tagData.avatar ? `
-        <div class='tagify__dropdown__item__avatar-wrap'>
-          <img onerror="this.style.visibility='hidden'" src="${tagData.avatar}">
+        <div class='tagify__dropdown__item__avatar-wrap w-9 h-9 rounded-full overflow-hidden bg-gray-200 mr-2'>
+          <img onerror="this.style.visibility='hidden'" class="w-full h-full object-cover" src="${tagData.avatar}">
         </div>` : ''
       }
-      <strong>${tagData.name}</strong>
-      <span>${tagData.email}</span>
+      <strong class="mr-2">${tagData.name}</strong>
+      <span class="text-gray-500 text-sm">${tagData.email}</span>
     </div>
   `;
 }
 
 function advancedDropdownHeaderTemplate(suggestions) {
   return `
-    <header data-selector='tagify-suggestions-header' class="${this.settings.classNames.dropdownItem} ${this.settings.classNames.dropdownItem}__addAll">
-      <strong style='grid-area: add'>${this.value.length ? `Add Remaining` : 'Add All'}</strong>
-      <span style='grid-area: remaining'>${suggestions.length} members</span>
-      <a class='remove-all-tags'>Remove all</a>
+    <header data-selector='tagify-suggestions-header' class="flex justify-between items-center bg-gray-100 p-2 border-b border-gray-300">
+      <strong class='text-sm'>${this.value.length ? `Add Remaining` : 'Add All'}</strong>
+      <span class='text-sm text-gray-500'>${suggestions.length} members</span>
+      <a class='remove-all-tags text-red-500 text-sm cursor-pointer'>Remove all</a>
     </header>
   `;
 }
