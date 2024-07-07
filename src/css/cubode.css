@@ -32,3 +32,28 @@ form, input, textarea, select {
 .scroll-in {
     animation: scrollIn 0.5s ease-in-out;
 }
+
+.sidebar {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.sidebar.open {
+    transform: translateX(0);
+    opacity: 1;
+}
+.sidebar.closed {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #F3F4F6; /* Tailwind color gray-500 */
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #F9FAFB; /* Tailwind color gray-200 */
+    margin-top: 10px;
+}
+
+

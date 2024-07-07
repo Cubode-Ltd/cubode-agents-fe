@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { JSONEditor } from '@json-editor/json-editor';
-import CustomReactSelectEditor from "./custom-react-select.js"
 
 
 const injectCustomStyles = (container) => {
@@ -29,7 +28,6 @@ const FormComponent = ({ schema, schemaUI, onFormSubmit }) => {
   const editorRef = useRef(null);
 
   useEffect(() => {
-    JSONEditor.defaults.editors.reactselect = CustomReactSelectEditor;
 
     const editor = new JSONEditor(editorRef.current, {
       schema: schema,
