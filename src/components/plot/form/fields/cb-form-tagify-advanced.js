@@ -150,17 +150,38 @@ const AdvancedTagifyField = ({ field, form }) => {
   );
 };
 
+
+
+function tagTemplate(tagData){
+  return `
+      <tag title="${tagData.email}"
+              contenteditable='false'
+              spellcheck='false'
+              tabIndex="-1"
+              class="tagify__tag ${tagData.class ? tagData.class : ""}"
+              ${this.getAttributes(tagData)}>
+          <x title='' class='tagify__tag__removeBtn' role='button' aria-label='remove tag'></x>
+          <div>
+              <div class='tagify__tag__avatar-wrap'>
+                  <img onerror="this.style.visibility='hidden'" src="${tagData.avatar}">
+              </div>
+              <span class='tagify__tag-text'>${tagData.name}</span>
+          </div>
+      </tag>
+  `
+}
+
 function advancedTagTemplate(tagData) {
   return `
     <tag title="${tagData.email}"
         contenteditable='false'
         spellcheck='false'
         tabIndex="-1"
-        class="tagify__tag inline-block text-sm text-white bg-blue-500 rounded px-2 py-1 mr-1 mb-1"
+        class="tagify__tag inline-block text-sm text-white rounded px-2 py-1 mr-1 mb-1"
         ${this.getAttributes(tagData)}>
-      <x title='' class='tagify__tag__removeBtn inline-block ml-1 text-xs cursor-pointer' role='button' aria-label='remove tag'>×</x>
+      <x title='' class='tagify__tag__removeBtn' role='button' aria-label='remove tag'></x>
       <div class="inline-flex items-center">
-        <div class='tagify__tag__avatar-wrap w-4 h-4 rounded-full overflow-hidden bg-gray-200 mr-2'>
+        <div class='tagify__tag__avatar-wrap w-4 h-4 rounded-full overflow-hidden  mr-2'>
           <img onerror="this.style.visibility='hidden'" class="w-full h-full object-cover" src="${tagData.avatar}">
         </div>
         <span class='tagify__tag-text'>${tagData.name}</span>

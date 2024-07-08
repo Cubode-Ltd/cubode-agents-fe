@@ -88,13 +88,10 @@ function tagTemplate(tagData) {
         contenteditable='false'
         spellcheck='false'
         tabIndex="-1"
-        class="tagify__tag no-select rounded-md ${tagData.class ? tagData.class : ""}"
+        class="tagify__tag no-select ${tagData.class ? tagData.class : ""}"
         ${this.getAttributes(tagData)}>
       <x title='' class='tagify__tag__removeBtn' role='button' aria-label='remove tag'></x>
       <div>
-        <div class='tagify__tag__avatar-wrap'>
-          <img onerror="this.style.visibility='hidden'" src="${tagData.avatar}">
-        </div>
         <span class='tagify__tag-text'>${tagData.value}</span>
       </div>
     </tag>
