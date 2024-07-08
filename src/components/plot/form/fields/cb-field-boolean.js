@@ -9,7 +9,7 @@ const ToggleButton = ({ field, form, value, label }) => {
     <button
       type="button"
       onClick={() => form.setFieldValue(field.name, value)}
-      className={`no-select min-w-28 px-4 py-2 mx-2 rounded p-1 border cursor-pointer text-sm text-white ${
+      className={`no-select min-w-28 px-4 py-2 mr-3 rounded border cursor-pointer text-sm text-white ${
         isSelected ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'
       }`}
     >
@@ -19,7 +19,7 @@ const ToggleButton = ({ field, form, value, label }) => {
 };
 
 const CustomBooleanField = ({ field, form, options }) => (
-    <div className="border rounded p-2 flex">
+    <div className="border rounded py-2 px-1 flex">
       {options.map((option) => (
         <ToggleButton
           key={option.value}
