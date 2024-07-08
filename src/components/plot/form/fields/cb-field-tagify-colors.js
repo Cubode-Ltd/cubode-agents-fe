@@ -79,6 +79,11 @@ const AdvancedTagifyField = ({ field, form }) => {
         tag: tagRenderer,
         dropdownItem: dropDownRenderer,
       },
+      transformTag: (tagData, originalData) => {
+        const { colorScale, description } = parseColorScale(tagData.colorScale);
+        tagData.colorScale = colorScale;
+        tagData.description = description || tagData.description;
+      }
     });
 
     const handleClickOutside = (event) => {
@@ -122,6 +127,7 @@ const AdvancedTagifyField = ({ field, form }) => {
         const newTag = e.detail.data;
         tagifyInstance.current.removeAllTags();
         tagifyInstance.current.addTags([newTag]);
+        form.setFieldValue(field.name, e.detail.data.colorScale); 
       }
     });
 
@@ -140,7 +146,7 @@ const AdvancedTagifyField = ({ field, form }) => {
         type="text"
         ref={inputRef}
         defaultValue={field.value}
-        onChange={(e) => form.setFieldValue(field.name, e.target.value)}
+        onChange={(e) => form.setFieldValue(field.name, extractColorScales(e.target.value))}
         className="w-full p-1 h-12 border border-gray-300 rounded"
       />
       <span 
@@ -178,7 +184,6 @@ function tagRenderer(tagData) {
   `;
 }
 
-
 function dropDownRenderer(tagData) {
   // Just Render Custom
   if (tagData.colorScale === "Custom") {
@@ -211,4 +216,18 @@ function dropDownRenderer(tagData) {
   `;
 }
 
+function parseColorScale(value) {
+  // Assuming value is in the format "Color Scale Name <optional description>"
+  var parts = value.split(/<(.*?)>/g),
+      colorScale = parts[0].trim(),
+      description = parts[1]?.replace(/<(.*?)>/g, '').trim();
+
+  return { colorScale, description }
+}
+
+function extractColorScales(input) {
+  const tags = JSON.parse(input);
+  const colorScales = tags.map(tag => tag.colorScale);
+  return colorScales;
+}
 export default AdvancedTagifyField;

@@ -1,13 +1,12 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
+import React, { useRef, useEffect, useState } from 'react';
+
+import { Formik, Form, Field, useFormikContext } from 'formik';
 
 // Fields
 import TagifyField from '../fields/cb-field-tagify';
-import AdvancedTagifyField from '../fields/cb-field-tagify-email';
 import ColorsDropdownField from '../fields/cb-field-tagify-colors';
 import ColorPickerField from '../fields/cb-field-color';
 import CustomBooleanField from '../fields/cb-field-boolean';
-
 
 const options = [
   "Column Name 1", "Column Name 2",
@@ -35,6 +34,15 @@ const initialValues = {
   mySelectField: 'option1'  // Add initial value for the select field
 }
 
+const OnChangeHandler = () => {
+  const { values } = useFormikContext();
+
+  useEffect(() => {
+    console.log('Form values changed:', values);
+  }, [values]);
+
+  return null;
+};
 
 const BarPlotForm = () => (
   <div className="p-4 border rounded-md shadow-md">
@@ -49,6 +57,7 @@ const BarPlotForm = () => (
     >
       {({ isSubmitting }) => (
         <Form className="space-y-4">
+          <OnChangeHandler />
           
           <div>
             <label htmlFor="chart-title" className='text-sm font-bold'>Chart Title</label>
@@ -98,9 +107,7 @@ const BarPlotForm = () => (
               )}
             </Field>
           </div>
-
-
-
+          
           <div className="dynamic-form">
             <div>
               <label htmlFor="mySelectField" className='text-sm font-bold'>Column Category</label>
@@ -151,16 +158,6 @@ const BarPlotForm = () => (
               <Field name="color2" component={ColorPickerField} />
             </div>
           </div>
-          
-
-
-
-
-
-
-
-
-
         </Form>
       )}
     </Formik>
