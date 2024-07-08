@@ -27,11 +27,7 @@ const selectOptions = [
 ];
 
 const initialValues = { 
-  email: '', 
-  tags: [], 
-  color: '#ffffff', 
   showBackgroundField: 'show',
-  mySelectField: 'option1'  // Add initial value for the select field
 }
 
 const OnChangeHandler = () => {
@@ -63,7 +59,7 @@ const BarPlotForm = () => (
             <label htmlFor="chart-title" className='text-sm font-bold'>Chart Title</label>
             <Field
               className="w-full p-2 border rounded-md"
-              type="chart-title"
+              type="string"
               name="chart-title"
               placeholder="Title"
             />
@@ -73,28 +69,28 @@ const BarPlotForm = () => (
             <label htmlFor="chart-subtitle" className='text-sm font-bold'>Chart Sub Title</label>
             <Field
               className="w-full p-2 border rounded-md"
-              type="chart-subtitle"
+              type="string"
               name="chart-subtitle"
               placeholder="Sub title"
             />
           </div>
 
           <div>
-            <label htmlFor="chart-subtitle" className='text-sm font-bold'>X Axis Label</label>
+            <label htmlFor="xaxis-label" className='text-sm font-bold'>X Axis Label</label>
             <Field
               className="w-full p-2 border rounded-md"
-              type="chart-subtitle"
-              name="chart-subtitle"
+              type="string"
+              name="xaxis-label"
               placeholder="Label"
             />
           </div>
 
           <div>
-            <label htmlFor="chart-subtitle" className='text-sm font-bold'>Y Axis Label</label>
+            <label htmlFor="yaxis-label" className='text-sm font-bold'>Y Axis Label</label>
             <Field
               className="w-full p-2 border rounded-md"
-              type="chart-subtitle"
-              name="chart-subtitle"
+              type="string"
+              name="yaxis-label"
               placeholder="Label"
             />
           </div>
@@ -110,8 +106,8 @@ const BarPlotForm = () => (
           
           <div className="dynamic-form">
             <div>
-              <label htmlFor="mySelectField" className='text-sm font-bold'>Column Category</label>
-              <Field name="mySelectField" as="select" className="w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300">
+              <label htmlFor="column-category" className='text-sm font-bold'>Column Category</label>
+              <Field name="column-category" as="select" className="w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300">
                 {selectOptions.map(option => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -121,8 +117,8 @@ const BarPlotForm = () => (
             </div>
 
             <div className='mt-2'>
-              <label htmlFor="tags" className='text-sm font-bold'>Column Values</label>
-              <Field name="tags">
+              <label htmlFor="column-value" className='text-sm font-bold'>Column Values</label>
+              <Field name="column-value">
                 {({ field, form }) => (
                   <TagifyField
                     field={field}
@@ -135,8 +131,8 @@ const BarPlotForm = () => (
             </div>
 
             <div className='mt-2'>
-              <label htmlFor="tags" className='text-sm font-bold'>Color space</label>
-              <Field name="tags">
+              <label htmlFor="series-colorspace" className='text-sm font-bold'>Color space</label>
+              <Field name="series-colorspace">
                 {({ field, form }) => (
                   <ColorsDropdownField
                     field={field}
@@ -149,13 +145,13 @@ const BarPlotForm = () => (
             </div>
   
             <div className='mt-2'>
-              <label htmlFor="color1" className='text-sm font-bold'>Custom Color 1</label>
-              <Field name="color1" component={ColorPickerField} />
+              <label htmlFor="series-custom-color-1" className='text-sm font-bold'>Custom Color 1</label>
+              <Field name="series-custom-color-1" component={ColorPickerField} />
             </div>
 
             <div className='mt-2'>
-              <label htmlFor="color2" className='text-sm font-bold'>Custom Color 2</label>
-              <Field name="color2" component={ColorPickerField} />
+              <label htmlFor="series-custom-color-2" className='text-sm font-bold'>Custom Color 2</label>
+              <Field name="series-custom-color-2" component={ColorPickerField} />
             </div>
           </div>
         </Form>

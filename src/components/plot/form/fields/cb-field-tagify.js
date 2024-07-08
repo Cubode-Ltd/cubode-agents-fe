@@ -75,6 +75,7 @@ const TagifyField = ({ field, form, options, singleValue }) => {
         ref={inputRef}
         defaultValue={field.value}
         className="w-full p-1 border border-gray-300 rounded"
+        onChange={(e) => form.setFieldValue(field.name, extractColorScales(e.target.value))}
       />
       <span 
         ref={chevronRef} 
@@ -123,6 +124,12 @@ function suggestionItemTemplate(tagData) {
       <strong>${tagData.value}</strong>
     </div>
   `;
+}
+
+function extractColorScales(input) {
+  const tags = JSON.parse(input);
+  const colorScales = tags.map(tag => tag.value);
+  return colorScales;
 }
 
 export default TagifyField;
