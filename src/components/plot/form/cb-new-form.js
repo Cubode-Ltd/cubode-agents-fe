@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormikComponent from './cb-form-barplot';
+import BarPlotForm from './plot-forms/cb-form-barplot';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -27,7 +27,7 @@ class FormTest extends HTMLElement {
 
   render() {
     const root = createRoot(this.reactForm);
-    root.render(<FormikComponent />);
+    root.render(<BarPlotForm />);
   }
 }
 

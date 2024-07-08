@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Tagify from '@yaireo/tagify';
 import * as d3 from 'd3';
-
 import "../../../../css/main.css";
 
 const ColorScale = {
@@ -57,18 +56,19 @@ colorScalesWhitelist.push({
 });
 
 const AdvancedTagifyField = ({ field, form }) => {
-  const tagifyRef = useRef();
+  const tagifyInstance = useRef();
   const inputRef = useRef();
 
   useEffect(() => {
-    const tagifyInstance = new Tagify(inputRef.current, {
+    tagifyInstance.current = new Tagify(inputRef.current, {
       tagTextProp: 'colorScale',
       skipInvalid: true,
       maxTags: 1,
+      whitelist: colorScalesWhitelist,
       dropdown: {
         closeOnSelect: false,
         enabled: 0,
-        classname: 'colorscales-list',
+        classname: "tags-look",
         searchKeys: ['colorScale'],
         maxItems: 100
       },
@@ -76,19 +76,21 @@ const AdvancedTagifyField = ({ field, form }) => {
         tag: tagRenderer,
         dropdownItem: dropDownRenderer,
       },
-      whitelist: colorScalesWhitelist
     });
 
-    tagifyInstance.on('dropdown:select', (e) => onSelectSuggestion(e, tagifyInstance))
-      .on('edit:start', (e) => onEditStart(e, tagifyInstance))
-      .on('change', (e) => {
-        form.setFieldValue(field.name, tagifyInstance.value);
-      });
+    // Hide dropdown on outside click
+    const handleClickOutside = (event) => {
+      console.log("TARGET: ", event.target)
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        tagifyInstance.current.dropdown.hide();
+      }
+    };
 
-    tagifyRef.current = tagifyInstance;
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      tagifyInstance.destroy();
+      tagifyInstance.current.destroy();
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [field.name, form]);
 
@@ -153,18 +155,6 @@ function dropDownRenderer(tagData) {
       </div>
     </div>
   `;
-}
-
-function onSelectSuggestion(e, tagifyInstance) {
-  if (e.detail.event.target.matches('.remove-all-tags')) {
-    tagifyInstance.removeAllTags();
-  } else if (e.detail.elm.classList.contains(`${tagifyInstance.settings.classNames.dropdownItem}__addAll`)) {
-    tagifyInstance.dropdown.selectAll();
-  }
-}
-
-function onEditStart({detail: {tag, data}}, tagifyInstance) {
-  tagifyInstance.setTagTextNode(tag, `${data.colorScale}`);
 }
 
 export default AdvancedTagifyField;

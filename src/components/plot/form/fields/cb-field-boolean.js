@@ -9,7 +9,7 @@ const ToggleButton = ({ field, form, value, label }) => {
     <button
       type="button"
       onClick={() => form.setFieldValue(field.name, value)}
-      className={`no-select min-w-16 px-4 py-2 mx-1 rounded p-1 border cursor-pointer text-white ${
+      className={`no-select min-w-28 px-4 py-2 mx-2 rounded p-1 border cursor-pointer text-sm text-white ${
         isSelected ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'
       }`}
     >
