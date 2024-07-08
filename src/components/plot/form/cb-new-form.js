@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormikComponent from './plots/cb-form-barplot';
+import FormikComponent from './cb-form-barplot';
 
 const template = document.createElement('template');
 template.innerHTML = `

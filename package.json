@@ -34,6 +34,7 @@
     "@rjsf/core": "^5.18.4",
     "@rjsf/validator-ajv8": "^5.18.4",
     "@shoelace-style/shoelace": "^2.15.1",
+    "@simonwep/pickr": "^1.9.1",
     "@types/react-select": "^5.0.1",
     "@yaireo/tagify": "^4.27.0",
     "ag-grid-community": "^31.3.2",
