@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Tagify from '@yaireo/tagify';
 import * as d3 from 'd3';
 import "../../../../css/main.css";
@@ -58,17 +58,20 @@ colorScalesWhitelist.push({
 const AdvancedTagifyField = ({ field, form }) => {
   const tagifyInstance = useRef();
   const inputRef = useRef();
+  const chevronRef = useRef();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     tagifyInstance.current = new Tagify(inputRef.current, {
       tagTextProp: 'colorScale',
       skipInvalid: true,
-      maxTags: 1,
+      maxTags: 2,
       whitelist: colorScalesWhitelist,
+      userInput: false,
       dropdown: {
         closeOnSelect: false,
         enabled: 0,
-        classname: "tags-look",
+        classname: "tags-look h-min-20",
         searchKeys: ['colorScale'],
         maxItems: 100
       },
@@ -78,31 +81,81 @@ const AdvancedTagifyField = ({ field, form }) => {
       },
     });
 
-    // Hide dropdown on outside click
     const handleClickOutside = (event) => {
-      console.log("TARGET: ", event.target)
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
-        tagifyInstance.current.dropdown.hide();
+      const path = event.composedPath();
+      const isClickInside = path.includes(inputRef.current) || path.includes(chevronRef.current);
+      const isDropdownItem = path.some(el => el.classList && el.classList.contains('tagify__dropdown__item'));
+      const isCloseChevron = path.some(el => el.classList && el.classList.contains('chevron-element-close'));
+
+      if (!isClickInside && !isDropdownItem || isCloseChevron) {
+        tagifyInstance.current.dropdown.hide.call(tagifyInstance.current);
+        setDropdownOpen(false);
       }
     };
 
+    const handleChevronClick = (event) => {
+      const path = event.composedPath();
+      const isCloseChevron = path.some(el => el.classList && el.classList.contains('chevron-element-close'));
+      if (isCloseChevron) {
+        return;
+      }
+
+      if (dropdownOpen) {
+        tagifyInstance.current.dropdown.hide.call(tagifyInstance.current);
+        setDropdownOpen(false);
+      } else {
+        tagifyInstance.current.dropdown.show.call(tagifyInstance.current);
+        setDropdownOpen(true);
+      }
+    };
+
+    chevronRef.current.addEventListener('mousedown', handleChevronClick);
     document.addEventListener('mousedown', handleClickOutside);
 
+    // Listen to Tagify dropdown events to update the state
+    tagifyInstance.current.on('dropdown:show', () => setDropdownOpen(true));
+    tagifyInstance.current.on('dropdown:hide', () => setDropdownOpen(false));
+
+    // Handle tag add event to replace the existing tag with the new one
+    tagifyInstance.current.on('add', (e) => {
+      if (tagifyInstance.current.value.length > 1) {
+        const newTag = e.detail.data;
+        tagifyInstance.current.removeAllTags();
+        tagifyInstance.current.addTags([newTag]);
+      }
+    });
+
     return () => {
-      tagifyInstance.current.destroy();
+      chevronRef.current.removeEventListener('mousedown', handleChevronClick);
       document.removeEventListener('mousedown', handleClickOutside);
+      tagifyInstance.current.destroy();
+      tagifyInstance.current.off('dropdown:show');
+      tagifyInstance.current.off('dropdown:hide');
     };
   }, [field.name, form]);
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
       <input
         type="text"
         ref={inputRef}
         defaultValue={field.value}
         onChange={(e) => form.setFieldValue(field.name, e.target.value)}
-        className="w-full p-1 border border-gray-300 rounded"
+        className="w-full p-1 h-12 border border-gray-300 rounded"
       />
+      <span 
+        ref={chevronRef} 
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer">
+        {dropdownOpen ? (
+          <svg className="chevron-element-close" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 15L12 9L6 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ) : (
+          <svg className="chevron-element-open" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
+      </span>
     </div>
   );
 };
@@ -116,14 +169,15 @@ function tagRenderer(tagData) {
         contenteditable='false'
         spellcheck='false'
         tabIndex="-1"
-        class="tagify__tag flex select-none justify-between items-center w-4/5 rounded px-2 py-1 mb-1 shadow-md"
-        style="background-color: ${backgroundColor}; color: black;"
+        class="tagify__tag flex select-none justify-between items-center rounded px-2 py-1 mb-1 shadow-md"
+        style="background-color: ${backgroundColor}; color: black; min-width: calc(100% - 30px);"
         ${this.getAttributes(tagData)}>
       <span class='tagify__tag-text'>${tagData.colorScale}</span>
       <x title='' class='tagify__tag__removeBtn cursor-pointer' role='button' aria-label='remove tag'></x>
     </tag>
   `;
 }
+
 
 function dropDownRenderer(tagData) {
   // Just Render Custom
