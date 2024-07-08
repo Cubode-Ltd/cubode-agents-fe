@@ -16,7 +16,7 @@ const ColorPickerField = ({ field, form }) => {
   return (
     <div className="flex items-center no-select">
       <div 
-        className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+        className="w-14 h-10 border border-gray-300 rounded cursor-pointer"
         style={{ backgroundColor: field.value }}
         onClick={togglePicker}
       />
@@ -33,7 +33,7 @@ const ColorPickerField = ({ field, form }) => {
         type="text"
         value={field.value}
         onChange={(e) => form.setFieldValue(field.name, e.target.value)}
-        className="ml-3 p-1 rounded font-bold text-gray-700"
+        className="ml-3 p-1 rounded font-bold text-gray-700 w-24"
       />
     </div>
   );
