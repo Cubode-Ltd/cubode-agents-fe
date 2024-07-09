@@ -58,7 +58,6 @@ class BarPlot extends HTMLElement {
     }
 
     handleFormSubmit(value) {
-        console.log("aaa", value);
         Object.keys(value).forEach(key => {
             this.setAttribute(key, value[key]);
         });
@@ -75,12 +74,14 @@ class BarPlot extends HTMLElement {
         });;
 
         if (this.modal) {
+            // Get initial attribute values and fill this.modal fields            
             this.modal.callBack = this.handleFormSubmit;
             this.modal.schemaUI = this.formSchemaUI;
             this.modal.schema = this.formSchema;
         }
 
         if (this.sidebar) {
+            // Get initial attribute values and fill this.sidebar fields
             this.sidebar.callBack = this.handleFormSubmit;
             this.sidebar.schemaUI = this.formSchemaUI;
             this.sidebar.schema = this.formSchema;

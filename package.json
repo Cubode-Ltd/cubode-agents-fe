@@ -26,6 +26,9 @@
     "build:prod": "webpack --mode=production"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@json-editor/json-editor": "^2.15.1",
     "@jsonforms/core": "^3.3.0",
     "@jsonforms/material-renderers": "^3.3.0",

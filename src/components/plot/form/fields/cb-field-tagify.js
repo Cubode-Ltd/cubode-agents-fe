@@ -53,7 +53,9 @@ const TagifyField = ({ field, form, options, singleValue }) => {
       }
     };
 
-    chevronRef.current.addEventListener('mousedown', handleChevronClick);
+    if (chevronRef.current) {
+      chevronRef.current.addEventListener('mousedown', handleChevronClick);
+    }
     document.addEventListener('mousedown', handleClickOutside);
 
     // Listen to Tagify dropdown events to update the state
@@ -61,7 +63,9 @@ const TagifyField = ({ field, form, options, singleValue }) => {
     tagifyRef.current.on('dropdown:hide', () => setDropdownOpen(false));
 
     return () => {
-      chevronRef.current.removeEventListener('click', handleChevronClick);
+      if (chevronRef.current) {
+        chevronRef.current.removeEventListener('click', handleChevronClick);
+      }
       document.removeEventListener('mousedown', handleClickOutside);
       tagifyRef.current.off('dropdown:show');
       tagifyRef.current.off('dropdown:hide');
@@ -74,18 +78,18 @@ const TagifyField = ({ field, form, options, singleValue }) => {
         type="text"
         ref={inputRef}
         defaultValue={field.value}
-        className="w-full p-1 border border-gray-300 rounded"
+        className="w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-xl border-blue-gray-200 focus:border-gray-300"
         onChange={(e) => form.setFieldValue(field.name, extractColorScales(e.target.value))}
       />
       <span 
         ref={chevronRef} 
         className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer">
         {dropdownOpen ? (
-          <svg class="chevron-element-close" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="chevron-element-close" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 15L12 9L6 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         ) : (
-          <svg class="chevron-element-open" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="chevron-element-open" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         )}
@@ -100,7 +104,8 @@ function tagTemplate(tagData) {
         contenteditable='false'
         spellcheck='false'
         tabIndex="-1"
-        class="tagify__tag no-select rounded-md ${tagData.class ? tagData.class : ""}"
+        class="tagify__tag no-select rounded-full bg-blue-100 ${tagData.class ? tagData.class : ""}"
+
         ${this.getAttributes(tagData)}>
       <x class='tagify__tag__removeBtn' role='button' aria-label='remove tag'></x>
       <div>
@@ -127,6 +132,9 @@ function suggestionItemTemplate(tagData) {
 }
 
 function extractColorScales(input) {
+    if (input === "" || input === undefined) {
+      return []
+  }
   const tags = JSON.parse(input);
   const colorScales = tags.map(tag => tag.value);
   return colorScales;

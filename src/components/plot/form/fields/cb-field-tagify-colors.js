@@ -114,9 +114,11 @@ const AdvancedTagifyField = ({ field, form }) => {
       }
     };
 
-    chevronRef.current.addEventListener('mousedown', handleChevronClick);
-    document.addEventListener('mousedown', handleClickOutside);
+    if (chevronRef.current) {
+      chevronRef.current.addEventListener('mousedown', handleChevronClick);
+    }
 
+    document.addEventListener('mousedown', handleClickOutside);
     // Listen to Tagify dropdown events to update the state
     tagifyInstance.current.on('dropdown:show', () => setDropdownOpen(true));
     tagifyInstance.current.on('dropdown:hide', () => setDropdownOpen(false));
@@ -132,7 +134,10 @@ const AdvancedTagifyField = ({ field, form }) => {
     });
 
     return () => {
-      chevronRef.current.removeEventListener('mousedown', handleChevronClick);
+      if (chevronRef.current) {
+        chevronRef.current.removeEventListener('mousedown', handleChevronClick);
+      }
+      
       document.removeEventListener('mousedown', handleClickOutside);
       tagifyInstance.current.destroy();
       tagifyInstance.current.off('dropdown:show');
@@ -147,7 +152,8 @@ const AdvancedTagifyField = ({ field, form }) => {
         ref={inputRef}
         defaultValue={field.value}
         onChange={(e) => form.setFieldValue(field.name, extractColorScales(e.target.value))}
-        className="w-full p-1 h-12 border border-gray-300 rounded"
+        className="w-full h-12 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-xl border-blue-gray-200 focus:border-gray-300"
+
       />
       <span 
         ref={chevronRef} 
@@ -226,6 +232,9 @@ function parseColorScale(value) {
 }
 
 function extractColorScales(input) {
+  if (input === "" || input === undefined) {
+    return []
+  }
   const tags = JSON.parse(input);
   const colorScales = tags.map(tag => tag.colorScale);
   return colorScales;
