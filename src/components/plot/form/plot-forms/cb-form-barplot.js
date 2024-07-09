@@ -16,12 +16,12 @@ const OnChangeHandler = () => {
   return null;
 };
 
-const DynamicForm = ({ index, removeForm }) => {
+const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms }) => {
   const [seriesTitle, setSeriesTitle] = useState(`Series ${index + 1}`);
 
   return (
-    <div className="dynamic-form relative border rounded-md p-4 mb-4 shadow">
-      <p className="text-md font-semibold mb-2 uppercase">{seriesTitle}</p>
+    <div className="dynamic-form relative border rounded-md p-4 mt-4 mb-4 shadow-lg">
+      <p className="text-md text-gray-700 font-semibold mb-2">{seriesTitle}</p>
 
       <Field name={`dynamicForms[${index}].seriesTitle`}>
         {({ field, form }) => (
@@ -64,26 +64,42 @@ const DynamicForm = ({ index, removeForm }) => {
         )
       ))}
 
-      {index !== 0 && (
-        <button
-          type="button"
-          onClick={() => removeForm(index)}
-          className="bg-gray-50 shadow-sm hover:shadow rounded-md border absolute bottom-2 right-10"  
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-gray-800">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      )}
+      <div className="flex absolute bottom-2 right-2 justify-end space-x-2 mt-4">
+        {index !== 0 && (
+          <button
+            type="button"
+            onClick={() => removeForm(index)}
+            className="bg-red-50 shadow hover:shadow-lg rounded-md border p-1"  
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-gray-800">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+
+        {allowAddForms && isLastForm && (
+          <button
+            type="button"
+            onClick={addForm}
+            className="bg-gray-50 shadow hover:shadow-lg rounded-md border p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        )}
+      </div>
+      
     </div>
   );
 };
 
 const BarPlotForm = ({ allowAddForms = true }) => {
   const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
+
   const addForm = () => {
     setDynamicForms([...dynamicForms, { seriesTitle: '', columnCategory: '', columnValues: '', seriesColorspace: '', seriesCustomColor1: '', seriesCustomColor2: '' }]);
   };
+
   const removeForm = (index) => {
     setDynamicForms(dynamicForms.filter((_, i) => i !== index));
   };
@@ -133,22 +149,15 @@ const BarPlotForm = ({ allowAddForms = true }) => {
 
             {/* Dynamic Entries */}
             {dynamicForms.map((form, index) => (
-              <DynamicForm key={index} index={index} removeForm={removeForm} />
+              <DynamicForm
+                key={index}
+                index={index}
+                removeForm={removeForm}
+                addForm={addForm}
+                isLastForm={index === dynamicForms.length - 1}
+                allowAddForms={allowAddForms}
+              />
             ))}
-
-            {/* Button Dynamic Entries */}
-            {allowAddForms && (
-              <div className="absolute bottom-14 right-12 flex space-x-4">
-                <button
-                  type="button"
-                  onClick={addForm}
-                  className="bg-gray-50 shadow-sm hover:shadow rounded-md border mt-2 text-gray-800">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                </button>
-              </div>
-            )}
           </Form>
         )}
       </Formik>
