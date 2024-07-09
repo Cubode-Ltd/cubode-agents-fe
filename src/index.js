@@ -19,9 +19,13 @@ import "./components/data/cb-data-vis.js"
 import "./components/data/cb-data-source-selector.js"
 
 import "./components/plot/cb-plot-modal.js"
-import "./components/plot/cb-plot-sidebar.js"
 
-import "./components/plot/echarts/cb-echarts-barplot.js"
+// import "./components/plot/cb-plot-sidebar.js"
+// import "./components/plot/echarts/cb-echarts-barplot.js"
+
+import "./components/plot/cb-plot-sidebar-2.js"
+import "./components/plot/echarts/cb-echarts-barplot-2.js"
+
 import "./components/plot/cb-plot-container.js"
 
 import "./components/layout/cb-container.js"

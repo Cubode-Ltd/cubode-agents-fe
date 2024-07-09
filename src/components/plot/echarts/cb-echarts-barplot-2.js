@@ -4,7 +4,7 @@ const { DataFrame } = require('dataframe-js');
 // import dataNursery from './DataNursery';
 
 import ColorScale from './ColorScales';
-import { formSchema } from './schemas/barplot';
+import { formSchema, initialValues } from './schemas/barplot_new'
 
 import { BarChart } from 'echarts/charts';
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent } from 'echarts/components';
@@ -19,7 +19,7 @@ template.innerHTML = `
     <div class="cb-echart-barplot relative w-full overflow-hidden" style="height:40vh;">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-modal class="absolute top-0"></cb-plot-modal>
-        <cb-plot-sidebar class="absolute top-0 z-50 shadow-lg"></cb-plot-sidebar>
+        <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
     </div>
 `;
 
@@ -39,6 +39,7 @@ class BarPlot extends HTMLElement {
       this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
       this.handleFormSubmit = this.handleFormSubmit.bind(this);
       this.formSchema = formSchema;
+      this.initValues = initialValues;
     }
 
     static get observedAttributes() {
@@ -84,6 +85,7 @@ class BarPlot extends HTMLElement {
             // Get initial attribute values and fill this.sidebar fields
             this.sidebar.callBack = this.handleFormSubmit;
             this.sidebar.schemaUI = this.formSchemaUI;
+            this.sidebar.initialValues = this.initialValues;
             this.sidebar.schema = this.formSchema;
         }
 

@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Formik, Form, Field, useFormikContext } from 'formik';
-import { formSchema, initialValues } from '../../echarts/schemas/barplot_new';  // Adjust the import path as needed
 import TagifyField from '../fields/cb-field-tagify';
 import ColorsDropdownField from '../fields/cb-field-tagify-colors';
 import ColorPickerField from '../fields/cb-field-color';
@@ -16,11 +15,11 @@ const OnChangeHandler = () => {
   return null;
 };
 
-const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms }) => {
+const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, formSchema }) => {
   const [seriesTitle, setSeriesTitle] = useState(`Series ${index + 1}`);
 
   return (
-    <div className="dynamic-form relative border rounded-md p-4 mt-4 mb-4 shadow-lg">
+    <div className="dynamic-form relative border-2 rounded-md p-4 mb-4 shadow">
       <p className="text-md text-gray-700 font-semibold mb-2">{seriesTitle}</p>
 
       <Field name={`dynamicForms[${index}].seriesTitle`}>
@@ -64,12 +63,12 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms }) 
         )
       ))}
 
-      <div className="flex absolute bottom-2 right-2 justify-end space-x-2 mt-4">
+      <div className="flex justify-end space-x-2 mt-4">
         {index !== 0 && (
           <button
             type="button"
             onClick={() => removeForm(index)}
-            className="bg-red-50 shadow hover:shadow-lg rounded-md border p-1"  
+            className="bg-red-50 shadow-sm hover:shadow-lg rounded-md border p-2"  
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-gray-800">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -81,19 +80,18 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms }) 
           <button
             type="button"
             onClick={addForm}
-            className="bg-gray-50 shadow hover:shadow-lg rounded-md border p-1">
+            className="bg-gray-50 shadow-sm hover:shadow-lg rounded-md border p-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
           </button>
         )}
       </div>
-      
     </div>
   );
 };
 
-const BarPlotForm = ({ allowAddForms = true }) => {
+const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit }) => {
   const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
 
   const addForm = () => {
@@ -109,10 +107,8 @@ const BarPlotForm = ({ allowAddForms = true }) => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          onFormSubmit(values);
+          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
@@ -156,6 +152,7 @@ const BarPlotForm = ({ allowAddForms = true }) => {
                 addForm={addForm}
                 isLastForm={index === dynamicForms.length - 1}
                 allowAddForms={allowAddForms}
+                formSchema={formSchema}
               />
             ))}
           </Form>
@@ -165,4 +162,4 @@ const BarPlotForm = ({ allowAddForms = true }) => {
   );
 };
 
-export default BarPlotForm;
+export default FormComponent;
