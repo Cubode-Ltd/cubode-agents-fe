@@ -27,7 +27,7 @@ class FormTest extends HTMLElement {
 
   render() {
     const root = createRoot(this.reactForm);
-    root.render(<BarPlotForm />);
+    root.render(<BarPlotForm allowAddForms={false} />);
   }
 }
 

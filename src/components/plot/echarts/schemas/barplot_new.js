@@ -60,6 +60,7 @@ export const formSchema = {
       showBackgroundField: {
         type: "boolean",
         title: "Show Background",
+        format: "customBoolean",
         options: {
           inputAttributes: {
             class: "w-full mt-3 p-2 border rounded-md",
@@ -183,10 +184,10 @@ export const formSchema = {
         },
       },
     },
-  };
+};
   
 
-  export const initialValues = {
+export const initialValues = {
     showBackgroundField: 'show',
     dynamicForms: [{ seriesTitle: '', columnCategory: '', columnValues: '', seriesColorspace: '', seriesCustomColor1: '', seriesCustomColor2: '' }],
-  };
+};
