@@ -1,8 +1,7 @@
-//Line plot works with sum aggregation and with all customs settings
-
-
 import * as echarts from "echarts/core";
 const { DataFrame } = require("dataframe-js");
+
+// import dataNursery from './DataNursery';
 
 import ColorScale from "./ColorScales";
 import { formSchema } from "./schemas/lineplot";
@@ -50,6 +49,7 @@ class LinePlot extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.element = this.shadowRoot.querySelector(".cb-chart-container");
+    // this.modal = this.shadowRoot.querySelector('cb-plot-modal');
     this.sidebar = this.shadowRoot.querySelector("cb-plot-sidebar");
 
     this.chart_ = echarts.init(this.element);
@@ -62,6 +62,7 @@ class LinePlot extends HTMLElement {
   }
 
   static get observedAttributes() {
+    // Create attributes from the Schema
     const attrs = ["hash", "fileName"];
     const schemaProperties = formSchema.properties;
     Object.keys(schemaProperties).forEach((key) => {
@@ -77,6 +78,7 @@ class LinePlot extends HTMLElement {
   }
 
   handleFormSubmit(value) {
+    console.log("aaa", value);
     Object.keys(value).forEach((key) => {
       this.setAttribute(key, value[key]);
     });
@@ -104,6 +106,7 @@ class LinePlot extends HTMLElement {
       this.sidebar.schema = this.formSchema;
     }
 
+    // Event coming from data source selector
     window.addEventListener("data-selected", this.handleDataSetSelected);
   }
 
@@ -134,7 +137,6 @@ class LinePlot extends HTMLElement {
 
     this.formSchema.properties["column-category"].enum = categoryColumnEnum;
     this.formSchema.properties["column-values"].enum = valueColumnEnum;
-    this.formSchema.properties["second-column-category"].enum = valueColumnEnum;
 
     if (this.modal) {
       this.modal.schema = this.formSchema;
@@ -146,42 +148,66 @@ class LinePlot extends HTMLElement {
 
   plotData(seriesName) {
     let columnCategory = this.getAttribute("column-category") || "";
-    let second_columnCategory = this.getAttribute("second-column-category") || "";
     let columnsValues = this.getAttribute("column-values") || "";
-    let aggregation = this.getAttribute("aggregation") || "sum";
+    let aggregation = this.getAttribute("aggregation") || "";
     let lineType = this.getAttribute("line-style") || "";
-    let symbolSize = parseInt(this.getAttribute("symbol-size") || 10);
+    let simbolSize = this.getAttribute("simbol-size") || "";
     let showLabels = this.getAttribute("show-labels") || "";
     let smoothLine = this.getAttribute("line-type") || "";
-    let plotType = this.getAttribute("line-plot-type") || "basic";
 
-    const stackValue = plotType === "Stacked" ? "total" : "";
+    aggregation = aggregation === "" ? "none" : aggregation.toLowerCase();
 
+    // let series = {
+    //   type: "line",
+    //   name: seriesName,
+    //   data: [],
+    //   style: {
+    //     color: "black",
+    //   },
+    //   symbolSize: simbolSize,
+    //   lineStyle: {
+    //     type: lineType
+    //   },
+    // };
+
+    let series = {
+      type: "line",
+      name: seriesName,
+      data: [],
+      smooth: smoothLine !== "normal", // Make the line smooth
+      areaStyle: {}, // Add area fill
+      symbolSize: simbolSize,
+      lineStyle: {
+        type: lineType,
+      },
+      label: {
+        show: showLabels !== "false", // Show labels on markers
+        position: "top", // Position the labels at the top of markers
+        formatter: "{c}", // Format the labels to show the value
+      },
+    };
+
+    // TODO: ADD LOGIC TO GET THE DATA IF THERE IS A HASH / FILENAME.
     if (!this.data_ || columnCategory === "" || columnsValues === "") {
-      return null;
+      return series;
     }
 
-    const validColumns = columnsValues.split(",").filter((col) => this.columns_.includes(col));
+    const validColumns = columnsValues
+      .split(",")
+      .filter((col) => this.columns_.includes(col));
     if (validColumns.length === 0) {
-      return null;
+      return series;
     }
 
     this.df = new DataFrame(this.data_);
 
-    // Clean the df before groupBy
-    this.df = this.df.filter((row) =>
-      row.toArray().every((value) => value !== null && value !== undefined)
-    );
+    //Clean the df before groupBY
+    this.df = this.df.filter((row) => {
+      return row
+        .toArray()
+        .every((value) => value !== null && value !== undefined);
+    });
 
-    // Process data
-    if (plotType === "Basic") {
-      return this.plotBasic(columnCategory, columnsValues, seriesName, aggregation, lineType, symbolSize, showLabels, smoothLine);
-    } else {
-      return this.plotMultiOrStacked(columnCategory, second_columnCategory, columnsValues, seriesName, stackValue, lineType, symbolSize, showLabels, smoothLine);
-    }
-  }
-
-  plotBasic(columnCategory, columnsValues, seriesName, aggregation, lineType, symbolSize, showLabels, smoothLine) {
     const grouped = this.df.groupBy(columnCategory);
 
     const aggregations = {
@@ -196,97 +222,39 @@ class LinePlot extends HTMLElement {
     const aggregatedData = grouped
       .aggregate((group) => {
         const result = {};
-        columnsValues.split(",").forEach((col) => {
+        validColumns.forEach((col) => {
           result[col] = aggregations[aggregation](group, col);
         });
         return result;
       })
       .toArray();
 
+    const scale = ColorScale.getColorScale(
+      this.getAttribute("color-scale") || "Viridis",
+      this.getAttribute("color-primary") || "#000000",
+      this.getAttribute("color-secundary") || "#ffffff",
+      aggregatedData.length
+    );
+
     const xAxisData = aggregatedData.map((item) => item[0]);
 
-    const seriesData = {
-      type: "line",
-      name: seriesName,
-      data: aggregatedData.map((item) => item[1][columnsValues]),
-      smooth: smoothLine !== "normal",
-      symbolSize: symbolSize,
-      lineStyle: {
-        type: lineType,
-      },
-      label: {
-        show: showLabels !== "false",
-        position: "top",
-        formatter: "{c}",
-      },
-    };
-
-    return {
-      seriesData: [seriesData],
-      xAxisData,
-      seriesValues: [seriesName],
-    };
-  }
-
-  plotMultiOrStacked(columnCategory, second_columnCategory, columnsValues, seriesName, stackValue, lineType, symbolSize, showLabels, smoothLine) {
-    var xAxisValues = Array.from(
-      new Set(
-        this.df
-          .toArray()
-          .map((row) => row[this.columns_.indexOf(columnCategory)])
-      )
-    );
-    var seriesValues = Array.from(
-      new Set(
-        this.df
-          .toArray()
-          .map((row) => row[this.columns_.indexOf(second_columnCategory)])
-      )
-    );
-    var revenueData = {};
-
-    // Initialize revenueData object
-    seriesValues.forEach(function (series) {
-      revenueData[series] = {};
-      xAxisValues.forEach(function (x) {
-        revenueData[series][x] = 0;
-      });
-    });
-
-    // Populate revenueData
-    this.df.toArray().forEach(function (row) {
-      var series = row[this.columns_.indexOf(second_columnCategory)];
-      var x = row[this.columns_.indexOf(columnCategory)];
-      var revenue = row[this.columns_.indexOf(columnsValues)];
-      revenueData[series][x] += revenue;
-    }, this);
-
-    // Prepare series data for ECharts
-    var seriesData = seriesValues.map(function (series) {
+    series.data = aggregatedData.map((item, index) => {
+      let value = item[1][validColumns[0]];
+      if (value % 1 !== 0) {
+        value = value.toFixed(2); // Round the value to two decimal places only if it has decimals
+      }
       return {
-        name: series,
-        type: "line",
-        stack: stackValue,
-        smooth: smoothLine !== "normal",
-        symbolSize: symbolSize,
-        lineStyle: {
-          type: lineType,
-        },
-        label: {
-          show: showLabels !== "false",
-          position: "top",
-          formatter: "{c}",
-        },
-        data: xAxisValues.map(function (x) {
-          return revenueData[series][x];
-        }),
+        value: value,
+        name: item[0],
+        itemStyle: { color: scale(index) },
+        //   percentage:
+        //     ((item[1][validColumns[0]] / totalSum) * 100).toFixed(2) + "%", // Round the percentage to two decimal places
       };
     });
 
     return {
-      seriesData,
-      xAxisValues,
-      seriesValues,
+      series,
+      xAxisData,
     };
   }
 
@@ -294,15 +262,18 @@ class LinePlot extends HTMLElement {
     let title = this.getAttribute("title") || "Line Plot";
     let xAxisLabel = this.getAttribute("x-axis-label") || "";
     let yAxisLabel = this.getAttribute("y-axis-label") || "";
+
     let subtitle = this.getAttribute("subtitle") || "";
     let legendPosition = this.getAttribute("legend-position") || "";
-    let showBackground = this.getAttribute("show-background") === "true" || false;
-    let seriesName = this.getAttribute("series-name") || "Series";
+    let showBackground =
+      this.getAttribute("show-background") === "true" || false;
+    let seriesName = this.getAttribute("series-name") || "Series"; // Add a series name attribute
 
     const plotData = this.plotData(seriesName);
-    if (!plotData) return;
+    let seriesData = plotData.series;
+    const xAxisData = plotData.xAxisData;
 
-    const { seriesData, xAxisValues, seriesValues } = plotData;
+    seriesData = { ...seriesData, showBackground: showBackground };
 
     this.option = {
       title: {
@@ -310,29 +281,31 @@ class LinePlot extends HTMLElement {
         subtext: subtitle,
         left: "center",
       },
-      tooltip: {
-        trigger: "axis",
-      },
       legend: {
-        data: seriesValues,
         show: legendPosition !== "none",
         orient: "vertical",
         top: "15%",
         left: legendPosition,
       },
+      tooltip: {
+        trigger: "item",
+      },
       toolbox: {
         feature: {
-          saveAsImage: {},
+          saveAsImage: {
+            title: "Save as Image",
+            type: "png",
+            backgroundColor: "#fff",
+            pixelRatio: 2,
+          },
         },
       },
       xAxis: {
         type: "category",
-        boundaryGap: false,
-        data: xAxisValues,
+        data: xAxisData,
         name: xAxisLabel,
       },
       yAxis: {
-        type: "value",
         name: yAxisLabel,
       },
       series: seriesData,

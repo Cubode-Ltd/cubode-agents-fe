@@ -26,6 +26,24 @@ export const formSchema = {
       type: "string",
       title: "Category Column",
       enum: [],
+      default: "DayOfWeek",
+      //DayOfWeek
+      options: {
+        inputAttributes: {
+          class:
+            "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+        },
+        containerAttributes: {
+          class: "mt-2 text-sm text-gray-600 font-bold",
+        },
+      },
+    },
+    "second-column-category": {
+      type: "string",
+      title: "Secondary Category Column",
+      enum: [],
+      default: "Channel",
+      //Channel
       options: {
         inputAttributes: {
           class:
@@ -39,6 +57,8 @@ export const formSchema = {
     "column-values": {
       type: "string",
       enum: [],
+      default: "Revenue",
+      //Revenue
       title: "Value Column(s)",
       options: {
         inputAttributes: {

@@ -21,7 +21,8 @@ import "./components/data/cb-data-source-selector.js"
 import "./components/plot/cb-plot-modal.js"
 import "./components/plot/cb-plot-sidebar.js"
 
-import "./components/plot/echarts/cb-echarts-lineplot.js"
+// import "./components/plot/echarts/cb-echarts-lineplot.js"
+import "./components/plot/echarts/lineplot_Basic.js"
 import "./components/plot/echarts/cb-echarts-barplot.js"
 import "./components/plot/cb-plot-container.js"
 
