@@ -1,46 +1,43 @@
 import * as echarts from 'echarts/core';
 const { DataFrame } = require('dataframe-js');
 
-import dataNursery from '../../data/DataNursery';
-
 import ColorScale from './ColorScales';
-import { formSchema } from './schemas/barplot';
-
+import { formSchema, initialValues } from './schemas/barplot_new'
 import { BarChart } from 'echarts/charts';
+
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
+
 echarts.use([BarChart, TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer]);
 
 const template = document.createElement('template');
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-echart-barplot relative w-full overflow-hidden" style="width: 960px; height: 540px; overflow: hidden;">
+    <div class="cb-echart-barplot relative w-full overflow-hidden">
         <div class="cb-chart-container w-full h-full"></div>
-        <cb-plot-modal class="absolute top-0"></cb-plot-modal>
-        <cb-plot-sidebar-2 class="absolute top-0 z-50 shadow-lg"></cb-plot-sidebar-2>
+        <cb-plot-modal class="cb-plot-modal absolute top-0"></cb-plot-modal>
+        <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
     </div>
 `;
 
-{/* <cb-plot-sidebar class="absolute top-0"></cb-plot-sidebar> */}
-
 class BarPlot extends HTMLElement {
     constructor() {
-      super();
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
-      this.element = this.shadowRoot.querySelector('.cb-chart-container');
-      // this.modal = this.shadowRoot.querySelector('cb-plot-modal');
-      this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.element = this.shadowRoot.querySelector('.cb-chart-container');
+        this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
 
-      this.chart_ = echarts.init(this.element);
-      this.data_ = [];
-      this.columns_ = [];
+        this.chart_ = echarts.init(this.element);
+        this.data_ = [];
+        this.columns_ = [];
 
-      this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
-      this.handleFormSubmit = this.handleFormSubmit.bind(this);
-      this.formSchema = formSchema;
+        this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.formSchema = formSchema;
+        this.initialValues = initialValues;
     }
 
     static get observedAttributes() {
@@ -50,7 +47,6 @@ class BarPlot extends HTMLElement {
         Object.keys(schemaProperties).forEach(key => {
             attrs.push(key);
         });
-
         return attrs;
     }
 
@@ -61,10 +57,10 @@ class BarPlot extends HTMLElement {
     }
 
     handleFormSubmit(value) {
+        console.log("Henso",value)
         Object.keys(value).forEach(key => {
             this.setAttribute(key, value[key]);
         });
-
         this.render();
     }
 
@@ -78,58 +74,20 @@ class BarPlot extends HTMLElement {
         });;
 
         if (this.modal) {
-            // Get initial attribute values and fill this.modal fields            
             this.modal.callBack = this.handleFormSubmit;
             this.modal.schemaUI = this.formSchemaUI;
             this.modal.schema = this.formSchema;
         }
 
         if (this.sidebar) {
-            // Attributes to schema 
-            this.sidebar.schema.properties['title'].default = this.getAttribute('title');
-            this.sidebar.schema.properties['subtitle'].default = this.getAttribute('subtitle');
-            this.sidebar.schema.properties['column-category'].default = this.getAttribute('column-category');
-            this.sidebar.schema.properties['column-values'].default = this.getAttribute('column-values');
-            this.sidebar.schema.properties['x-axis-label'].default = this.getAttribute('x-axis-label');
-            this.sidebar.schema.properties['y-axis-label'].default = this.getAttribute('y-axis-label');
-            this.sidebar.schema.properties['aggregation'].default = this.getAttribute('aggregation');
-            this.sidebar.schema.properties['color-scale'].default = this.getAttribute('color-scale');
-
-            // Get initial attribute values and fill this.sidebar fields
             this.sidebar.callBack = this.handleFormSubmit;
             this.sidebar.schemaUI = this.formSchemaUI;
+            this.sidebar.initialValues = this.initialValues;
             this.sidebar.schema = this.formSchema;
         }
 
-        // Event coming from data source selector
         window.addEventListener('data-selected', this.handleDataSetSelected);
-        // Handles already selected data
-        const hash = this.getAttribute('hash');
-        const fileName = this.getAttribute('fileName');
-        if (hash && fileName) {
-            this.handlePreLoadedData(hash, fileName)
-        }
-    }
 
-    async handlePreLoadedData(hash, fileName){
-        try {
-            const csvContent = await dataNursery.hashes2data.getItem(hash);
-            const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
-            const columns = await dataNursery.hash2columns.getItem(hash);
-
-            // Simulate a data-selected event with the fetched data
-            this.handleDataSetSelected({
-                detail: {
-                    csvContent,
-                    csvDataRows,
-                    columns,
-                    hash,
-                    fileName
-                }
-            });
-        } catch (error) {
-            console.error('Error fetching initial data:', error);
-        }
     }
 
     disconnectedCallback() {
@@ -139,32 +97,26 @@ class BarPlot extends HTMLElement {
     }
 
     handleDataSetSelected(event) {
-      const { csvContent, csvDataRows, columns, hash, fileName } = event.detail;
-      this.columns_ = columns;
-      this.data_ = csvDataRows;
-      this.hash = hash;
-      this.fileName = fileName
-      
-      console.log("hash:   ", hash)
-      console.log("columns:   ", columns)
-      console.log("csvDataRows:   ", csvDataRows)
-      console.log("fileName:   ", fileName)
+        const { csvContent, csvDataRows, columns, hash, fileName } = event.detail;
+        this.columns_ = columns;
+        this.data_ = csvDataRows;
+        this.hash = hash;
+        this.fileName = fileName
 
+        this.setAttribute('hash', hash);
+        this.setAttribute('fileName', fileName);
 
-      this.setAttribute('hash', hash);
-      this.setAttribute('fileName', fileName);
+        this.updateFormSchema(columns);
 
-      this.updateFormSchema(columns);
-
-      this.render();
+        this.render();
     }
-     
+    
     updateFormSchema(columns) {
         const categoryColumnEnum = columns;
         const valueColumnEnum = columns;
     
-        this.formSchema.properties['column-category'].enum = categoryColumnEnum;
-        this.formSchema.properties['column-values'].enum = valueColumnEnum;
+        this.formSchema.properties.dynamicForms.items.properties['columnCategory'].enum = categoryColumnEnum;
+        this.formSchema.properties.dynamicForms.items.properties['columnValues'].enum = valueColumnEnum;
     
         if (this.modal) {
             this.modal.schema = this.formSchema;
@@ -180,6 +132,7 @@ class BarPlot extends HTMLElement {
         let aggregation = this.getAttribute('aggregation') || '';
         aggregation = aggregation === '' ? 'none' : aggregation.toLowerCase();
 
+
         let series = {
             'type': 'bar', 
             'name': seriesName,
@@ -189,7 +142,6 @@ class BarPlot extends HTMLElement {
             }
         }
 
-        // TODO: ADD LOGIC TO GET THE DATA IF THERE IS A HASH / FILENAME.
         if (!this.data_ || columnCategory === '' || columnsValues === '') {
             return series;
         }
@@ -247,9 +199,8 @@ class BarPlot extends HTMLElement {
         let subtitle = this.getAttribute('subtitle') || '';
         let legendPosition = this.getAttribute('legend-position') || '';
         let showBackground = this.getAttribute('show-background') === 'true' || false;
-        let seriesName = this.getAttribute('series-name') || 'Series';  // Add a series name attribute
+        let seriesName = this.getAttribute('series-name') || 'Series';
 
-    
         const plotData = this.plotData(seriesName);
         let seriesData = plotData.series;
         const xAxisData = plotData.xAxisData;
@@ -266,10 +217,7 @@ class BarPlot extends HTMLElement {
             xAxis: {
                 type: 'category',
                 data: xAxisData,
-                name: xAxisLabel,
-                axisLabel: {interval: 0, rotate: 30},
-                nameGap: 50,
-                nameLocation: "center"
+                name: xAxisLabel
             },
             yAxis: {
                 name: yAxisLabel
@@ -277,13 +225,7 @@ class BarPlot extends HTMLElement {
             series: seriesData,
             animationDuration: 1000
         };
-    
-        // if (legendPosition !== 'none') {
-        //     this.option.legend = {
-        //         data: ['blastoiser'],
-        //         left: legendPosition
-        //     };
-        // }
+
         this.chart_.setOption(this.option);
     }
 
@@ -319,10 +261,10 @@ class BarPlot extends HTMLElement {
         if (this.chart_) {
             this.chart_.resize({
             animation: {
-              duration: 500,
-              easing: 'cubicInOut',
-            },
-          });;
+                duration: 500,
+                easing: 'cubicInOut',
+                },
+            });;
         }
     }
 }

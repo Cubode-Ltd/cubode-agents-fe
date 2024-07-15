@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormComponent from './plot-forms/cb-form-component';
-import { formSchema, initialValues } from '../echarts/schemas/barplot_new'
+import FormComponent from '../plot-forms/cb-form-component';
+import { formSchema, initialValues } from '../../echarts/schemas/barplot_new'
 
 const template = document.createElement('template');
 template.innerHTML = `

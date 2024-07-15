@@ -101,3 +101,9 @@ select {
   width: auto !important;
   max-width: auto !important;
 }
+
+/* Plot E-Chart */
+.cb-echart-barplot {
+  width: 960px; 
+  height: 540px;
+}

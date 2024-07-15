@@ -74,7 +74,7 @@ const TagifyField = ({ field, form, options, singleValue, title }) => {
   }, [field.name, form, options, singleValue, title]);
 
   return (
-    <div className="relative w-full mt-4">
+    <div className="relative w-full mt-3">
       <input
         type="text"
         ref={inputRef}

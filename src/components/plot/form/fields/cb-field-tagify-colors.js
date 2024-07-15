@@ -68,7 +68,6 @@ const AdvancedTagifyField = ({ field, form, title }) => {
       maxTags: 2,
       whitelist: colorScalesWhitelist,
       userInput: false,
-      placeholder: title,
       dropdown: {
         closeOnSelect: false,
         enabled: 0,
@@ -144,15 +143,14 @@ const AdvancedTagifyField = ({ field, form, title }) => {
       tagifyInstance.current.off('dropdown:show');
       tagifyInstance.current.off('dropdown:hide');
     };
-  }, [field.name, form, title]);
+  }, [field.name, form]);
 
   return (
-    <div className="relative w-full mt-4">
+    <div className="relative w-full mt-3">
       <input
         type="text"
         ref={inputRef}
         defaultValue={field.value}
-        placeholder={title}
         onChange={(e) => form.setFieldValue(field.name, extractColorScales(e.target.value))}
         className="w-full h-12 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-md border-blue-gray-200 focus:border-gray-300"
       />

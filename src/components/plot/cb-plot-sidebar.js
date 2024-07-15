@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormComponent from './form/cb-form-json';
+import FormComponent from './form/plot-forms/cb-form-component';
 
 const sidebarTemplate = document.createElement('template');
 sidebarTemplate.innerHTML = 
@@ -37,13 +37,13 @@ sidebarTemplate.innerHTML =
         </svg>
     </div>
 
-    <div class="sidebar closed fixed left-0 top-0 bg-white dark:bg-gray-600 border-r-2 border-gray-300 w-96 h-full pl-5 py-5 pr-2 flex flex-col">
+    <div class="sidebar closed fixed left-0 top-0 bg-white dark:bg-gray-600 border-r border-gray-300 w-92 h-full py-5 flex flex-col">
         <button class="cb-close-sidebar-button absolute top-2 right-2 h-5 w-5 p-1 border-2 border-white rounded-full bg-gray-50 hover:bg-gray-200 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 hover:text-gray-800" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 9.293l4.95-4.95a1 1 0 111.414 1.414L11.414 10l4.95 4.95a1 1 0 01-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.414-1.414l4.95-4.95-4.95-4.95A1 1 0 115.05 4.343L10 9.293z" clip-rule="evenodd" />
             </svg>
         </button>
-        <div class="flex-grow h-full pr-3 overflow-auto custom-scrollbar">
+        <div class="flex-grow h-full overflow-auto custom-scrollbar">
             <div class="react-component h-full"></div>
         </div>
     </div>
@@ -67,6 +67,10 @@ class SidebarComponent extends HTMLElement {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
+  connectedCallback() {
+    this.renderReactComponent();
+  }
+
   set callBack(cb) {
     this._callBack = cb;
   }
@@ -84,12 +88,12 @@ class SidebarComponent extends HTMLElement {
     return this._schema;
   }
 
-  set schemaUI(value) {
-    this._schemaUI = value;
+  set initialValues(value) {
+    this._initialValues = value;
   }
 
-  get schemaUI() {
-    return this._schemaUI;
+  get initialValues() {
+    return this._initialValues;
   }
 
   toggleSidebar() {
@@ -111,8 +115,8 @@ class SidebarComponent extends HTMLElement {
   }
 
   handleFormSubmit(value) {
-    // Store the values of the form?
     if (this.callBack) {
+      console.log("blastoisersark,",value)
       this._callBack(value);
     }
   }
@@ -120,7 +124,14 @@ class SidebarComponent extends HTMLElement {
   renderReactComponent() {
     if (this.reactForm) {
       const root = createRoot(this.reactForm);
-      root.render(<FormComponent schema={this.schema} schemaUI={this.schemaUI} onFormSubmit={this.handleFormSubmit} />);
+      root.render(
+        <FormComponent
+          allowAddForms={true}
+          formSchema={this.schema}
+          initialValues={this.initialValues}
+          onFormSubmit={this.handleFormSubmit}
+        />
+      );
     }
   }
 }

@@ -12,6 +12,7 @@ const injectCustomStyles = (container) => {
       color: #4B5563; 
     }
     
+    
     .je-object__container .je-indented-panel {
       border-width: 0px !important;
       margin:0 !important;

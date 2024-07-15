@@ -25,6 +25,7 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
 
   return (
     <div className={`dynamic-form relative ${index===0 ? 'border-t' : ''} border-b px-6 py-4`}>
+      {/* Normal Fields */}
       <div className="flex justify-between items-center py-2">
         <p className="text-sm ">{seriesTitle}</p>
         <button onClick={toggleDropdown} className="focus:outline-none">
@@ -52,8 +53,9 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
         </button>
       </div>
 
+      {/* Dynamic Fields */}
       {isDropdownOpen && (
-        <div class="mt-4">
+        <div class="mt-3">
           <Field name={`dynamicForms[${index}].seriesTitle`}>
             {({ field, form }) => (
               <input
@@ -130,7 +132,6 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
           </div>
         </div>
       )}
-             
     </div>
   );
 };
@@ -177,7 +178,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
                         <input
                           {...field}
                           type="text"
-                          className={`${value.options.inputAttributes.class} mt-4`}
+                          className={`${value.options.inputAttributes.class} mt-3`}
                         />
                       );
                     }}
