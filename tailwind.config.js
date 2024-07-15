@@ -9,6 +9,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+      },
       colors: {
         'cubode-darkblue': '#1e395c',
         'cubode-lightblue': '#80a5d6',

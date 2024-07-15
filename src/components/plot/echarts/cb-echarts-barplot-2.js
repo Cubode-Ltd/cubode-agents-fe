@@ -19,7 +19,7 @@ template.innerHTML = `
     <div class="cb-echart-barplot relative w-full overflow-hidden" style="height:40vh;">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-modal class="absolute top-0"></cb-plot-modal>
-        <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
+        <cb-plot-sidebar-2 class="absolute top-0 z-50"></cb-plot-sidebar-2>
     </div>
 `;
 
@@ -30,7 +30,7 @@ class BarPlot extends HTMLElement {
       this.shadowRoot.appendChild(template.content.cloneNode(true));
       this.element = this.shadowRoot.querySelector('.cb-chart-container');
       // this.modal = this.shadowRoot.querySelector('cb-plot-modal');
-      this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
+      this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar-2');
 
       this.chart_ = echarts.init(this.element);
       this.data_ = [];
@@ -39,7 +39,7 @@ class BarPlot extends HTMLElement {
       this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
       this.handleFormSubmit = this.handleFormSubmit.bind(this);
       this.formSchema = formSchema;
-      this.initValues = initialValues;
+      this.initialValues = initialValues;
     }
 
     static get observedAttributes() {
@@ -119,8 +119,8 @@ class BarPlot extends HTMLElement {
         const categoryColumnEnum = columns;
         const valueColumnEnum = columns;
     
-        this.formSchema.properties['column-category'].enum = categoryColumnEnum;
-        this.formSchema.properties['column-values'].enum = valueColumnEnum;
+        this.formSchema.properties.dynamicForms.items.properties['columnCategory'].enum = categoryColumnEnum;
+        this.formSchema.properties.dynamicForms.items.properties['columnValues'].enum = valueColumnEnum;
     
         if (this.modal) {
             this.modal.schema = this.formSchema;
@@ -281,4 +281,4 @@ class BarPlot extends HTMLElement {
     }
 }
 
-customElements.define('cb-echart-barplot', BarPlot);
+customElements.define('cb-echart-barplot-2', BarPlot);

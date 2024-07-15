@@ -19,7 +19,7 @@ template.innerHTML = `
     <div class="cb-echart-barplot relative w-full overflow-hidden" style="width: 960px; height: 540px; overflow: hidden;">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-modal class="absolute top-0"></cb-plot-modal>
-        <cb-plot-sidebar class="absolute top-0 z-50 shadow-lg"></cb-plot-sidebar>
+        <cb-plot-sidebar-2 class="absolute top-0 z-50 shadow-lg"></cb-plot-sidebar-2>
     </div>
 `;
 
@@ -69,14 +69,14 @@ class BarPlot extends HTMLElement {
     }
 
     connectedCallback() {
-        // this.render();
-        // this.observeResize({
-        //     animation: {
-        //         duration: 500,
-        //         easing: 'cubicInOut',
-        //     },
-        // });;
-       
+        this.render();
+        this.observeResize({
+            animation: {
+                duration: 500,
+                easing: 'cubicInOut',
+            },
+        });;
+
         if (this.modal) {
             // Get initial attribute values and fill this.modal fields            
             this.modal.callBack = this.handleFormSubmit;
@@ -85,9 +85,7 @@ class BarPlot extends HTMLElement {
         }
 
         if (this.sidebar) {
-                        
-            this.sidebar.schema = this.formSchema;
-
+            // Attributes to schema 
             this.sidebar.schema.properties['title'].default = this.getAttribute('title');
             this.sidebar.schema.properties['subtitle'].default = this.getAttribute('subtitle');
             this.sidebar.schema.properties['column-category'].default = this.getAttribute('column-category');
@@ -96,11 +94,11 @@ class BarPlot extends HTMLElement {
             this.sidebar.schema.properties['y-axis-label'].default = this.getAttribute('y-axis-label');
             this.sidebar.schema.properties['aggregation'].default = this.getAttribute('aggregation');
             this.sidebar.schema.properties['color-scale'].default = this.getAttribute('color-scale');
-            
+
+            // Get initial attribute values and fill this.sidebar fields
             this.sidebar.callBack = this.handleFormSubmit;
             this.sidebar.schemaUI = this.formSchemaUI;
-            
-            console.log(this.sidebar.schema)
+            this.sidebar.schema = this.formSchema;
         }
 
         // Event coming from data source selector
@@ -162,14 +160,11 @@ class BarPlot extends HTMLElement {
     }
      
     updateFormSchema(columns) {
-
         const categoryColumnEnum = columns;
         const valueColumnEnum = columns;
     
         this.formSchema.properties['column-category'].enum = categoryColumnEnum;
         this.formSchema.properties['column-values'].enum = valueColumnEnum;
-
-        console.log("form schema:  ", formSchema)
     
         if (this.modal) {
             this.modal.schema = this.formSchema;
@@ -180,7 +175,6 @@ class BarPlot extends HTMLElement {
     }
 
     plotData(seriesName) {
-
         let columnCategory = this.getAttribute('column-category') || '';
         let columnsValues = this.getAttribute('column-values') || '';
         let aggregation = this.getAttribute('aggregation') || '';
@@ -195,8 +189,6 @@ class BarPlot extends HTMLElement {
             }
         }
 
-        // alert('Function is called');
-
         // TODO: ADD LOGIC TO GET THE DATA IF THERE IS A HASH / FILENAME.
         if (!this.data_ || columnCategory === '' || columnsValues === '') {
             return series;
@@ -206,8 +198,6 @@ class BarPlot extends HTMLElement {
         if (validColumns.length === 0) {
             return series;
         }
-
-        console.log("DATA: ", this.data_)
 
         this.df = new DataFrame(this.data_);
         const grouped = this.df.groupBy(columnCategory);

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import Tagify from '@yaireo/tagify';
 import "../../../../css/main.css";
 
-const TagifyField = ({ field, form, options, singleValue }) => {
+const TagifyField = ({ field, form, options, singleValue, title }) => {
   const tagifyRef = useRef();
   const inputRef = useRef();
   const chevronRef = useRef();
@@ -12,6 +12,7 @@ const TagifyField = ({ field, form, options, singleValue }) => {
     tagifyRef.current = new Tagify(inputRef.current, {
       whitelist: options,
       maxTags: singleValue ? 1 : Infinity,
+      placeholder: title,
       dropdown: {
         maxItems: 20,
         classname: 'tags-look',
@@ -70,15 +71,16 @@ const TagifyField = ({ field, form, options, singleValue }) => {
       tagifyRef.current.off('dropdown:show');
       tagifyRef.current.off('dropdown:hide');
     };
-  }, [field.name, form, options, singleValue]);
+  }, [field.name, form, options, singleValue, title]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full mt-4">
       <input
         type="text"
         ref={inputRef}
         defaultValue={field.value}
-        className="w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-xl border-blue-gray-200 focus:border-gray-300"
+        placeholder={title}
+        className="w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-md border-blue-gray-200 focus:border-gray-300"
         onChange={(e) => form.setFieldValue(field.name, extractColorScales(e.target.value))}
       />
       <span 
