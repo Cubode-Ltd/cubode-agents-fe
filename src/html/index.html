@@ -5,11 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cubode</title>
   <link rel="stylesheet" src="dev/css/main.css"/>
+  <script src="https://unpkg.com/htmx.org@1.8.5" integrity="sha384-7aHh9lqPYGYZ7sTHvzP1t3BAfLhYSTy9ArHdP3Xsr9/3TlGurYgcPBoFmXX2TX/w" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
 </head>
 
-<body>
+<body hx-ext="ws" ws-connect="ws://localhost:8000/ws/notifications/" hx-target="dynamic-content-ws">
   <cb-data-upload>
     <cb-data-source-selector></cb-data-source-selector>
+    <cb-generate-charts-button></cb-generate-charts-button>
   </cb-data-upload>
 
   <cb-container class="border-green-700">
@@ -21,8 +24,8 @@
       aggregation="sum" 
       column-category="Gender" 
       column-values="Spend">
-
     </cb-echart-barplot-2>
+    <div id="dynamic-content-ws" style="width: 960px; height: 540px; overflow: hidden;"></div>
   </cb-container>
   <cb-data-vis></cb-data-vis>
 

@@ -10,6 +10,7 @@ export const formSchema = {
         "column-category": {
             "type": "string",
             "title": "Category Column",
+            "default": "",
             "enum": [],
             "options": {
                 "inputAttributes": {
@@ -23,6 +24,7 @@ export const formSchema = {
         "column-values": {
             "type": "string",
             "enum": [],
+            "default": "",
             "format": "tagify", 
             "title": "Value Column(s)",
             "options": {
@@ -51,6 +53,7 @@ export const formSchema = {
         "title": {
             "type": "string",
             "title": "Chart Title",
+            "default": " ",
             "options": {
                 "inputAttributes": {
                     "class": "w-full bg-transparent outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
@@ -63,6 +66,7 @@ export const formSchema = {
         "subtitle": {
             "type": "string",
             "title": "Chart Subtitle",
+            "default": " ",
             "options": {
                 "inputAttributes": {
                     "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
@@ -75,6 +79,7 @@ export const formSchema = {
         "x-axis-label": {
             "type": "string",
             "title": "X-Axis Label",
+            "default": " ",
             "options": {
                 "inputAttributes": {
                     "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
@@ -87,6 +92,7 @@ export const formSchema = {
         "y-axis-label": {
             "type": "string",
             "title": "Y-Axis Label",
+            "default": " ",
             "options": {
                 "inputAttributes": {
                     "class": "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300"
