@@ -29,7 +29,7 @@ const ColorPickerField = ({ field, form, title }) => {
           />
         </div>
       )}
-      <p class="ml-2 text-sm">{title} :</p>
+      <p className="ml-2 text-sm">{title} :</p>
       <input
         type="text"
         value={field.value}
