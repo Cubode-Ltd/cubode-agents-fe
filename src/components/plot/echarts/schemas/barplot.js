@@ -25,6 +25,7 @@ export const formSchema = {
             "type": "string",
             "enum": [],
             "default": "",
+            "format": "tagify", 
             "title": "Value Column(s)",
             "options": {
                 "inputAttributes": {

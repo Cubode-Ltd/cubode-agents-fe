@@ -2,7 +2,7 @@ import rough from 'roughjs';
 
 const shapeTemplate = document.createElement('template');
 shapeTemplate.innerHTML = `
-    <style>@import "./css/main.css";</style>
+    <style>@import "dev/css/main.css";</style>
     <svg class="cb-shape absolute cursor-grab overflow-visible" width="0" height="0">
         <slot></slot>
     </svg>`;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormComponent from './form/cb-form-json';
+import FormComponent from './form/plot-forms/cb-form-component';
 
 const sidebarTemplate = document.createElement('template');
 sidebarTemplate.innerHTML = 
@@ -84,12 +84,12 @@ class SidebarComponent extends HTMLElement {
     return this._schema;
   }
 
-  set schemaUI(value) {
-    this._schemaUI = value;
+  set initialValues(value) {
+    this._initialValues = value;
   }
 
-  get schemaUI() {
-    return this._schemaUI;
+  get initialValues() {
+    return this._initialValues;
   }
 
   toggleSidebar() {
@@ -111,7 +111,6 @@ class SidebarComponent extends HTMLElement {
   }
 
   handleFormSubmit(value) {
-    // Store the values of the form?
     if (this.callBack) {
       this._callBack(value);
     }
@@ -120,7 +119,14 @@ class SidebarComponent extends HTMLElement {
   renderReactComponent() {
     if (this.reactForm) {
       const root = createRoot(this.reactForm);
-      root.render(<FormComponent schema={this.schema} schemaUI={this.schemaUI} onFormSubmit={this.handleFormSubmit} />);
+      root.render(
+        <FormComponent
+          allowAddForms={true}
+          formSchema={this.schema}
+          initialValues={this.initialValues}
+          onFormSubmit={this.handleFormSubmit}
+        />
+      );
     }
   }
 }

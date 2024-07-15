@@ -1,7 +1,8 @@
 @import "./ag-grid.min.css";
 @import "./ag-theme-alpine.css";
-@import "./cubode.css";
+@import "./tagify.min.css";
 
+@import "./cubode.css";
 
 @tailwind base;
 @tailwind components;

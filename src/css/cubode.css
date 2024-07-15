@@ -1,34 +1,108 @@
 .no-select {
-    user-select: none;
+  user-select: none;
 }
 
-form, input, textarea, select {
-    user-select: text;
+form,
+input,
+textarea,
+select {
+  user-select: text;
 }
 
 /* Animations */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 .fade-in {
-    animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 @keyframes scrollIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .scroll-in {
-    animation: scrollIn 0.5s ease-in-out;
+  animation: scrollIn 0.5s ease-in-out;
+}
+
+
+/* Side Bar Animation */
+
+.sidebar {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* Custom Scroll bar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #F3F4F6;
+  /* Tailwind color gray-500 */
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #F9FAFB;
+  /* Tailwind color gray-200 */
+  margin-top: 10px;
+}
+
+
+
+
+.tagify__tag--custom {
+  background-color: #e0f7fa;
+  border-radius: 12px;
+  padding: 2px 8px;
+  margin: 2px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #00796b;
+  max-width: 100%;
+  /* Ensure the tag doesn't overflow */
+  white-space: nowrap;
+  /* Prevent the tag text from wrapping */
+}
+
+.tagify__tag--custom .tagify__tag__removeBtn {
+  margin-left: 4px;
+  cursor: pointer;
+  color: #00796b;
+}
+
+.tagify__tag--custom .tagify__tag__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto !important;
+  max-width: auto !important;
+  /* Ensure the content adjusts to the text length */
 }

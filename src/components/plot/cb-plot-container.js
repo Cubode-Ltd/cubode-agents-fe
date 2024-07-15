@@ -1,6 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "./css/main.css";</style>
+    <style>@import "dev/css/main.css";</style>
     <div class="cb-plot relative container mx-auto w-full overflow-hidden">
         <slot></slot>
     </div>

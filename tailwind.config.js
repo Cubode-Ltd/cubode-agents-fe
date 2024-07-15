@@ -3,6 +3,7 @@ module.exports = {
     "./src/**/*.{html,js}",
     "./src/**/**/*.{html,js}",
     "./src/**/**/**/*.{html,js}",
+    "./src/**/**/**/**/*.{html,js}",
     "./src/*.{html,js}",
   ],
   darkMode: 'class',

@@ -4,7 +4,7 @@ import FormComponent from './form/cb-form-json'; // './form/cb-form-json';  './f
 
 const modalTemplate = document.createElement('template');
 modalTemplate.innerHTML = `
-  <style>@import "../../css/main.css";</style>
+  <style>@import "dev/css/main.css";</style>
 
   <div>
     
