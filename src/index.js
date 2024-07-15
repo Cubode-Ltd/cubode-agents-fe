@@ -17,6 +17,7 @@ import "./components/cubes/cb-cube.js"
 import "./components/data/cb-data-upload.js"
 import "./components/data/cb-data-vis.js"
 import "./components/data/cb-data-source-selector.js"
+import "./components/data/cb-generate-charts-button.js"
 
 import "./components/plot/cb-plot-modal.js"
 
