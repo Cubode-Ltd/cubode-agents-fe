@@ -119,7 +119,7 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
               <button
                 type="button"
                 onClick={addForm}
-                className="flex bg-gray-50 shadow-sm hover:shadow-lg rounded-md border p-2"
+                className="flex bg-gray-50 shadow-sm hover:shadow-lg rounded-md border py-2 px-3"
               >
                 <p class="text-sm mr-3">Add</p>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4">
@@ -162,7 +162,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
             {/* Normal Entries */}
             {Object.entries(formSchema.properties).map(([key, value]) => (
               key !== 'dynamicForms' && (
-                <div key={key} class="px-6 mb-4">
+                <div key={key} className="px-6 mb-4">
                   <label htmlFor={key} className='text-sm'>{value.title}</label>
                   <Field name={key}>
                     {({ field, form }) => {
