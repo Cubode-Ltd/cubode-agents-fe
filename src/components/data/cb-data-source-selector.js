@@ -58,9 +58,11 @@ class CBDataSourceSelector extends HTMLElement {
         const fileName = event.target.value;
         if (fileName) {
             const hash = await dataNursery.name2hash.getItem(fileName);
+
             const csvContent = await dataNursery.hashes2data.getItem(hash);
             const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
             const columns = await dataNursery.hash2columns.getItem(hash);
+
             this.dispatchEvent(new CustomEvent('data-selected', {
                 detail: { 
                     csvContent, 
@@ -74,6 +76,22 @@ class CBDataSourceSelector extends HTMLElement {
             }));
         }
     }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
 customElements.define('cb-data-source-selector', CBDataSourceSelector);
