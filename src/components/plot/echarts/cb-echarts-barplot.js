@@ -19,7 +19,7 @@ template.innerHTML = `
     <div class="cb-echart-barplot relative w-full overflow-hidden" style="height:40vh;">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-modal class="absolute top-0"></cb-plot-modal>
-        <cb-plot-sidebar class="absolute top-0 z-50 shadow-lg"></cb-plot-sidebar>
+        <cb-plot-sidebar-2 class="absolute top-0 z-50 shadow-lg"></cb-plot-sidebar-2>
     </div>
 `;
 

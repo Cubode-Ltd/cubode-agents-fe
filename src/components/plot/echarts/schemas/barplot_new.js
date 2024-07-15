@@ -14,7 +14,7 @@ export const formSchema = {
         title: "Chart Title",
         options: {
           inputAttributes: {
-            class: "w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -26,7 +26,7 @@ export const formSchema = {
         title: "Chart Subtitle",
         options: {
           inputAttributes: {
-            class: "w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -38,7 +38,7 @@ export const formSchema = {
         title: "X Axis Label",
         options: {
           inputAttributes: {
-            class: "w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -50,7 +50,7 @@ export const formSchema = {
         title: "Y Axis Label",
         options: {
           inputAttributes: {
-            class: "w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -85,7 +85,7 @@ export const formSchema = {
               title: "Series Title",
               options: {
                 inputAttributes: {
-                  class: "w-full h-12 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm py-1 px-2 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full h-12 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm py-1 px-2 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -99,7 +99,7 @@ export const formSchema = {
               enum: [],
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -113,7 +113,7 @@ export const formSchema = {
               format: "tagify",
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -127,7 +127,7 @@ export const formSchema = {
               format: "tagify",
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full mt-3 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -147,7 +147,7 @@ export const formSchema = {
               ],
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -157,10 +157,10 @@ export const formSchema = {
             seriesCustomColor1: {
               type: "string",
               format: "color",
-              title: "Custom Color 1",
+              title: "Color Primary",
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -170,10 +170,10 @@ export const formSchema = {
             seriesCustomColor2: {
               type: "string",
               format: "color",
-              title: "Custom Color 2",
+              title: "Color Secondary",
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
