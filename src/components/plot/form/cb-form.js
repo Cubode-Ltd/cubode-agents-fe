@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, useFormikContext } from 'formik';
-import TagifyField from '../fields/cb-field-tagify';
-import ColorsDropdownField from '../fields/cb-field-tagify-colors';
-import ColorPickerField from '../fields/cb-field-color';
-import CustomBooleanField from '../fields/cb-field-boolean';
+
+import TagifyField from './fields/cb-field-tagify';
+import ColorsDropdownField from './fields/cb-field-tagify-colors';
+import ColorPickerField from './fields/cb-field-color';
+import CustomBooleanField from './fields/cb-field-boolean';
 
 const OnChangeHandler = ({ onChange }) => {
   const { values } = useFormikContext();

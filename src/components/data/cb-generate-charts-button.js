@@ -2,9 +2,7 @@ import dataNursery from './DataNursery';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>
-        @import "./css/main.css";
-    </style>
+    <style>@import "dev/css/main.css";</style>
     <div class="data-source-button">
         <button class="mb-3 p-2 rounded-2xl border border-neutral-300 w-full">Generate Charts</button>
     </div>

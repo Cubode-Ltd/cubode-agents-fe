@@ -6,6 +6,7 @@ template.innerHTML = `
     </div>
 `;
 
+// Element to add the carousel to.
 class PlotContainer extends HTMLElement {
     constructor() {
         super();
@@ -13,12 +14,6 @@ class PlotContainer extends HTMLElement {
             mode: 'open'
         });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-    }
-
-    connectedCallback() {
-    }
-
-    disconnectedCallback() {
     }
 }
 

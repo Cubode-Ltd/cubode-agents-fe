@@ -16,9 +16,8 @@ import "./components/data/cb-data-vis.js"
 import "./components/data/cb-data-source-selector.js"
 import "./components/data/cb-generate-charts-button.js"
 
-import "./components/plot/form/layout/cb-plot-modal.js"
-import "./components/plot/form/layout/cb-plot-sidebar.js"
-
+import "./components/plot/form/cb-form-modal.js"
+import "./components/plot/form/cb-form-sidebar.js"
 import "./components/plot/echarts/cb-echarts-barplot.js"
 import "./components/plot/cb-plot-container.js"
 

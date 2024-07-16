@@ -28,6 +28,8 @@ class BarPlot extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
         this.element = this.shadowRoot.querySelector('.cb-chart-container');
+
+        this.modal = this.shadowRoot.querySelector('cb-plot-modal');
         this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
 
         this.chart_ = echarts.init(this.element);
@@ -81,6 +83,7 @@ class BarPlot extends HTMLElement {
         });;
 
         if (this.modal) {
+            this.modal.initialValues = this.initialValues;
             this.modal.callBack = this.handleFormSubmit;
             this.modal.schemaUI = this.formSchemaUI;
             this.modal.schema = this.formSchema;
