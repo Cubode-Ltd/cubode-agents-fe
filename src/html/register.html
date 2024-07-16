@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login into Cubode</title>
     <link rel="stylesheet" src="dev/css/main.css"/>
-
 </head>
 
-<body class="bg-white font-poppins flex items-center justify-center min-h-screen no-select">
-    <div class="px-44 py-14 m-18 border border-gray-50 rounded-sm shadow-sm">
+
+<body class="bg-[#f9f9fe] font-poppins flex items-center justify-center min-h-screen no-select">
+    <div class="px-44 py-14 m-18 border border-gray-50 rounded-sm shadow-sm bg-white">
         <div class="bg-white py-8 rounded-lg min-w-[325px] select-text">
             <div class="flex justify-center mb-10">
                 <svg class="w-48 max-w-xs h-auto" alt="Cubode" id="Layer_1" data-name="Layer 1" viewBox="0 0 987.38 240.60608" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
@@ -32,8 +32,21 @@
             
             <form id="loginForm">
                 <div class="mb-4">
-                    <label for="email" class="block text-xs font-normal leading-6 text-[#2D2D2A]">Email address</label>
+                    <div class="flex space-x-4">
+                        <div class="flex-1">
+                            <label for="firstName" class="block text-xs font-normal leading-6 text-[#2D2D2A]">First Name</label>
+                            <input type="text" id="firstName" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter your first name" required>
+                        </div>
+                        <div class="flex-1">
+                            <label for="lastName" class="block text-xs font-normal leading-6 text-[#2D2D2A]">Last Name</label>
+                            <input type="text" id="lastName" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter your last name" required>
+                        </div>
+                    </div>
+
+                    <label for="email" class="block text-xs font-normal leading-6 text-[#2D2D2A] mt-4">Email address</label>
                     <input type="email" id="email" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter email address" required>
+                    <p id="emailError" class="text-red-500 text-xs mt-1 hidden"></p>
+
                     <div class="hidden" id="passwordField">
                         <label for="password" class="block text-xs font-normal leading-6 text-[#2D2D2A] mt-3">Password</label>
                         <input type="password" id="password" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter the password" required>
@@ -42,7 +55,7 @@
                     <button type="button" id="continueButton" class="bg-gray-50 hover:bg-white hover:shadow-md shadow-sm w-full border mt-10 text-base font-medium leading-6 text-center py-2 rounded flex items-center justify-center">
                         <p class="text-sm">Continue</p>
                     </button>
-                    <button type="submit" id="submitButton" class="bg-gray-50 hover:bg-white hover:shadow-md shadow-sm w-full border mt-10 text-base font-medium leading-6 text-center py-2 rounded flex items-center justify-center hidden">
+                    <button type="submit" id="submitButton" class= "bg-gray-50 hover:bg-white hover:shadow-md shadow-sm w-full border mt-10 text-base font-medium leading-6 text-center py-2 rounded flex items-center justify-center hidden">
                         <p class="text-sm">Submit</p>
                     </button>
                 </div>
@@ -70,4 +83,84 @@
 </body>
 
 <script src="register.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        const continueButton = document.getElementById('continueButton');
+        const submitButton = document.getElementById('submitButton');
+        const passwordField = document.getElementById('passwordField');
+        const emailError = document.getElementById('emailError');
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            createUser();
+        });
+
+        continueButton.addEventListener('click', function() {
+            passwordField.classList.remove('hidden');
+            submitButton.classList.remove('hidden');
+            continueButton.classList.add('hidden');
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function createUser() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+
+            const csrftoken = getCookie('csrftoken');
+
+            fetch('http://localhost:8000/api/signup/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({ first_name: firstName, last_name: lastName, email: email, password: password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Network response was not ok');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'http://localhost:9000/';
+                } else {
+                    throw new Error(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                if (error.message.toLowerCase().includes('user already exists')) {
+                    emailError.textContent = 'A user with this email already exists.';
+                    emailError.classList.remove('hidden');
+                } else {
+                    alert('An error occurred: ' + error.message);
+                }
+            });
+        }
+    });
+</script>
 </html>
+
+

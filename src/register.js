@@ -7,4 +7,5 @@ document.getElementById('continueButton').addEventListener('click', function() {
 
     document.getElementById('continueButton').classList.add('hidden');
     document.getElementById('submitButton').classList.remove('hidden');
+
 });

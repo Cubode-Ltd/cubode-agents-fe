@@ -34,9 +34,11 @@
                   <div class="mb-4">
                       <label for="email" class="block text-xs font-normal leading-6 text-[#2D2D2A]">Email address</label>
                       <input type="email" id="email" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter email address" required>
+                      <div id="emailError" class="text-red-500 text-xs mt-1 hidden"></div>
                       <div class="hidden" id="passwordField">
                           <label for="password" class="block text-xs font-normal leading-6 text-[#2D2D2A] mt-3">Password</label>
                           <input type="password" id="password" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter the password" required>
+                          <div id="passwordError" class="text-red-500 text-xs mt-1 hidden"></div>
                       </div>
   
                       <button type="button" id="continueButton" class="bg-gray-50 hover:bg-white hover:shadow-md shadow-sm w-full border mt-10 text-base font-medium leading-6 text-center py-2 rounded flex items-center justify-center">
@@ -47,6 +49,8 @@
                       </button>
                   </div>
                 </form>
+
+                <div id="messages" class="mt-4"></div>
 
                 <div class="text-center mt-8">
                     <p class="text-sm font-normal leading-5 text-[#2D2D2A]">Don't have an account? <a href="" class="font-extrabold">Sign Up</a></p>
@@ -68,7 +72,89 @@
                 </button>
             </div>
         </div>
+        <script src="login.js"></script>
+
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('loginForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const emailError = document.getElementById('emailError');
+                    const passwordError = document.getElementById('passwordError');
+                    const messages = document.getElementById('messages');
+
+                    // Reset error messages
+                    emailError.textContent = '';
+                    emailError.classList.add('hidden');
+                    passwordError.textContent = '';
+                    passwordError.classList.add('hidden');
+                    messages.textContent = '';
+
+                    // Get CSRF token
+                    const csrftoken = getCookie('csrftoken');
+
+                    fetch('http://localhost:8000/api/login/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken
+                        },
+                        body: JSON.stringify({ email: email, password: password })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Network response was not ok');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = 'http://localhost:9000/'; // Redirect to home page or dashboard
+                        } else {
+                            throw new Error(data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error.message);
+                        if (error.message.toLowerCase().includes('email')) {
+                            emailError.textContent = error.message;
+                            emailError.classList.remove('hidden');
+                        } else if (error.message.toLowerCase().includes('password')) {
+                            passwordError.textContent = error.message;
+                            passwordError.classList.remove('hidden');
+                        } else {
+                            messages.textContent = 'An error occurred: ' + error.message;
+                            messages.classList.add('text-red-500');
+                        }
+                    });
+            });
+
+                // Function to get CSRF token from cookies
+                function getCookie(name) {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+            });
+            
+
+            
+        </script>
     </body>
 
-<script src="login.js"></script>
 </html>

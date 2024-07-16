@@ -14,6 +14,7 @@
 </head>
 
 <body hx-ext="ws" ws-connect="ws://localhost:8000/ws/notifications/" hx-target="dynamic-content-ws">
+  <button id="signOutButton">Sign Out</button>
   <cb-data-upload>
     <cb-data-source-selector></cb-data-source-selector>
     <cb-generate-charts-button></cb-generate-charts-button>
@@ -27,6 +28,41 @@
   <cb-data-vis></cb-data-vis>
 
   <script src="index.js"></script>
+  <script>
+    document.getElementById('signOutButton').addEventListener('click', function() {
+        fetch('http://localhost:8000/api/logout/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Include the CSRF token
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/'; // Redirect to the home page after sign out
+            } else {
+                console.error('Sign out failed');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
 
 </body>
 </html>

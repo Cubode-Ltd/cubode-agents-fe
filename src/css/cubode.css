@@ -106,3 +106,16 @@ select {
   max-width: auto !important;
   /* Ensure the content adjusts to the text length */
 }
+
+/* #form {
+  width: 600px;
+  height: 720px;
+  position: absolute;
+  top: 108px;
+  left: 420px;
+  gap: 0px;
+  border-radius: 4px 0px 0px 0px;
+  border: 1px solid #E6E6EE;
+  background: rgba(255, 255, 255, 0.8);
+  opacity: 1;
+} */
