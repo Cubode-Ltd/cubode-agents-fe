@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormComponent from './form/plot-forms/cb-form-component';
+import FormComponent from '../plot-forms/cb-form-component';
 
 const sidebarTemplate = document.createElement('template');
 sidebarTemplate.innerHTML = `

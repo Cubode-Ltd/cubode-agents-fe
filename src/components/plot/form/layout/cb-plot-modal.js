@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import FormComponent from '../plot-forms/cb-form-component';
 
 const modalTemplate = document.createElement('template');
 modalTemplate.innerHTML = `
@@ -65,6 +66,14 @@ class ModalComponent extends HTMLElement {
   get schemaUI() {
     return this._schemaUI;
   }
+  
+  set initialValues(value) {
+    this._initialValues = value;
+  }
+
+  get initialValues() {
+    return this._initialValues;
+  }
 
   openModal() {
     this.modal.showModal();
@@ -83,9 +92,17 @@ class ModalComponent extends HTMLElement {
   }
 
   renderReactComponent() {
-    if (this.reactForm) {
+    if (this.reactForm && this.initialValues) {
       const root = createRoot(this.reactForm);
-      root.render(<FormComponent schema={this.schema} schemaUI={this.schemaUI} onFormSubmit={this.handleFormSubmit} />);
+      root.render(
+        <FormComponent
+          allowAddForms={true}
+          formSchema={this.schema}
+          initialValues={this.initialValues}
+          onFormSubmit={this.handleFormSubmit}
+          onFormChange={this.handleFormSubmit}
+        />
+      );
     }
   }
 }
