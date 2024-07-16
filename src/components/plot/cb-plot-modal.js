@@ -1,10 +1,10 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-// import FormComponent from './form/cb-form-json'; // './form/cb-form-json';  './form/cb-form-json-2';
 
 const modalTemplate = document.createElement('template');
 modalTemplate.innerHTML = `
   <style>@import "dev/css/main.css";</style>
+  
   <div>    
     <dialog class="modal rounded-2xl">
       <div class="modal-box bg-white rounded-2xl dark:bg-gray-600 border-2 border-gray-300  m-0 p-5 flex flex-col" style="height:600px; min-width:500px; min-height:400px;">

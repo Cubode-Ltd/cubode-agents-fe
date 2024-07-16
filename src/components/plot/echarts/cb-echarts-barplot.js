@@ -203,6 +203,7 @@ class BarPlot extends HTMLElement {
     }
     
     updateOption() {
+        // Chart Attributes chart-xxxx
         let title = this.getAttribute('chart-title') || 'Bar Plot';
         let subtitle = this.getAttribute('chart-subtitle') || '';
         let xAxisLabel = this.getAttribute('chart-xaxis-label') || '';
@@ -215,7 +216,7 @@ class BarPlot extends HTMLElement {
         // Helper function to get attribute by prefix and index
         const getAttributeByPrefixAndIndex = (prefix, index) => this.getAttribute(`${prefix}-${index}`) || '';
     
-        // Iterate over possible indices to construct series data
+        // Series attributes series-xxxx-1
         let index = 0;
         while (true) {
             const seriesTitle = getAttributeByPrefixAndIndex('series-title', index);
@@ -227,9 +228,9 @@ class BarPlot extends HTMLElement {
             const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color', index);
     
             if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
-                break; // No more series data found
+                break;
             }
-    
+            
             // Generate plot data for the current series
             const plotData = this.plotData(
                 seriesTitle,

@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export const formSchema = {
     title: "Bar Plot Customization",
     type: "object",
@@ -188,7 +186,6 @@ export const formSchema = {
       },
     },
 };
-  
 
 export const initialValues = {
     showBackgroundField: 'show',
