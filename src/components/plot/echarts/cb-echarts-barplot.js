@@ -1,8 +1,8 @@
 import * as echarts from 'echarts/core';
 const { DataFrame } = require('dataframe-js');
 
-import ColorScale from './ColorScales';
-import { formSchema, initialValues } from './schemas/barplot_new'
+import ColorScale from './utils/ColorScales';
+import { formSchema, initialValues } from '../form/schemas/barplot'
 import { BarChart } from 'echarts/charts';
 
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent } from 'echarts/components';
@@ -41,7 +41,6 @@ class BarPlot extends HTMLElement {
     }
 
     static get observedAttributes() {
-        // Create attributes from the Schema
         const attrs = ['hash', 'fileName'];
         const schemaProperties = formSchema.properties;
         Object.keys(schemaProperties).forEach(key => {
@@ -202,8 +201,6 @@ class BarPlot extends HTMLElement {
             xAxisData
         };
     }
-    
-    
     
     updateOption() {
         let title = this.getAttribute('chart-title') || 'Bar Plot';

@@ -3,33 +3,9 @@ import { createRoot } from 'react-dom/client';
 import FormComponent from './form/plot-forms/cb-form-component';
 
 const sidebarTemplate = document.createElement('template');
-sidebarTemplate.innerHTML = 
-  `<style>
-    @import "dev/css/main.css";
-    .sidebar {
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-    .sidebar.open {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    .sidebar.closed {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 8px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background-color: #F3F4F6; /* Tailwind color gray-500 */
-        border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background-color: #F9FAFB; /* Tailwind color gray-200 */
-        margin-top: 10px;
-    }
-
-  </style>
+sidebarTemplate.innerHTML = `
+  <style>@import "dev/css/main.css";</style>
+  
   <div class="sidebar-container" style="position: relative;">
     <div class="cb-sidebar-button cursor-pointer absolute top-0 left-1 drop-shadow-md hover:drop-shadow-lg ml-2 mt-2 fill-gray-400 hover:fill-gray-500">
         <svg width="15" height="15" class="pointer-events-none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="gearIcon" viewBox="0 0 45.973 45.973" xml:space="preserve">
