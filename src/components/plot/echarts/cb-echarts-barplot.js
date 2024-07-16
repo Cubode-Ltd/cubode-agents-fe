@@ -36,6 +36,9 @@ class BarPlot extends HTMLElement {
         this.chart_ = echarts.init(this.element);
         this.data_ = [];
         this.columns_ = [];
+        this.chart_ = echarts.init(this.element);
+        this.data_ = [];
+        this.columns_ = [];
 
         this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -82,6 +85,7 @@ class BarPlot extends HTMLElement {
                 easing: 'cubicInOut',
             },
         });
+        });
 
         if (this.modal) {
             this.modal.initialValues = this.initialValues;
@@ -115,9 +119,13 @@ class BarPlot extends HTMLElement {
 
         this.setAttribute('hash', hash);
         this.setAttribute('fileName', fileName);
+        this.setAttribute('hash', hash);
+        this.setAttribute('fileName', fileName);
 
         this.updateFormSchema(columns);
+        this.updateFormSchema(columns);
 
+        this.render();
         this.render();
     }
     
@@ -131,6 +139,7 @@ class BarPlot extends HTMLElement {
         if (this.modal) {
             this.modal.schema = this.formSchema;
         }
+        }
         if (this.sidebar) {
             this.sidebar.schema = this.formSchema;
         }
@@ -140,6 +149,7 @@ class BarPlot extends HTMLElement {
         aggregation = aggregation === '' ? 'none' : aggregation.toLowerCase();
     
         let series = {
+            'type': 'bar',
             'type': 'bar',
             'name': seriesName,
             'data': [],
@@ -160,6 +170,7 @@ class BarPlot extends HTMLElement {
     
         this.df = new DataFrame(this.data_);
         const grouped = this.df.groupBy(columnCategory);
+
 
         const aggregations = {
             'sum': (df, col) => df.stat.sum(col),
@@ -191,7 +202,9 @@ class BarPlot extends HTMLElement {
             aggregatedData.length
         );
 
+
         const xAxisData = aggregatedData.map(item => item[0]);
+
 
         series.data = aggregatedData.map((item, index) => ({
             value: item[1][validColumns[0]],
@@ -206,11 +219,20 @@ class BarPlot extends HTMLElement {
         
         
 
+
+        //Below attempt to extract the names to pass in the update option
+        // const labels = series.labels.map(item => item.name) 
+
+        // console.log(data,'<<<DATAAAAAAA');
+        
+        
+
         return {
             series,
             xAxisData
         };
     }
+
 
     updateOption() {
         // Chart Attributes chart-xxxx
@@ -272,6 +294,12 @@ class BarPlot extends HTMLElement {
             },
             yAxis: {
                 name: yAxisLabel
+            },
+            legend: {
+                show: legendPosition !== 'none',
+                orient: 'vertical',
+                left: legendPosition,
+                // data: labels  // Set legend data to category labels
             },
             legend: {
                 show: legendPosition !== 'none',
