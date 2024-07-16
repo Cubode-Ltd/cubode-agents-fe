@@ -7,13 +7,11 @@ import CustomBooleanField from '../fields/cb-field-boolean';
 
 const OnChangeHandler = ({ onChange }) => {
   const { values } = useFormikContext();
-
   useEffect(() => {
     if (onChange) {
       onChange(values);
     }
   }, [values, onChange]);
-
   return null;
 };
 
@@ -26,7 +24,7 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
   };
 
   return (
-    <div className={`dynamic-form relative ${index === 0 ? 'border-t' : ''} border-b px-6 py-4`}>
+    <div className={`dynamic-form relative ${index === 0 ? 'border-t' : ''} border-b px-6 py-4 no-select`}>
       <div className="flex justify-between items-center py-2">
         <p className="text-sm">{seriesTitle}</p>
         <button type="button" onClick={toggleDropdown} className="focus:outline-none">
@@ -50,7 +48,7 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
                 {...field}
                 type="text"
                 placeholder="Series Name"
-                className={formSchema.properties.dynamicForms.items.properties.seriesTitle.options.inputAttributes.class}
+                className={formSchema.properties.dynamicForms.items.properties['series-title'].options.inputAttributes.class}
                 onChange={(e) => {
                   form.setFieldValue(field.name, e.target.value);
                   setSeriesTitle(e.target.value);
@@ -76,7 +74,7 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
                           <label htmlFor={`${key}-${index}`} className="text-sm">{value.title}</label>
                         )}
                         {Component ? (
-                          <Component field={field} form={form} options={value.enum} title={value.title} />
+                          <Component field={field} form={form} options={value.enum} title={value.title} singleValue={value.maxtags} />
                         ) : (
                           <input
                             {...field}
@@ -151,7 +149,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
             {/* Normal Entries */}
             {Object.entries(formSchema.properties).map(([key, value]) => (
               key !== 'dynamicForms' && (
-                <div key={key} className="px-6 mb-4">
+                <div key={key} className="px-6 mb-4 no-select">
                   <label htmlFor={key} className="text-sm">{value.title}</label>
                   <Field name={key} defaultValue="">
                     {({ field, form }) => {

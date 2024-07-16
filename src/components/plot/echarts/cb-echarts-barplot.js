@@ -57,9 +57,17 @@ class BarPlot extends HTMLElement {
     }
 
     handleFormSubmit(value) {
-        console.log("Henso",value)
         Object.keys(value).forEach(key => {
-            this.setAttribute(key, value[key]);
+            if (key === 'dynamicForms') {
+                value[key].forEach((item, index) => {
+                    console.log(item)
+                    Object.keys(item).forEach(subKey => {
+                        this.setAttribute(`${subKey}-${index}`, item[subKey]);
+                    });
+                });
+            } else {
+                this.setAttribute(key, value[key]);
+            }
         });
         this.render();
     }
@@ -80,9 +88,9 @@ class BarPlot extends HTMLElement {
         }
 
         if (this.sidebar) {
+            this.sidebar.initialValues = this.initialValues;
             this.sidebar.callBack = this.handleFormSubmit;
             this.sidebar.schemaUI = this.formSchemaUI;
-            this.sidebar.initialValues = this.initialValues;
             this.sidebar.schema = this.formSchema;
         }
 
@@ -115,8 +123,8 @@ class BarPlot extends HTMLElement {
         const categoryColumnEnum = columns;
         const valueColumnEnum = columns;
     
-        this.formSchema.properties.dynamicForms.items.properties['columnCategory'].enum = categoryColumnEnum;
-        this.formSchema.properties.dynamicForms.items.properties['columnValues'].enum = valueColumnEnum;
+        this.formSchema.properties.dynamicForms.items.properties['series-column-category'].enum = categoryColumnEnum;
+        this.formSchema.properties.dynamicForms.items.properties['series-column-values'].enum = valueColumnEnum;
     
         if (this.modal) {
             this.modal.schema = this.formSchema;
@@ -126,31 +134,28 @@ class BarPlot extends HTMLElement {
         }
     }
 
-    plotData(seriesName) {
-        let columnCategory = this.getAttribute('column-category') || '';
-        let columnsValues = this.getAttribute('column-values') || '';
-        let aggregation = this.getAttribute('aggregation') || '';
+    plotData(seriesName, columnCategory, columnsValues, aggregation, colorScale, primaryColor, secondaryColor, showBackground) {
         aggregation = aggregation === '' ? 'none' : aggregation.toLowerCase();
-
-
+    
         let series = {
             'type': 'bar', 
             'name': seriesName,
             'data': [],
             'style': {
                 'color': 'black'
-            }
+            },
+            'showBackground': showBackground
         }
-
+    
         if (!this.data_ || columnCategory === '' || columnsValues === '') {
             return series;
         }
-
+    
         const validColumns = columnsValues.split(',').filter(col => this.columns_.includes(col));
         if (validColumns.length === 0) {
             return series;
         }
-
+    
         this.df = new DataFrame(this.data_);
         const grouped = this.df.groupBy(columnCategory);
     
@@ -159,21 +164,28 @@ class BarPlot extends HTMLElement {
             'mean': (df, col) => df.stat.mean(col),
             'median': (df, col) => df.stat.median(col),
             'min': (df, col) => df.stat.min(col),
-            'max': (df, col) => df.stat.max(col)
+            'max': (df, col) => df.stat.max(col),
+            'none': (df, col) => df.select(col).toArray().map(row => row[0]) // Direct values without aggregation
         };
+
+        if (aggregation === 'none') {
+            aggregation = 'sum'
+        }
     
-        const aggregatedData = grouped.aggregate(group => {
-            const result = {};
-            validColumns.forEach(col => {
-                result[col] = aggregations[aggregation](group, col);
-            });
-            return result;
+        let aggregatedData;
+        aggregatedData = grouped.aggregate(group => {
+                const result = {};
+                validColumns.forEach(col => {
+                    result[col] = aggregations[aggregation](group, col);
+                });
+                return result;
         }).toArray();
+        
     
         const scale = ColorScale.getColorScale(
-            this.getAttribute('color-scale') || 'Viridis',
-            this.getAttribute('color-primary') || '#000000',
-            this.getAttribute('color-secundary') || '#ffffff',
+            colorScale || 'Viridis',
+            primaryColor || '#000000',
+            secondaryColor || '#ffffff',
             aggregatedData.length
         );
     
@@ -191,22 +203,53 @@ class BarPlot extends HTMLElement {
         };
     }
     
+    
+    
     updateOption() {
-        let title = this.getAttribute('title') || 'Bar Plot';
-        let xAxisLabel = this.getAttribute('x-axis-label') || '';
-        let yAxisLabel = this.getAttribute('y-axis-label') || '';
+        let title = this.getAttribute('chart-title') || 'Bar Plot';
+        let subtitle = this.getAttribute('chart-subtitle') || '';
+        let xAxisLabel = this.getAttribute('chart-xaxis-label') || '';
+        let yAxisLabel = this.getAttribute('chart-yaxis-label') || '';
+        let showBackground = this.getAttribute('chart-show-background') === 'show';
     
-        let subtitle = this.getAttribute('subtitle') || '';
-        let legendPosition = this.getAttribute('legend-position') || '';
-        let showBackground = this.getAttribute('show-background') === 'true' || false;
-        let seriesName = this.getAttribute('series-name') || 'Series';
+        const seriesData = [];
+        const xAxisData = new Set();
+    
+        // Helper function to get attribute by prefix and index
+        const getAttributeByPrefixAndIndex = (prefix, index) => this.getAttribute(`${prefix}-${index}`) || '';
+    
+        // Iterate over possible indices to construct series data
+        let index = 0;
+        while (true) {
+            const seriesTitle = getAttributeByPrefixAndIndex('series-title', index);
+            const columnCategory = getAttributeByPrefixAndIndex('series-column-category', index);
+            const columnValues = getAttributeByPrefixAndIndex('series-column-values', index);
+            const aggregation = getAttributeByPrefixAndIndex('series-aggregation', index);
+            const seriesColorspace = getAttributeByPrefixAndIndex('series-colorspace', index);
+            const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color', index);
+            const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color', index);
+    
+            if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
+                break; // No more series data found
+            }
+    
+            // Generate plot data for the current series
+            const plotData = this.plotData(
+                seriesTitle,
+                columnCategory,
+                columnValues,
+                aggregation,
+                seriesColorspace,
+                seriesPrimaryColor,
+                seriesSecondaryColor,
+                showBackground
+            );
 
-        const plotData = this.plotData(seriesName);
-        let seriesData = plotData.series;
-        const xAxisData = plotData.xAxisData;
+            seriesData.push(plotData.series);
+            // plotData.xAxisData.forEach(data => xAxisData.add(data));
+            index++;
+        }
     
-        seriesData = {...seriesData, showBackground: showBackground}
-        
         this.option = {
             title: {
                 text: title,
@@ -216,7 +259,7 @@ class BarPlot extends HTMLElement {
             tooltip: {},
             xAxis: {
                 type: 'category',
-                data: xAxisData,
+                data: Array.from(xAxisData),
                 name: xAxisLabel
             },
             yAxis: {
@@ -225,10 +268,10 @@ class BarPlot extends HTMLElement {
             series: seriesData,
             animationDuration: 1000
         };
-
+    
         this.chart_.setOption(this.option);
     }
-
+    
     render() {
         this.updateOption();
         this.chart_.resize({

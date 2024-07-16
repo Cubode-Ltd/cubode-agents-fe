@@ -116,13 +116,12 @@ class SidebarComponent extends HTMLElement {
 
   handleFormSubmit(value) {
     if (this.callBack) {
-      console.log("blastoisersark,",value)
       this._callBack(value);
     }
   }
 
   renderReactComponent() {
-    if (this.reactForm) {
+    if (this.reactForm && this.initialValues) {
       const root = createRoot(this.reactForm);
       root.render(
         <FormComponent
@@ -130,6 +129,7 @@ class SidebarComponent extends HTMLElement {
           formSchema={this.schema}
           initialValues={this.initialValues}
           onFormSubmit={this.handleFormSubmit}
+          onFormChange={this.handleFormSubmit}
         />
       );
     }
