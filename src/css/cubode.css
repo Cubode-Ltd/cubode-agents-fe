@@ -62,13 +62,13 @@ select {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #f3f3f3;
+  background-color: #f8f8f8;
   border-radius: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #bbbbbb;
-  margin-top: 10px;
+  background-color: #dfdfdf;
+  margin-top: 20px;
   border-radius: 8px;
 }
 
