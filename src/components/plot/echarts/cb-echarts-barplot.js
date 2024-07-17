@@ -34,6 +34,7 @@ class BarPlot extends HTMLElement {
         this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
 
         this.chart_ = echarts.init(this.element);
+
         this.data_ = [];
         this.columns_ = [];
 
@@ -70,7 +71,6 @@ class BarPlot extends HTMLElement {
         Object.keys(value).forEach(key => {
             if (key === 'dynamicForms') {
                 value[key].forEach((item, index) => {
-                    console.log(item)
                     Object.keys(item).forEach(subKey => {
                         this.setAttribute(`${subKey}-${index}`, item[subKey]);
                     });
@@ -222,7 +222,7 @@ class BarPlot extends HTMLElement {
         let xAxisLabel = this.getAttribute('chart-xaxis-label') || '';
         let yAxisLabel = this.getAttribute('chart-yaxis-label') || '';
         let showBackground = this.getAttribute('chart-show-background') === 'show';
-    
+        
         const seriesData = [];
         const xAxisData = new Set();
     
@@ -260,6 +260,7 @@ class BarPlot extends HTMLElement {
             // plotData.xAxisData.forEach(data => xAxisData.add(data));
             index++;
         }
+
     
         this.option = {
             title: {
@@ -279,7 +280,7 @@ class BarPlot extends HTMLElement {
             series: seriesData,
             animationDuration: 1000
         };
-    
+        
         this.chart_.setOption(this.option);
     }
     

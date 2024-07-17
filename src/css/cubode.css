@@ -107,6 +107,20 @@ select {
   height: 540px;
 }
 
+/* Plot E-Chart */
+.cb-echart-pieplot {
+  width: 960px; 
+  height: 540px;
+}
+
+
+/* Plot E-Chart */
+.cb-echart-pieplot {
+  width: 960px; 
+  height: 540px;
+}
+
+
 
 .ag-theme-alpine {
   --ag-header-background-color: #f8f9fa;

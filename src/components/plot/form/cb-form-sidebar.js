@@ -49,6 +49,8 @@ class SidebarComponent extends HTMLElement {
         return ['allow-multiple-series'];  
   }
 
+  // #get the attributes
+
   connectedCallback() {
     this.renderReactComponent();
   }

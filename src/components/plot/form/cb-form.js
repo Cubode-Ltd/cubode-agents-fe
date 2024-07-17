@@ -123,7 +123,8 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
   );
 };
 
-const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit, onFormChange }) => {
+// allowMultipleSeries
+const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit, onFormChange}) => { 
   const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
 
   const addForm = () => {
