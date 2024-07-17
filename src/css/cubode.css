@@ -106,3 +106,20 @@ select {
   width: 960px; 
   height: 540px;
 }
+
+
+.ag-theme-alpine {
+  --ag-header-background-color: #f8f9fa;
+  --ag-row-hover-color: #f1f3f5;
+  --ag-alpine-active-color: #007bff;
+  --ag-background-color: #ffffff;
+  --ag-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --ag-border-color: #dee2e6;
+  --ag-odd-row-background-color: #f8f9fa;
+  --ag-header-foreground-color: #212529;
+  --ag-foreground-color: #495057;
+  --ag-secondary-foreground-color: #6c757d;
+  --ag-font-size: 14px;
+  --ag-icon-size: 16px;
+  --ag-border-radius: 1rem;
+}

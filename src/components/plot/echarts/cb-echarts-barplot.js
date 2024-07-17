@@ -15,7 +15,7 @@ const template = document.createElement('template');
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-echart-barplot relative w-full overflow-hidden">
+    <div class="cb-echart-barplot relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-modal class="cb-plot-modal absolute top-0"></cb-plot-modal>
         <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
@@ -27,8 +27,9 @@ class BarPlot extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.element = this.shadowRoot.querySelector('.cb-chart-container');
 
+        this.main = this.shadowRoot.querySelector('.cb-echart-barplot');
+        this.element = this.shadowRoot.querySelector('.cb-chart-container');
         this.modal = this.shadowRoot.querySelector('cb-plot-modal');
         this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
 
@@ -49,6 +50,14 @@ class BarPlot extends HTMLElement {
             attrs.push(key);
         });
         return attrs;
+    }
+
+    hide() {
+        this.main.classList.add('hidden');
+    }
+
+    show() {
+        this.main.classList.remove('hidden');
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -74,6 +83,7 @@ class BarPlot extends HTMLElement {
     }
 
     connectedCallback() {
+        this.listeners();
         this.render();
         this.observeResize({
             animation: {
@@ -273,6 +283,15 @@ class BarPlot extends HTMLElement {
         this.chart_.setOption(this.option);
     }
     
+    listeners() {
+        const container = document.querySelector('cb-container');
+        if (container) {
+            container.addEventListener('export', () => {
+                console.log('Export button clicked');
+              });
+        }
+    }
+
     render() {
         this.updateOption();
         this.chart_.resize({
