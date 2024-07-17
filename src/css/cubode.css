@@ -11,6 +11,7 @@ select {
 
 .cb-wc-height {
   height: 540px;
+  min-width: 690px;
 }
 
 
