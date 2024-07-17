@@ -160,7 +160,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
                         value.format === 'customBoolean' ? CustomBooleanField :
                         undefined;
                       return Component ? (
-                        <Component field={field} form={form} options={value.enum} />
+                        <Component field={field} form={form} options={value.enum} title={value.title} singleValue={value.maxtags} />
                       ) : (
                         <input
                           {...field}
