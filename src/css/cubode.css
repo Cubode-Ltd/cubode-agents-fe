@@ -106,3 +106,10 @@ select {
   width: 960px; 
   height: 540px;
 }
+
+/* Plot E-Chart */
+.cb-echart-pieplot {
+  width: 960px; 
+  height: 540px;
+}
+
