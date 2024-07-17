@@ -3,7 +3,7 @@ template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
     <div class="cb-maincontainer border p-5 container dark:bg-gray-700 mx-auto sm:w-full lg:w-1/2">
         <div class="flex justify-between w-full mb-4">
-            <div class="w-[358px] whitespace-nowrap h-11 px-2 py-2.5 rounded-sm border border-gray-200 justify-center items-center gap-2.5 inline-flex">
+            <div class="whitespace-nowrap h-11 px-2 py-2.5 rounded-sm border border-gray-200 justify-center items-center gap-2.5 inline-flex">
                 <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
                     <div class="cb-plot-button-regenerate text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">Regenerate</div>
                 </button>
@@ -56,30 +56,37 @@ class Container extends HTMLElement {
     this.dispatchEvent(event); 
   }
 
-  viewData(e) {
+  toggleView() {
     const slotElements = this.slotElement.assignedNodes({ flatten: true }).filter(node => node.nodeType === Node.ELEMENT_NODE);
     slotElements.forEach(element => {
         if (element.tagName.toLowerCase() === 'cb-data-vis') {
-          element.show();
+          if (element.hidden) {
+            element.show();            
+          } else {
+            element.hide();
+          }
         } else if (element.classList.contains('cb-plot')) {
-          element.hide();
+          if (element.hidden) {
+            element.show();            
+          } else {
+            element.hide();
+          }
         }
     });
+    this.viewdata.textContent = this.viewdata.textContent === 'View Data' ? 'View Plot' : 'View Data';
   }
 
   connectedCallback() {
     this.regenerate.addEventListener('click', this.emitEvent.bind(this, 'regenerate'));
     this.export.addEventListener('click', this.emitEvent.bind(this, 'export'));
-    this.viewdata.addEventListener('click', e=> {this.viewData(e)});
+    this.viewdata.addEventListener('click', this.toggleView.bind(this));
   }
 
   disconnectedCallback() {
-    this.regenerateButton.removeEventListener('click', this.emitEvent);
-    this.exportButton.removeEventListener('click', this.emitEvent);
-    this.viewDataButton.removeEventListener('click', this.emitEvent);
+    this.regenerate.removeEventListener('click', this.emitEvent);
+    this.export.removeEventListener('click', this.emitEvent);
+    this.viewdata.removeEventListener('click', this.toggleView);
   }
-
-  
 }
 
 customElements.define('cb-container', Container);

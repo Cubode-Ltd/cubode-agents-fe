@@ -15,9 +15,8 @@ const template = document.createElement('template');
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-echart-barplot relative w-full overflow-hidden pt-2">
+    <div class="cb-echart-barplot cb-wc-height relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>
-        <cb-plot-modal class="cb-plot-modal absolute top-0"></cb-plot-modal>
         <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
     </div>
 `;
@@ -55,10 +54,12 @@ class BarPlot extends HTMLElement {
 
     hide() {
         this.main.classList.add('hidden');
+        this.hidden = true;
     }
 
     show() {
         this.main.classList.remove('hidden');
+        this.hidden = false;
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

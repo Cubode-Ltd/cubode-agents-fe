@@ -9,6 +9,11 @@ select {
   user-select: text;
 }
 
+.cb-wc-height {
+  height: 540px;
+}
+
+
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -104,7 +109,7 @@ select {
 /* Plot E-Chart */
 .cb-echart-barplot {
   width: 960px; 
-  height: 540px;
+ 
 }
 
 /* View Data */

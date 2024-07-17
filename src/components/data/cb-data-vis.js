@@ -4,8 +4,8 @@ const template = document.createElement('template');
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-data-visual container mx-auto py-4 px-4 bg-white pb-3 pt-3 shadow-lg">
-        <div id="data-table" class="ag-theme-alpine w-full h-[400px]" style="width:100% !important;"></div>
+    <div class="cb-data-visual cb-wc-height container mx-auto py-4 px-4 bg-white pb-3 pt-3 shadow-lg">
+        <div id="data-table" class="ag-theme-alpine w-full h-full" style="width:100% !important;"></div>
     </div>
 `;
 
@@ -38,10 +38,12 @@ class CBDataVis extends HTMLElement {
 
     hide() {
         this.main.classList.add('hidden');
+        this.hidden = true;
     }
 
     show() {
         this.main.classList.remove('hidden');
+        this.hidden = false;
     }
 
     static get observedAttributes() {
@@ -49,30 +51,7 @@ class CBDataVis extends HTMLElement {
     }
 
     attributeChangedCallback(name) {
-        if (name === 'hidden') {
-            this.toggleVisibility();
-        }
-    }
 
-    toggleVisibility() {
-        const container = this.shadowRoot.querySelector('.cb-data-upload');
-        if (this.hasAttribute('hidden')) {
-            container.setAttribute('hidden', '');
-        } else {
-            container.removeAttribute('hidden');
-        }
-    }
-
-    get hidden() {
-        return this.hasAttribute('hidden');
-    }
-
-    set hidden(value) {
-        if (value) {
-            this.setAttribute('hidden', '');
-        } else {
-            this.removeAttribute('hidden');
-        }
     }
 
     connectedCallback() {
