@@ -43,6 +43,8 @@ class SidebarComponent extends HTMLElement {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
+  // #get the attributes
+
   connectedCallback() {
     this.renderReactComponent();
   }
@@ -106,6 +108,7 @@ class SidebarComponent extends HTMLElement {
           initialValues={this.initialValues}
           onFormSubmit={this.handleFormSubmit}
           onFormChange={this.handleFormSubmit}
+          // hasMultipleSeries={this.hasAttribute('allow-mutilple-series')}
         />
       );
     }

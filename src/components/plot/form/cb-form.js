@@ -123,7 +123,8 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
   );
 };
 
-const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit, onFormChange }) => {
+// allowMultipleSeries
+const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit, onFormChange}) => { 
   const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
 
   const addForm = () => {
@@ -160,7 +161,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
                         value.format === 'customBoolean' ? CustomBooleanField :
                         undefined;
                       return Component ? (
-                        <Component field={field} form={form} options={value.enum} />
+                        <Component field={field} form={form} options={value.enum} title={value.title} singleValue={value.maxtags} />
                       ) : (
                         <input
                           {...field}
