@@ -1,13 +1,12 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormComponent from './form/cb-form-json'; // './form/cb-form-json';  './form/cb-form-json-2';
+import FormComponent from './cb-form';
 
 const modalTemplate = document.createElement('template');
 modalTemplate.innerHTML = `
   <style>@import "dev/css/main.css";</style>
-
-  <div>
-    
+  
+  <div>    
     <dialog class="modal rounded-2xl">
       <div class="modal-box bg-white rounded-2xl dark:bg-gray-600 border-2 border-gray-300  m-0 p-5 flex flex-col" style="height:600px; min-width:500px; min-height:400px;">
         <div class="flex-grow h-full" style="overflow: auto;">
@@ -67,6 +66,14 @@ class ModalComponent extends HTMLElement {
   get schemaUI() {
     return this._schemaUI;
   }
+  
+  set initialValues(value) {
+    this._initialValues = value;
+  }
+
+  get initialValues() {
+    return this._initialValues;
+  }
 
   openModal() {
     this.modal.showModal();
@@ -79,16 +86,23 @@ class ModalComponent extends HTMLElement {
   }
 
   handleFormSubmit(value) {
-    // Store the values of the form?
     if (this.callBack) {
       this._callBack(value);
     }
   }
 
   renderReactComponent() {
-    if (this.reactForm) {
+    if (this.reactForm && this.initialValues) {
       const root = createRoot(this.reactForm);
-      root.render(<FormComponent schema={this.schema} schemaUI={this.schemaUI} onFormSubmit={this.handleFormSubmit} />);
+      root.render(
+        <FormComponent
+          allowAddForms={true}
+          formSchema={this.schema}
+          initialValues={this.initialValues}
+          onFormSubmit={this.handleFormSubmit}
+          onFormChange={this.handleFormSubmit}
+        />
+      );
     }
   }
 }

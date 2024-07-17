@@ -14,7 +14,6 @@ select {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
@@ -42,7 +41,6 @@ select {
 
 
 /* Side Bar Animation */
-
 .sidebar {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -57,26 +55,25 @@ select {
   opacity: 0;
 }
 
+
 /* Custom Scroll bar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #F3F4F6;
-  /* Tailwind color gray-500 */
-  border-radius: 4px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #F9FAFB;
-  /* Tailwind color gray-200 */
-  margin-top: 10px;
+  background-color: #dfdfdf;
+  margin-top: 20px;
+  border-radius: 8px;
 }
 
 
-
-
+/* Tagify */
 .tagify__tag--custom {
   background-color: #e0f7fa;
   border-radius: 12px;
@@ -87,9 +84,7 @@ select {
   font-size: 0.875rem;
   color: #00796b;
   max-width: 100%;
-  /* Ensure the tag doesn't overflow */
   white-space: nowrap;
-  /* Prevent the tag text from wrapping */
 }
 
 .tagify__tag--custom .tagify__tag__removeBtn {
@@ -104,5 +99,17 @@ select {
   justify-content: center;
   width: auto !important;
   max-width: auto !important;
-  /* Ensure the content adjusts to the text length */
 }
+
+/* Plot E-Chart */
+.cb-echart-barplot {
+  width: 960px; 
+  height: 540px;
+}
+
+/* Plot E-Chart */
+.cb-echart-pieplot {
+  width: 960px; 
+  height: 540px;
+}
+

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
 import "../../../../css/main.css";
 
-const ColorPickerField = ({ field, form }) => {
+const ColorPickerField = ({ field, form, title }) => {
   const [showPicker, setShowPicker] = useState(false);
 
   const handleChangeComplete = (color) => {
@@ -14,9 +14,9 @@ const ColorPickerField = ({ field, form }) => {
   };
 
   return (
-    <div className="flex items-center no-select">
+    <div className="flex items-center no-select border rounded-md p-2">
       <div 
-        className="w-14 h-10 border border-gray-300 rounded cursor-pointer"
+        className="w-8 h-8 border border-gray-300 rounded-md cursor-pointer"
         style={{ backgroundColor: field.value }}
         onClick={togglePicker}
       />
@@ -29,11 +29,12 @@ const ColorPickerField = ({ field, form }) => {
           />
         </div>
       )}
+      <p className="ml-2 text-sm">{title} :</p>
       <input
         type="text"
         value={field.value}
         onChange={(e) => form.setFieldValue(field.name, e.target.value)}
-        className="ml-3 p-1 rounded font-bold text-gray-700 w-24"
+        className="ml-3 p-1 rounded text-gray-700 w-24 text-sm"
       />
     </div>
   );

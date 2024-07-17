@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export const formSchema = {
     title: "Bar Plot Customization",
     type: "object",
@@ -9,55 +7,55 @@ export const formSchema = {
       },
     },
     properties: {
-      chartTitle: {
+      "chart-title": {
         type: "string",
         title: "Chart Title",
         options: {
           inputAttributes: {
-            class: "w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
           },
         },
       },
-      chartSubtitle: {
+      "chart-subtitle": {
         type: "string",
         title: "Chart Subtitle",
         options: {
           inputAttributes: {
-            class: "w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
           },
         },
       },
-      xAxisLabel: {
+      "chart-xaxis-label": {
         type: "string",
         title: "X Axis Label",
         options: {
           inputAttributes: {
-            class: "w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
           },
         },
       },
-      yAxisLabel: {
+      "chart-yaxis-label": {
         type: "string",
         title: "Y Axis Label",
         options: {
           inputAttributes: {
-            class: "w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
           },
         },
       },
-      showBackgroundField: {
+      "chart-show-background": {
         type: "boolean",
         title: "Show Background",
         format: "customBoolean",
@@ -74,67 +72,70 @@ export const formSchema = {
           { value: 'hide', label: 'Hide' },
         ],
       },
-      dynamicForms: {
+      "dynamicForms": {
         type: "array",
         title: "Series",
         items: {
           type: "object",
           properties: {
-            seriesTitle: {
+            "series-title": {
               type: "string",
               title: "Series Title",
               options: {
                 inputAttributes: {
-                  class: "w-full h-12 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm py-1 px-2 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full h-12 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm py-1 px-2 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
                 },
               },
             },
-            columnCategory: {
+            "series-column-category": {
               type: "string",
               title: "Column Category",
               format: "tagify",
               enum: [],
+              maxtags: 1,
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
                 },
               },
             },
-            columnValues: {
+            "series-column-values": {
               type: "string",
               title: "Column Values",
               enum: [],
               format: "tagify",
+              maxtags: 1,
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
                 },
               },
             },
-            aggregation: {
+            "series-aggregation": {
               type: "string",
               title: "Aggregation",
               enum: ["Sum", "Mean", "Min", "Max"],
               format: "tagify",
+              maxtags: 1,
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full mt-3 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
                 },
               },
             },
-            seriesColorspace: {
+            "series-colorspace": {
               type: "string",
               title: "Color Space",
               format: "colorsDropdown",
@@ -147,33 +148,33 @@ export const formSchema = {
               ],
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
                 },
               },
             },
-            seriesCustomColor1: {
+            "series-primary-color": {
               type: "string",
               format: "color",
-              title: "Custom Color 1",
+              title: "Color Primary",
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
                 },
               },
             },
-            seriesCustomColor2: {
+            "series-secondary-color": {
               type: "string",
               format: "color",
-              title: "Custom Color 2",
+              title: "Color Secondary",
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -185,9 +186,15 @@ export const formSchema = {
       },
     },
 };
-  
 
 export const initialValues = {
     showBackgroundField: 'show',
-    dynamicForms: [{ seriesTitle: '', columnCategory: '', columnValues: '', seriesColorspace: '', seriesCustomColor1: '', seriesCustomColor2: '' }],
+    dynamicForms: [{ 
+      'series-title': '', 
+      'series-column-category': '', 
+      'series-column-values': '', 
+      'series-aggregation': '', 
+      'series-primary-color': '', 
+      'series-secondary-color': '' 
+    }],
 };
