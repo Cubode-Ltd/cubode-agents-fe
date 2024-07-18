@@ -17,7 +17,7 @@ sidebarTemplate.innerHTML = `
         <div class="flex-grow h-full overflow-auto custom-scrollbar border">
             <div class="react-component h-full mt-6"></div>
         </div>
-        <button class="cb-close-sidebar-button absolute top-6 right-2 h-5 w-5 p-1 border-2 border-gray-100 rounded-sm bg-gray-50 hover:bg-gray-200 flex items-center justify-center">
+        <button class="cb-close-sidebar-button absolute top-3 right-4 h-5 w-5 p-1 hover:border rounded-sm  hover:bg-gray-100 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 hover:text-gray-800" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 9.293l4.95-4.95a1 1 0 111.414 1.414L11.414 10l4.95 4.95a1 1 0 01-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.414-1.414l4.95-4.95-4.95-4.95A1 1 0 115.05 4.343L10 9.293z" clip-rule="evenodd" />
             </svg>
