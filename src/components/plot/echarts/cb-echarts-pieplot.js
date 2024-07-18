@@ -15,13 +15,11 @@ const template = document.createElement("template");
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-echart-pieplot relative w-full overflow-hidden">
+    <div class="cb-echart-pieplot cb-wc-height relative w-full overflow-hidden">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-sidebar allow-multiple-series="false" class="absolute top-0"></cb-plot-sidebar>
     </div>
 `;
-{/* <cb-plot-modal class="absolute top-0"></cb-plot-modal> */}
-
 
 class PiePlot extends HTMLElement {
   constructor() {
