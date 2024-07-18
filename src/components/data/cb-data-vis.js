@@ -4,7 +4,7 @@ const template = document.createElement('template');
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-data-visual cb-wc-height container mx-auto py-4 px-4 bg-white pb-3 pt-3 shadow-lg">
+    <div class="cb-data-visual cb-wc-height container mx-auto bg-white">
         <div id="data-table" class="ag-theme-alpine w-full h-full" style="width:100% !important;"></div>
     </div>
 `;

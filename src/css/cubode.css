@@ -127,5 +127,5 @@ select {
   --ag-secondary-foreground-color: #6c757d;
   --ag-font-size: 14px;
   --ag-icon-size: 16px;
-  --ag-border-radius: 1rem;
+  /* --ag-border-radius: 1rem; */
 }

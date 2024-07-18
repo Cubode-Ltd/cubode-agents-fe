@@ -20,8 +20,6 @@ template.innerHTML = `
         <cb-plot-sidebar allow-multiple-series="false" class="absolute top-0"></cb-plot-sidebar>
     </div>
 `;
-{/* <cb-plot-modal class="absolute top-0"></cb-plot-modal> */}
-
 
 class PiePlot extends HTMLElement {
   constructor() {
