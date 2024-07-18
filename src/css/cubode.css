@@ -81,7 +81,7 @@ select {
 
 /* Tagify */
 .tagify__tag--custom {
-  background-color: #e0f7fa;
+  background-color: #1E395C;
   border-radius: 12px;
   padding: 2px 8px;
   margin: 2px;
@@ -112,6 +112,7 @@ select {
   width: 960px; 
  
 }
+
 
 /* View Data */
 .ag-theme-alpine {

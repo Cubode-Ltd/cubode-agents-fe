@@ -31,7 +31,7 @@ export const formSchema = {
           },
         },
       },
-      "chart-xaxis-label": {
+      "chart-x-axis-label": {
         type: "string",
         title: "X Axis Label",
         options: {
@@ -43,7 +43,7 @@ export const formSchema = {
           },
         },
       },
-      "chart-yaxis-label": {
+      "chart-y-axis-label": {
         type: "string",
         title: "Y Axis Label",
         options: {

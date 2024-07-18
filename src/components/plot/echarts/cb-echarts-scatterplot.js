@@ -15,9 +15,9 @@ const template = document.createElement("template");
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-echart-scatterplot relative w-full overflow-hidden" style="height:40vh;">
-        <div class="cb-chart-container w-full h-full" ></div>
-        <cb-plot-sidebar class="absolute top-0 z-50 shadow-lg"></cb-plot-sidebar>
+    <div class="cb-echart-scatterplot cb-wc-height relative w-full overflow-hidden pt-2">
+        <div class="cb-chart-container w-full h-full"></div>
+        <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
     </div>
 `;
 {/* <cb-plot-modal class="absolute top-0"></cb-plot-modal> */}
@@ -27,10 +27,11 @@ class ScatterPlot extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.element = this.shadowRoot.querySelector(".cb-chart-container");
 
-    // this.modal = this.shadowRoot.querySelector('cb-plot-modal');
-    this.sidebar = this.shadowRoot.querySelector("cb-plot-sidebar");
+    this.main = this.shadowRoot.querySelector('.cb-echart-scatterplot');
+    this.element = this.shadowRoot.querySelector('.cb-chart-container');
+    this.modal = this.shadowRoot.querySelector('cb-plot-modal');
+    this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
 
     this.chart_ = echarts.init(this.element);
 
@@ -306,15 +307,6 @@ class ScatterPlot extends HTMLElement {
     let showLegend = this.getAttribute('chart-show-legend') === 'show';
     let showDataZoom = this.getAttribute('chart-show-zoom') === 'show';
 
-    // let legendPosition = this.getAttribute("legend-position") || "";
-    // let aggregation = this.getAttribute("aggregation") || "";
-
-    // const plotData = this.plotData(seriesName);
-    // let seriesData = plotData.series;
-    // const xAxisData = plotData.xAxisData;
-
-    // seriesData = { ...seriesData };
-
     const seriesData = [];
     
     // Helper function to get attribute by prefix and index
@@ -351,7 +343,6 @@ class ScatterPlot extends HTMLElement {
         );
 
         seriesData.push(plotData.series);
-        // plotData.xAxisData.forEach(data => xAxisData.add(data));
         index++;
     }
 
@@ -360,12 +351,19 @@ class ScatterPlot extends HTMLElement {
         text: title,
         subtext: subtitle,
         left: "center",
+        textStyle: {
+          fontFamily: "Poppins",
+          fontWeight: "bold",
+        },
+        subtextStyle: {
+          fontFamily: "Poppins"
+        }
       },
       legend: {
         show: showLegend,
         orient: "horizontal",
-        bottom: "10",
-        left: 'left',
+        top: "30",
+        right: '200',
         type: "scroll",
         width: 100,
         height: 300
@@ -382,16 +380,36 @@ class ScatterPlot extends HTMLElement {
           show: showDataZoom,
           xAxisIndex: [0],
           start: 0,
-          end: 100
-        },
+          end: 100,
+          backgroundColor: "rgba(0, 0, 0, 0)",
+            dataBackground: {
+              areaStyle: {
+                color: "#80A5D6"
+                },
+              lineStyle: {
+                color: '#1E395C'
+              }
+            },
+          bottom: 10,
+          height: 20
+          },
         {
           type: 'slider',
           show: showDataZoom,
           yAxisIndex: [0],
           left: '93%',
           start: 0,
-          end: 100
-        },
+          end: 100,
+          backgroundColor: "rgba(0, 0, 0, 0)",
+            dataBackground: {
+              areaStyle: {
+                color: "#80A5D6"
+                },
+              lineStyle: {
+                color: '#1E395C'
+              }
+            }
+          },
         {
           type: 'inside',
           xAxisIndex: [0],
@@ -407,10 +425,6 @@ class ScatterPlot extends HTMLElement {
       ] ,
       toolbox: {
         feature: {
-          // dataZoom: {
-          //   show: showDataZoom,
-          //   yAxisIndex: 'none'
-          // },
           restore:{},
           saveAsImage: {
             title: "Save as Image",
@@ -423,21 +437,22 @@ class ScatterPlot extends HTMLElement {
       xAxis:
          {
               type: "value",
-              // data: xAxisData,
               name: xAxisLabel,
-              nameLocation: 'end'
+              nameLocation: 'middle',
+              nameTextStyle: "Poppins",
+              nameGap:  20,
             },
       yAxis:
          {    type: 'value',
               name: yAxisLabel,
+              nameTextStyle: "Poppins",
+              nameRotate: 90,
+              nameLocation: 'middle'
             },
       series: seriesData,
       animationDuration: 1000,
     };
-
-
-    console.log(seriesData.data, "<<<data");
-
+    
     this.chart_.setOption(this.option);
   }
 
