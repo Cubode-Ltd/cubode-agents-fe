@@ -15,11 +15,9 @@ class SidePanel extends HTMLElement {
     }
     
     connectedCallback() {
-        console.log("Cubode Background");
     }
 
     disconnectedCallback() {
-        console.log("Cleanup");
     }
 
 }

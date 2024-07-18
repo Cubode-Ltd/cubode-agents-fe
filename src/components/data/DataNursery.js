@@ -51,6 +51,26 @@ class DataNursery extends EventTarget {
     return result;
   }
 
+  // extractMetadata(csvParsed) {
+  //   const metadata = {};
+
+  //   // Column names
+  //   metadata['Schema'] = csvParsed.meta.fields;
+
+  //   // Data types of each column
+  //   const dataTypes = {};
+  //   csvParsed.meta.fields.forEach(field => {
+  //     const fieldType = typeof csvParsed.data[0][field];
+  //     dataTypes[field] = fieldType === 'object' && csvParsed.data[0][field] === null ? 'null' : fieldType;
+  //   });
+  //   metadata['Data Types'] = dataTypes;
+
+  //   // Sample (first row)
+  //   metadata['Sample'] = csvParsed.data.slice(0, 1);
+
+  //   return metadata;
+  // }
+
   async storeCsvFile(file) {
     const hash = await this.generateHash(file);
     const reader = new FileReader();

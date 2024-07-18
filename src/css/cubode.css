@@ -1,34 +1,139 @@
 .no-select {
-    user-select: none;
+  user-select: none;
 }
 
-form, input, textarea, select {
-    user-select: text;
+form,
+input,
+textarea,
+select {
+  user-select: text;
 }
+
+.cb-wc-height {
+  height: 540px;
+  min-width: 690px;
+}
+
+.cb-fixed-top {
+  position: fixed;
+  top: 8rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
 
 /* Animations */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
+
 .fade-in {
-    animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 @keyframes scrollIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .scroll-in {
-    animation: scrollIn 0.5s ease-in-out;
+  animation: scrollIn 0.5s ease-in-out;
+}
+
+
+/* Side Bar Animation */
+.sidebar {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+
+/* Custom Scroll bar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #d4d4d4;
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f8f8f8;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+
+/* Tagify */
+.tagify__tag--custom {
+  background-color: #e0f7fa;
+  border-radius: 12px;
+  padding: 2px 8px;
+  margin: 2px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #00796b;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.tagify__tag--custom .tagify__tag__removeBtn {
+  margin-left: 4px;
+  cursor: pointer;
+  color: #00796b;
+}
+
+.tagify__tag--custom .tagify__tag__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto !important;
+  max-width: auto !important;
+}
+
+/* Plot E-Chart */
+.cb-echart-barplot {
+  width: 960px; 
+ 
+}
+
+/* View Data */
+.ag-theme-alpine {
+  --ag-header-background-color: #f8f9fa;
+  --ag-row-hover-color: #f1f3f5;
+  --ag-alpine-active-color: #007bff;
+  --ag-background-color: #ffffff;
+  --ag-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --ag-border-color: #dee2e6;
+  --ag-odd-row-background-color: #f8f9fa;
+  --ag-header-foreground-color: #212529;
+  --ag-foreground-color: #495057;
+  --ag-secondary-foreground-color: #6c757d;
+  --ag-font-size: 14px;
+  --ag-icon-size: 16px;
+  /* --ag-border-radius: 1rem; */
 }
