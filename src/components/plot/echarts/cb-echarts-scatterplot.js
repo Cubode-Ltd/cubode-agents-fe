@@ -138,7 +138,7 @@ class ScatterPlot extends HTMLElement {
     }
   }
   // showBackground
-  plotData(seriesName, columnCategory, columnsValues, aggregation, colorScale, primaryColor, secondaryColor, seriesSymbolSize) {
+  plotData(seriesName, columnCategory, columnsValues, aggregation, colorScale, primaryColor, secondaryColor, seriesSymbolSize, showLabels) {
     aggregation = aggregation === "" ? "none" : aggregation.toLowerCase();
 
     // let columnCategory = this.getAttribute("column-category") || "";
@@ -156,11 +156,11 @@ class ScatterPlot extends HTMLElement {
         color: "black",
       },
       symbolSize: seriesSymbolSize,
-      // label: {
-      //   show: showLabels !== "false", // Show labels on markers
-      //   position: "top", // Position the labels at the top of markers
-      //   formatter: "{c}", // Format the labels to show the value
-      // },
+      label: {
+        show: showLabels, // Show labels on markers
+        position: "top", // Position the labels at the top of markers
+        formatter: "{c}", // Format the labels to show the value
+      },
     };
 
     // TODO: ADD LOGIC TO GET THE DATA IF THERE IS A HASH / FILENAME.
@@ -174,10 +174,6 @@ class ScatterPlot extends HTMLElement {
     }
 
     this.df = new DataFrame(this.data_);
-    // console.log(this.df,'<<<<DAtaframe');
-    // if (aggregation === "none") {
-    // When aggregation is "none", display raw data points
-    // series.data = this.df.toArray().map(row => [row[this.columns_.indexOf(columnCategory)], row[this.columns_.indexOf(validColumns[0])]]);}
 
     let rawData = this.df
       .toArray()
@@ -306,6 +302,8 @@ class ScatterPlot extends HTMLElement {
     let subtitle = this.getAttribute("chart-subtitle") || "";
     let showLegend = this.getAttribute('chart-show-legend') === 'show';
     let showDataZoom = this.getAttribute('chart-show-zoom') === 'show';
+    let showLabels = this.getAttribute('chart-show-labels') === 'show';
+
 
     const seriesData = [];
     
@@ -323,6 +321,9 @@ class ScatterPlot extends HTMLElement {
         const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color', index);
         const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color', index);
         const seriesSymbolSize = getAttributeByPrefixAndIndex('series-symbol-size', index);
+        const seriesShowLabels = getAttributeByPrefixAndIndex('series-show-labels', index) === 'show';
+
+
 
 
         if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
@@ -338,8 +339,8 @@ class ScatterPlot extends HTMLElement {
             seriesColorspace,
             seriesPrimaryColor,
             seriesSecondaryColor,
-            seriesSymbolSize
-            // showBackground
+            seriesSymbolSize,
+            showLabels
         );
 
         seriesData.push(plotData.series);
@@ -363,10 +364,7 @@ class ScatterPlot extends HTMLElement {
         show: showLegend,
         orient: "horizontal",
         top: "30",
-        right: '200',
-        type: "scroll",
-        width: 100,
-        height: 300
+        right: '100'
       },
       tooltip: {
         trigger: "item",
@@ -425,6 +423,9 @@ class ScatterPlot extends HTMLElement {
       ] ,
       toolbox: {
         feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
           restore:{},
           saveAsImage: {
             title: "Save as Image",
@@ -447,7 +448,8 @@ class ScatterPlot extends HTMLElement {
               name: yAxisLabel,
               nameTextStyle: "Poppins",
               nameRotate: 90,
-              nameLocation: 'middle'
+              nameLocation: 'middle',
+              nameGap:  20,
             },
       series: seriesData,
       animationDuration: 1000,

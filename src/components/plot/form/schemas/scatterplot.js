@@ -72,6 +72,23 @@ export const formSchema = {
           { value: 'hide', label: 'Hide' },
         ],
     },
+    "chart-show-labels": {
+        type: "boolean",
+        title: "Show Value Labels",
+        format: "customBoolean",
+        options: {
+          inputAttributes: {
+            class: "w-full mt-3 p-2 border rounded-md",
+          },
+          containerAttributes: {
+            class: "mt-2 text-sm font-bold",
+          },
+        },
+        enum: [
+          { value: 'show', label: 'Show' },
+          { value: 'hide', label: 'Hide' },
+        ],
+    },
     "chart-show-zoom": {
         type: "boolean",
         title: "Show Zoom Slider",
