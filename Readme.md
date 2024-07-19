@@ -2,34 +2,7 @@
 
 Cubode Front-End AI Agent is a web application interface connected to the Cubode AI Agent Django backend. It uses Webpack for module bundling and builds a seamless interaction with the backend services.
 
-## Table of Contents
-
-- [Demo](#demo)
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API](#api)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Demo
-
-A live Cubode AI Agent application is available at [https://cubode.com/](https://cubode.com/).
-
-## Features
-
-- User authentication integration with Cubode AI Agent backend
-- File upload functionality
-- Dynamic content rendering based on API responses
-- Responsive design for mobile and desktop
-- Real-time notifications and updates
-
-## Prerequisites
-
-- Node.js: Ensure Node.js is installed on your machine. You can download it from [here](https://nodejs.org/).
-- npm: Node package manager, which comes with Node.js.
-- Docker: Ensure Docker is installed on your machine. You can download it from [here](https://www.docker.com/get-started).
+![Graphics Generator](./doc/FrontendAgent.png)
 
 ## Installation
 
@@ -50,20 +23,9 @@ A live Cubode AI Agent application is available at [https://cubode.com/](https:/
 4. Build the project using Webpack:
 
    ```bash
-   npm run build
-
-5. Run the Docker container for the backend (assuming the backend is set up similarly):
-   ```bash
-   docker-compose up --build
-
-## Usage
-1. Start the development server:
-
-   ```bash
-   ./starttailwind.sh
    npm start
 
-2. Open your web browser and navigate to http://localhost:9000 to access the Cubode Front-End AI Agent application.
+Open your web browser and navigate to http://localhost:9000 to access the Cubode Front-End AI Agent application.
 
 ## Development Conventions
 
@@ -99,6 +61,7 @@ Contributions to Cubode AI Agent are welcome! To contribute:
 3. Make your changes and commit them: `git commit -m "Add your commit message here"`.
 4. Push to your branch: `git push origin feature/your-feature-name`.
 5. Create a pull request detailing your changes.
+
 ## License
 This project is licensed under the MIT License.
 Feel free to reach out to us if you have any questions or feedback. Happy coding!

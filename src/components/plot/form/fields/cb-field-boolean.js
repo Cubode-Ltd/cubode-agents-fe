@@ -22,15 +22,8 @@ const CustomBooleanField = ({ field, form, options }) => (
   <div className="rounded border mt-3 py-2 px-1 flex justify-center items-center">
     {options.map((option, index) => (
       <React.Fragment key={option.value}>
-        <ToggleButton
-          field={field}
-          form={form}
-          value={option.value}
-          label={option.label}
-        />
-        {index < options.length - 1 && (
-          <div className="h-6 border-l mx-4"></div>
-        )}
+        <ToggleButton field={field} form={form} value={option.value} label={option.label} />
+        {index < options.length - 1 && (<div className="h-6 border-l mx-4"></div>)}
       </React.Fragment>
     ))}
   </div>

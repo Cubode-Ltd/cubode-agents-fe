@@ -27,8 +27,6 @@ class CBDataUpload extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         const templateContent = template.content.cloneNode(true);
         this.shadowRoot.appendChild(templateContent);
-
-        this.handleClickOutside = this.handleClickOutside.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
