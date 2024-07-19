@@ -53,6 +53,16 @@ class ScatterPlot extends HTMLElement {
     return attrs;
   }
 
+  hide() {
+    this.main.classList.add('hidden');
+    this.hidden = true;
+  }
+
+  show() {
+      this.main.classList.remove('hidden');
+      this.hidden = false;
+  }
+  
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
       this.render();

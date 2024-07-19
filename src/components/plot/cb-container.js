@@ -65,13 +65,13 @@ class Container extends HTMLElement {
           } else {
             element.hide();
           }
-        } else if (element.classList.contains('cb-plot')) {
+        } else if (element.tagName.toLowerCase().startsWith('cb-echart')) {
           if (element.hidden) {
-            element.show();            
+              element.show();
           } else {
-            element.hide();
+              element.hide();
           }
-        }
+      }
     });
     this.viewdata.textContent = this.viewdata.textContent === 'View Data' ? 'View Plot' : 'View Data';
   }
