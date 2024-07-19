@@ -20,6 +20,7 @@ import "./components/plot/form/cb-form-modal.js"
 import "./components/plot/form/cb-form-sidebar.js"
 import "./components/plot/echarts/cb-echarts-barplot.js"
 import "./components/plot/echarts/cb-echarts-pieplot.js"
+import "./components/plot/echarts/cb-echarts-scatterplot.js"
 import "./components/plot/cb-container.js"
 
 import "./components/layout/panels/cb-sidepanel.js"
