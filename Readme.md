@@ -2,6 +2,8 @@
 
 Cubode Front-End AI Agent is a web application interface connected to the Cubode AI Agent Django backend. It uses Webpack for module bundling and builds a seamless interaction with the backend services.
 
+![Graphics Generator](./doc/FrontendAgent.png)
+
 ## Installation
 
 1. Clone this repository to your local machine using:
@@ -22,7 +24,6 @@ Cubode Front-End AI Agent is a web application interface connected to the Cubode
 
    ```bash
    npm start
-
 
 Open your web browser and navigate to http://localhost:9000 to access the Cubode Front-End AI Agent application.
 

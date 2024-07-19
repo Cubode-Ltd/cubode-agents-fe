@@ -158,7 +158,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
                       const Component = value.format === 'color' ? ColorPickerField :
                         value.format === 'tagify' ? TagifyField :
                         value.format === 'colorsDropdown' ? ColorsDropdownField :
-                        value.format === 'customBoolean' ? CustomBooleanField :
+                        key.includes('Boolean') ? CustomBooleanField :
                         undefined;
                       return Component ? (
                         <Component field={field} form={form} options={value.enum} title={value.title} singleValue={value.maxtags} />

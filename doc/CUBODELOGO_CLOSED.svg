@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   width="420"
+   height="460"
+   x="0"
+   y="0"
+   viewBox="0 0 72.1875 79.0625"
+   xml:space="preserve"
+   class=""
+   id="svg11"
+   sodipodi:docname="CUBODELOGO_CLOSED.svg"
+   inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs15" /><sodipodi:namedview
+   id="namedview13"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:lockguides="true"
+   inkscape:zoom="0.49649392"
+   inkscape:cx="-27.190665"
+   inkscape:cy="329.30917"
+   inkscape:window-width="1874"
+   inkscape:window-height="1016"
+   inkscape:window-x="46"
+   inkscape:window-y="27"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Cube"
+   showguides="false"><inkscape:grid
+     type="xygrid"
+     id="grid666"
+     originx="79.758226"
+     originy="2.2896083" /></sodipodi:namedview>
+    <g
+   id="g9"
+   transform="translate(-18.398026,2.2896083)">
+        <g
+   id="Cube">
+            
+        <path
+   d="m 54.491776,42.397892 -36.09375,-22.34375 v 34.375 l 36.09375,22.34375 z"
+   fill="#80a5d6"
+   data-original="#8bb7f7"
+   id="path4-9-2"
+   style="opacity:1;fill:#ffb19a;fill-opacity:1;stroke-width:0.980652"
+   sodipodi:nodetypes="ccccc" /><path
+   d="m 54.491776,42.397892 36.09375,-22.34375 v 34.375 l -36.09375,22.34375 z"
+   fill="#80a5d6"
+   data-original="#8bb7f7"
+   id="path4-9-2-2"
+   style="opacity:1;fill:#224664;fill-opacity:1;stroke-width:0.980652"
+   sodipodi:nodetypes="ccccc" /><path
+   d="m 54.491776,32.085392 -36.09375,22.34375 v -34.375 l 36.09375,-22.3437503 z"
+   fill="#80a5d6"
+   data-original="#8bb7f7"
+   id="path4-9"
+   style="opacity:0.9;fill:#123b5a;fill-opacity:1;stroke-width:0.980652"
+   sodipodi:nodetypes="ccccc" /><path
+   d="m 54.491776,32.085392 36.09375,22.34375 v -34.375 L 54.491776,-2.2896083 Z"
+   fill="#80a5d6"
+   data-original="#8bb7f7"
+   id="path4"
+   style="opacity:0.9;fill:#70a1cc;fill-opacity:1;stroke-width:0.980652"
+   sodipodi:nodetypes="ccccc" /></g>
+    </g>
+</svg>

@@ -11,7 +11,6 @@ select {
 
 .cb-wc-height {
   height: 540px;
-  min-width: 690px;
 }
 
 .cb-fixed-top {
@@ -115,11 +114,6 @@ select {
   max-width: auto !important;
 }
 
-/* Plot E-Chart */
-.cb-echart-barplot {
-  width: 960px; 
- 
-}
 
 /* View Data */
 .ag-theme-alpine {
