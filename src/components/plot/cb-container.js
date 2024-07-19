@@ -2,7 +2,7 @@ const template = document.createElement('template');
 template.innerHTML = `
   <style>@import "dev/css/main.css";</style>
 
-  <div class="cb-maincontainer cb-fixed-top border p-5 container dark:bg-gray-700 mx-auto sm:w-full lg:w-1/2 no-select">
+  <div class="cb-maincontainer cb-fixed-top p-5 container dark:bg-gray-700 mx-auto sm:w-full lg:w-1/2 no-select">
       <div class="flex justify-between w-full mb-4">
           <div class="whitespace-nowrap h-11 px-2 py-2.5 rounded-sm border border-gray-200 justify-center items-center gap-2.5 inline-flex">
               <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
