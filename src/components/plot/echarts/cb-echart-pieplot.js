@@ -1,15 +1,28 @@
+// e-charts
 import * as echarts from "echarts/core";
-const { DataFrame } = require("dataframe-js");
-
-import ColorScale from './utils/ColorScales';
-import { formSchema ,initialValues } from '../form/schemas/pieplot'
 import { PieChart } from "echarts/charts";
-
-import {TitleComponent,TooltipComponent,GridComponent,DatasetComponent,TransformComponent, LegendComponent,ToolboxComponent} from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
+import {TitleComponent,TooltipComponent,GridComponent,DatasetComponent,TransformComponent, LegendComponent,ToolboxComponent} from "echarts/components";
+echarts.use([ 
+  PieChart, 
+  TitleComponent, 
+  TooltipComponent, 
+  LegendComponent, 
+  GridComponent, 
+  DatasetComponent, 
+  TransformComponent, 
+  LabelLayout, 
+  UniversalTransition, 
+  CanvasRenderer, 
+  ToolboxComponent]);
 
-echarts.use([ PieChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer,ToolboxComponent]);
+// DataScience
+const { DataFrame } = require("dataframe-js");
+
+// Utils and Form
+import ColorScale from './utils/ColorScales';
+import { formSchema ,initialValues } from '../form/schemas/pieplot'
 
 const template = document.createElement("template");
 template.innerHTML = `

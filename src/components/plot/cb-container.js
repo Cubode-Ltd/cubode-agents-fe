@@ -1,6 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-  <style>
+    <style>
     @import "dev/css/main.css";
     
     .carousel-container {
@@ -9,14 +9,14 @@ template.innerHTML = `
         overflow: hidden;
     }
 
-    .carousel-wrapper {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
+    .carousel-inner ::slotted(*) {
+        display: none;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .carousel-inner ::slotted(*) {
-        min-width: 100%;
-        box-sizing: border-box;
+    .carousel-inner ::slotted(.active) {
+        display: block;
     }
 
     .carousel-control {
@@ -40,40 +40,41 @@ template.innerHTML = `
   </style>
 
   <div class="cb-maincontainer cb-fixed-top p-5 container dark:bg-gray-700 mx-auto sm:w-full lg:w-1/2 no-select">
-      <div class="flex justify-between w-full mb-4">
-          <div class="whitespace-nowrap h-11 px-2 py-2.5 rounded-sm border border-gray-200 justify-center items-center gap-2.5 inline-flex">
-              <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
-                  <div class="cb-plot-button-regenerate text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">Regenerate</div>
-              </button>
-              <div class="w-1 h-[20px] origin-top-left border border-gray-200"></div>
-              
-              <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
-                  <div class="cb-plot-button-export text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">Export</div>
-              </button>
-              <div class="w-1 h-[20px] origin-top-left border border-gray-200"></div>
-              
-              <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
-                  <div class="cb-plot-button-viewdata text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">View Data</div>
-              </button>    
-          </div>
-          
-          <div class="space-x-2 hidden xl:flex">
-              <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
-              <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
-              <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
-          </div>
-      </div>
+    <div class="flex justify-between w-full mb-4">
+        <div class="whitespace-nowrap h-11 px-2 py-2.5 rounded-sm border border-gray-200 justify-center items-center gap-2.5 inline-flex">
+            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
+                <div class="cb-plot-button-regenerate text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">Regenerate</div>
+            </button>
+            <div class="w-1 h-[20px] origin-top-left border border-gray-200"></div>
+            
+            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
+                <div class="cb-plot-button-export text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">Export</div>
+            </button>
+            <div class="w-1 h-[20px] origin-top-left border border-gray-200"></div>
+            
+            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
+                <div class="cb-plot-button-viewdata text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">View Data</div>
+            </button>    
+        </div>
+        
+        <div class="space-x-2 hidden xl:flex">
+            <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
+            <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
+            <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
+        </div>
+    </div>
 
-      <div class="bg-white shadow carousel-container">
-          <div class="carousel-wrapper">
-              <div class="carousel-inner">
-                  <slot></slot>
-              </div>
-          </div>
-          <button class="carousel-control prev" onclick="prevSlide()">&#10094;</button>
-          <button class="carousel-control next" onclick="nextSlide()">&#10095;</button>
-      </div>
+    <div class="bg-white shadow carousel-container">
+        <div class="carousel-wrapper">
+            <div class="carousel-inner">
+                <slot></slot>
+            </div>
+        </div>
+        <button class="carousel-control prev">&#10094;</button>
+        <button class="carousel-control next">&#10095;</button>
+    </div>
   </div>
+
 `;
 
 class Container extends HTMLElement {
@@ -89,7 +90,6 @@ class Container extends HTMLElement {
     this.viewdata = this.shadowRoot.querySelector('.cb-plot-button-viewdata');
 
     this.slotElement = this.shadowRoot.querySelector('slot');
-    this.carouselWrapper = this.shadowRoot.querySelector('.carousel-wrapper');
     this.currentIndex = 0;
   }
 
@@ -102,7 +102,7 @@ class Container extends HTMLElement {
   }
 
   toggleView() {
-    const slotElements = this.slotElement.assignedNodes({ flatten: true }).filter(node => node.nodeType === Node.ELEMENT_NODE);
+    const slotElements = this.slotElement.assignedElements({ flatten: true });
     slotElements.forEach(element => {
       if (element.tagName.toLowerCase() === 'cb-data-vis' || element.tagName.toLowerCase().startsWith('cb-echart')) {
         element.hidden = !element.hidden;
@@ -112,7 +112,8 @@ class Container extends HTMLElement {
   }
 
   showSlide(index) {
-    const totalSlides = this.carouselWrapper.children.length;
+    const slotElements = this.slotElement.assignedElements({ flatten: true });
+    const totalSlides = slotElements.length;
     if (index >= totalSlides) {
       this.currentIndex = 0;
     } else if (index < 0) {
@@ -120,7 +121,14 @@ class Container extends HTMLElement {
     } else {
       this.currentIndex = index;
     }
-    this.carouselWrapper.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+    
+    slotElements.forEach((el, idx) => {
+      if (idx === this.currentIndex) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    });
   }
 
   nextSlide() {
@@ -137,6 +145,9 @@ class Container extends HTMLElement {
     this.viewdata.addEventListener('click', this.toggleView.bind(this));
     this.shadowRoot.querySelector('.carousel-control.next').addEventListener('click', this.nextSlide.bind(this));
     this.shadowRoot.querySelector('.carousel-control.prev').addEventListener('click', this.prevSlide.bind(this));
+    
+    // Show the first slide initially
+    this.showSlide(this.currentIndex);
   }
 
   disconnectedCallback() {
