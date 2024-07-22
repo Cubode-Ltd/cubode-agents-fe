@@ -9,6 +9,7 @@ select {
   user-select: text;
 }
 
+/* Common Cubode CSS */
 .cb-wc-height {
   height: 540px;
 }
@@ -19,8 +20,6 @@ select {
   left: 50%;
   transform: translateX(-50%);
 }
-
-
 
 /* Animations */
 @keyframes fadeIn {
@@ -131,4 +130,40 @@ select {
   --ag-font-size: 14px;
   --ag-icon-size: 16px;
   /* --ag-border-radius: 1rem; */
+}
+
+/* Carousel */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-inner ::slotted(*) {
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.carousel-inner ::slotted(.active) {
+  display: block;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.carousel-control.prev {
+  left: 10px;
+}
+
+.carousel-control.next {
+  right: 10px;
 }

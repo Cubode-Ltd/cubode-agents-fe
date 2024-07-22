@@ -1,43 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>
-    @import "dev/css/main.css";
-    
-    .carousel-container {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-    }
-
-    .carousel-inner ::slotted(*) {
-        display: none;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .carousel-inner ::slotted(.active) {
-        display: block;
-    }
-
-    .carousel-control {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        cursor: pointer;
-        padding: 10px;
-    }
-
-    .carousel-control.prev {
-        left: 10px;
-    }
-
-    .carousel-control.next {
-        right: 10px;
-    }
-  </style>
+  <style>@import "dev/css/main.css";</style>
 
   <div class="cb-maincontainer cb-fixed-top p-5 container dark:bg-gray-700 mx-auto sm:w-full lg:w-1/2 no-select">
     <div class="flex justify-between w-full mb-4">
@@ -89,8 +52,11 @@ class Container extends HTMLElement {
     this.export = this.shadowRoot.querySelector('.cb-plot-button-export');
     this.viewdata = this.shadowRoot.querySelector('.cb-plot-button-viewdata');
 
+    this.prevButton = this.shadowRoot.querySelector('.carousel-control.prev');
+    this.nextButton = this.shadowRoot.querySelector('.carousel-control.next');
     this.slotElement = this.shadowRoot.querySelector('slot');
     this.currentIndex = 0;
+    this.isDataView = false;
   }
 
   emitEvent(eventName) {
@@ -103,15 +69,28 @@ class Container extends HTMLElement {
 
   toggleView() {
     const slotElements = this.slotElement.assignedElements({ flatten: true });
-    slotElements.forEach(element => {
-      if (element.tagName.toLowerCase() === 'cb-data-vis' || element.tagName.toLowerCase().startsWith('cb-echart')) {
-        element.hidden = !element.hidden;
+    const dataViewElement = slotElements.find(element => element.tagName.toLowerCase() === 'cb-data-vis');
+    if (this.isDataView) {
+      this.isDataView = false;
+      this.viewdata.textContent = 'View Data';
+      this.prevButton.classList.remove('hidden');
+      this.nextButton.classList.remove('hidden');
+      this.showSlide(this.currentIndex); // Show the previously active plot
+    } else {
+      this.isDataView = true;
+      this.viewdata.textContent = 'View Plot';
+      this.prevButton.classList.add('hidden');
+      this.nextButton.classList.add('hidden');
+      slotElements.forEach(el => el.classList.remove('active'));
+      if (dataViewElement) {
+        dataViewElement.classList.add('active');
       }
-    });
-    this.viewdata.textContent = this.viewdata.textContent === 'View Data' ? 'View Plot' : 'View Data';
+    }
   }
 
   showSlide(index) {
+    if (this.isDataView) return; // Do nothing if currently in data view
+
     const slotElements = this.slotElement.assignedElements({ flatten: true });
     const totalSlides = slotElements.length;
     if (index >= totalSlides) {
