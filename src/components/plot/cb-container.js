@@ -33,8 +33,8 @@ template.innerHTML = `
                 <slot></slot>
             </div>
         </div>
-        <button class="carousel-control prev">&#10094;</button>
-        <button class="carousel-control next">&#10095;</button>
+       <button class="carousel-control prev bg-gray-200 opacity-60 text-white text-xs py-1 px-2 rounded-full absolute left-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-700 hover:shadow-lg transition-all">&#10094;</button>
+        <button class="carousel-control next bg-gray-200 opacity-60 text-white text-xs py-1 px-2 rounded-full absolute right-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-700 hover:shadow-lg transition-all">&#10095;</button>
     </div>
   </div>
 

@@ -149,7 +149,7 @@ select {
   display: block;
 }
 
-.carousel-control {
+/* .carousel-control {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -158,12 +158,12 @@ select {
   border: none;
   cursor: pointer;
   padding: 10px;
-}
-
+} */
+/* 
 .carousel-control.prev {
   left: 10px;
 }
 
 .carousel-control.next {
   right: 10px;
-}
+} */
