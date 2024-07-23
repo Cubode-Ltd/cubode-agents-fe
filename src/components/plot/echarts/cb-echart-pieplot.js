@@ -28,7 +28,7 @@ const template = document.createElement("template");
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-echart-pieplot cb-wc-height relative w-full overflow-hidden">
+    <div class="cb-echart-pieplot cb-wc-height relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-sidebar allow-multiple-series="false" class="absolute top-0"></cb-plot-sidebar>
     </div>
@@ -379,6 +379,10 @@ class PiePlot extends HTMLElement {
       },
       toolbox: {
         feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
+          restore:{},
           saveAsImage: {
             title: "Save as Image",
             type: "png",

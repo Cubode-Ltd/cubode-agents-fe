@@ -20,7 +20,6 @@ template.innerHTML = `
         <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
     </div>
 `;
-{/* <cb-plot-modal class="absolute top-0"></cb-plot-modal> */}
 
 class ScatterPlot extends HTMLElement {
   constructor() {
