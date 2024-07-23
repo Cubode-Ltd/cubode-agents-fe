@@ -157,9 +157,13 @@ export const formSchema = {
             "series-symbol-size": {
               type: "number",
               title: "Marker Size",
-                    options: {
+              format: "slider",
+              min: 1,
+              max: 20,
+              step: 1,
+              options: {
                 inputAttributes: {
-                  class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full mt-3 p-2",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",

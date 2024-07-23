@@ -149,21 +149,22 @@ select {
   display: block;
 }
 
-/* .carousel-control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
+.cb-custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px; /* Size of the thumb */
+  height: 16px; /* Size of the thumb */
+  border-radius: 50%;
+  background: #6a7d94; /* Gray-blue color for the thumb */
   cursor: pointer;
-  padding: 10px;
-} */
-/* 
-.carousel-control.prev {
-  left: 10px;
+  border: 2px solid #6a7d94;
 }
 
-.carousel-control.next {
-  right: 10px;
-} */
+.cb-custom-slider::-moz-range-thumb {
+  width: 16px; /* Size of the thumb */
+  height: 16px; /* Size of the thumb */
+  border-radius: 50%;
+  background: #6a7d94; /* Gray-blue color for the thumb */
+  cursor: pointer;
+  border: 2px solid #6a7d94;
+}

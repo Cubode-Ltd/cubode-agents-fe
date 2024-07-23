@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, useFormikContext } from 'formik';
 
 import TagifyField from './fields/cb-field-tagify';
+import SliderField from './fields/cb-field-slider';
 import ColorsDropdownField from './fields/cb-field-tagify-colors';
 import ColorPickerField from './fields/cb-field-color';
 import CustomBooleanField from './fields/cb-field-boolean';
@@ -65,6 +66,7 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
                     const Component = value.format === 'color' ? ColorPickerField :
                       value.format === 'tagify' ? TagifyField :
                       value.format === 'colorsDropdown' ? ColorsDropdownField :
+                      value.format === 'slider' ? SliderField :
                       key.includes('Boolean') ? CustomBooleanField :
                       undefined;
 
@@ -156,6 +158,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
                       const Component = value.format === 'color' ? ColorPickerField :
                         value.format === 'tagify' ? TagifyField :
                         value.format === 'colorsDropdown' ? ColorsDropdownField :
+                        value.format === 'slider' ? SliderField :
                         key.includes('Boolean') ? CustomBooleanField :
                         undefined;
                       return Component ? (
