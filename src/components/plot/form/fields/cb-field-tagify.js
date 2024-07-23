@@ -80,7 +80,7 @@ const TagifyField = ({ field, form, options, singleValue, title }) => {
         ref={inputRef}
         defaultValue={field.value}
         placeholder={title}
-        className="w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-md border-blue-gray-200 focus:border-gray-300"
+        className="w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-md border-blue-gray-200 focus:border-gray-300"
         onChange={(e) => form.setFieldValue(field.name, extractColorScales(e.target.value))}
       />
       <span 
