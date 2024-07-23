@@ -152,7 +152,7 @@ const AdvancedTagifyField = ({ field, form, title }) => {
         ref={inputRef}
         defaultValue={field.value}
         onChange={(e) => form.setFieldValue(field.name, extractColorScales(e.target.value))}
-        className="w-full h-12 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-md border-blue-gray-200 focus:border-gray-300"
+        className="w-full h-12 bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm p-1 rounded-md border-blue-gray-200 focus:border-gray-300"
       />
       <span 
         ref={chevronRef} 

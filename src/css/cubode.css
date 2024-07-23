@@ -9,6 +9,7 @@ select {
   user-select: text;
 }
 
+/* Common Cubode CSS */
 .cb-wc-height {
   height: 540px;
 }
@@ -19,8 +20,6 @@ select {
   left: 50%;
   transform: translateX(-50%);
 }
-
-
 
 /* Animations */
 @keyframes fadeIn {
@@ -131,4 +130,41 @@ select {
   --ag-font-size: 14px;
   --ag-icon-size: 16px;
   /* --ag-border-radius: 1rem; */
+}
+
+/* Carousel */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-inner ::slotted(*) {
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.carousel-inner ::slotted(.active) {
+  display: block;
+}
+
+.cb-custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px; /* Size of the thumb */
+  height: 16px; /* Size of the thumb */
+  border-radius: 50%;
+  background: #6a7d94; /* Gray-blue color for the thumb */
+  cursor: pointer;
+  border: 2px solid #6a7d94;
+}
+
+.cb-custom-slider::-moz-range-thumb {
+  width: 16px; /* Size of the thumb */
+  height: 16px; /* Size of the thumb */
+  border-radius: 50%;
+  background: #6a7d94; /* Gray-blue color for the thumb */
+  cursor: pointer;
+  border: 2px solid #6a7d94;
 }

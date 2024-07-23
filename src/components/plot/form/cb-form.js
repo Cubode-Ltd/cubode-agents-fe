@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, useFormikContext } from 'formik';
 
 import TagifyField from './fields/cb-field-tagify';
+import SliderField from './fields/cb-field-slider';
 import ColorsDropdownField from './fields/cb-field-tagify-colors';
 import ColorPickerField from './fields/cb-field-color';
 import CustomBooleanField from './fields/cb-field-boolean';
@@ -15,7 +16,6 @@ const OnChangeHandler = ({ onChange }) => {
   }, [values, onChange]);
   return null;
 };
-
 const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, formSchema }) => {
   const [seriesTitle, setSeriesTitle] = useState(`Series ${index + 1}`);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -43,12 +43,12 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
 
       {isDropdownOpen && (
         <div className="mt-3">
-          <Field name={`dynamicForms[${index}].seriesTitle`} defaultValue="">
+          <Field name={`dynamicForms[${index}].series-title`} defaultValue="">
             {({ field, form }) => (
               <input
                 {...field}
                 type="text"
-                placeholder="Series Name"
+                placeholder="Series Title"
                 className={formSchema.properties.dynamicForms.items.properties['series-title'].options.inputAttributes.class}
                 onChange={(e) => {
                   form.setFieldValue(field.name, e.target.value);
@@ -59,13 +59,14 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
           </Field>
 
           {Object.entries(formSchema.properties.dynamicForms.items.properties).map(([key, value]) => (
-            key !== 'seriesTitle' && (
+            key !== 'series-title' && (
               <div className="mt-2" key={key}>
                 <Field name={`dynamicForms[${index}].${key}`} defaultValue="">
                   {({ field, form }) => {
                     const Component = value.format === 'color' ? ColorPickerField :
                       value.format === 'tagify' ? TagifyField :
                       value.format === 'colorsDropdown' ? ColorsDropdownField :
+                      value.format === 'slider' ? SliderField :
                       key.includes('Boolean') ? CustomBooleanField :
 
                       value.format === 'customBoolean' ? CustomBooleanField :
@@ -126,12 +127,11 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
   );
 };
 
-// allowMultipleSeries
-const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit, onFormChange}) => { 
+const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit, onFormChange }) => {
   const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
 
   const addForm = () => {
-    setDynamicForms([...dynamicForms, { seriesTitle: '', columnCategory: '', columnValues: '', seriesColorspace: '', seriesCustomColor1: '', seriesCustomColor2: '' }]);
+    setDynamicForms([...dynamicForms, { 'series-title': '', 'series-column-category': '', 'series-column-values': '', 'series-aggregation': '', 'series-primary-color': '', 'series-secondary-color': '' }]);
   };
 
   const removeForm = (index) => {
@@ -161,6 +161,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
                       const Component = value.format === 'color' ? ColorPickerField :
                         value.format === 'tagify' ? TagifyField :
                         value.format === 'colorsDropdown' ? ColorsDropdownField :
+                        value.format === 'slider' ? SliderField :
                         value.format === 'customBoolean' ? CustomBooleanField :
                         undefined;
                       return Component ? (

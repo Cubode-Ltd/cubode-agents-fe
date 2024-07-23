@@ -269,6 +269,20 @@ class BarPlot extends HTMLElement {
                 subtext: subtitle,
                 left: 'center',
             },
+            toolbox: {
+                feature: {
+                  dataZoom: {
+                    yAxisIndex: 'none'
+                  },
+                  restore:{},
+                  saveAsImage: {
+                    title: "Save as Image",
+                    type: "png",
+                    backgroundColor: "#fff",
+                    pixelRatio: 2,
+                  },
+                },
+              },
             tooltip: {},
             xAxis: {
                 type: 'category',

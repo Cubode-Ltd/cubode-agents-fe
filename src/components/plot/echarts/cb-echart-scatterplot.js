@@ -20,7 +20,6 @@ template.innerHTML = `
         <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
     </div>
 `;
-{/* <cb-plot-modal class="absolute top-0"></cb-plot-modal> */}
 
 class ScatterPlot extends HTMLElement {
   constructor() {
@@ -53,6 +52,16 @@ class ScatterPlot extends HTMLElement {
     return attrs;
   }
 
+  hide() {
+    this.main.classList.add('hidden');
+    this.hidden = true;
+  }
+
+  show() {
+      this.main.classList.remove('hidden');
+      this.hidden = false;
+  }
+  
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
       this.render();

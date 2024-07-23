@@ -1,21 +1,34 @@
+// e-charts
 import * as echarts from "echarts/core";
-const { DataFrame } = require("dataframe-js");
-
-import ColorScale from './utils/ColorScales';
-import { formSchema ,initialValues } from '../form/schemas/pieplot'
 import { PieChart } from "echarts/charts";
-
-import {TitleComponent,TooltipComponent,GridComponent,DatasetComponent,TransformComponent, LegendComponent,ToolboxComponent} from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
+import {TitleComponent,TooltipComponent,GridComponent,DatasetComponent,TransformComponent, LegendComponent,ToolboxComponent} from "echarts/components";
+echarts.use([ 
+  PieChart, 
+  TitleComponent, 
+  TooltipComponent, 
+  LegendComponent, 
+  GridComponent, 
+  DatasetComponent, 
+  TransformComponent, 
+  LabelLayout, 
+  UniversalTransition, 
+  CanvasRenderer, 
+  ToolboxComponent]);
 
-echarts.use([ PieChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer,ToolboxComponent]);
+// DataScience
+const { DataFrame } = require("dataframe-js");
+
+// Utils and Form
+import ColorScale from './utils/ColorScales';
+import { formSchema ,initialValues } from '../form/schemas/pieplot'
 
 const template = document.createElement("template");
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-echart-pieplot cb-wc-height relative w-full overflow-hidden">
+    <div class="cb-echart-pieplot cb-wc-height relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-sidebar allow-multiple-series="false" class="absolute top-0"></cb-plot-sidebar>
     </div>
@@ -48,6 +61,16 @@ class PiePlot extends HTMLElement {
       attrs.push(key);
     });
     return attrs;
+  }
+
+  hide() {
+    this.main.classList.add('hidden');
+    this.hidden = true;
+  }
+
+  show() {
+      this.main.classList.remove('hidden');
+      this.hidden = false;
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -356,6 +379,10 @@ class PiePlot extends HTMLElement {
       },
       toolbox: {
         feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
+          restore:{},
           saveAsImage: {
             title: "Save as Image",
             type: "png",

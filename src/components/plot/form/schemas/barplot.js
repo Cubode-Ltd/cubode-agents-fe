@@ -83,7 +83,7 @@ export const formSchema = {
               title: "Series Title",
               options: {
                 inputAttributes: {
-                  class: "w-full h-12 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm py-1 px-2 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full h-12 bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm py-1 px-2 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -98,7 +98,7 @@ export const formSchema = {
               maxtags: 1,
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -113,7 +113,7 @@ export const formSchema = {
               maxtags: 1,
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -128,7 +128,7 @@ export const formSchema = {
               maxtags: 1,
               options: {
                 inputAttributes: {
-                  class: "w-full mt-3 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full mt-3 bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -148,7 +148,7 @@ export const formSchema = {
               ],
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -161,7 +161,7 @@ export const formSchema = {
               title: "Color Primary",
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -174,7 +174,7 @@ export const formSchema = {
               title: "Color Secondary",
               options: {
                 inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
