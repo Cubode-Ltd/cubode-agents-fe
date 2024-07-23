@@ -11,7 +11,7 @@ const TagifyField = ({ field, form, options, singleValue, title }) => {
   useEffect(() => {
     tagifyRef.current = new Tagify(inputRef.current, {
       whitelist: options,
-      maxTags: singleValue ? 1 : Infinity,
+      maxTags: singleValue ? 2 : Infinity,
       placeholder: title,
       dropdown: {
         maxItems: 20,
@@ -40,7 +40,6 @@ const TagifyField = ({ field, form, options, singleValue, title }) => {
     const handleChevronClick = (event) => {
       const path = event.composedPath();
       const isCloseChevron = path.some(el => el.classList && el.classList.contains('chevron-element-close'));
-      console.log("click:", isCloseChevron);
       if (isCloseChevron) {
         return;
       }
@@ -63,13 +62,26 @@ const TagifyField = ({ field, form, options, singleValue, title }) => {
     tagifyRef.current.on('dropdown:show', () => setDropdownOpen(true));
     tagifyRef.current.on('dropdown:hide', () => setDropdownOpen(false));
 
+    // Handle tag add event to replace the existing tag with the new one
+    tagifyRef.current.on('add', (e) => {
+      if (singleValue && tagifyRef.current.value.length > 1) {
+        const newTag = e.detail.data;
+        tagifyRef.current.removeAllTags();
+        tagifyRef.current.addTags([newTag]);
+        form.setFieldValue(field.name, [newTag.value]);
+      } else {
+        form.setFieldValue(field.name, tagifyRef.current.value.map(tag => tag.value));
+      }
+    });
+
     return () => {
       if (chevronRef.current) {
-        chevronRef.current.removeEventListener('click', handleChevronClick);
+        chevronRef.current.removeEventListener('mousedown', handleChevronClick);
       }
       document.removeEventListener('mousedown', handleClickOutside);
       tagifyRef.current.off('dropdown:show');
       tagifyRef.current.off('dropdown:hide');
+      tagifyRef.current.off('add');
     };
   }, [field.name, form, options, singleValue, title]);
 
