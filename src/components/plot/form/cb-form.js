@@ -66,8 +66,10 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
                     const Component = value.format === 'color' ? ColorPickerField :
                       value.format === 'tagify' ? TagifyField :
                       value.format === 'colorsDropdown' ? ColorsDropdownField :
+                      key.includes('Boolean') ? CustomBooleanField :
+
                       value.format === 'customBoolean' ? CustomBooleanField :
-                      // key.includes('Boolean') ? CustomBooleanField :
+
                       undefined;
 
                     return (
@@ -159,7 +161,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
                       const Component = value.format === 'color' ? ColorPickerField :
                         value.format === 'tagify' ? TagifyField :
                         value.format === 'colorsDropdown' ? ColorsDropdownField :
-                        key.includes('Boolean') ? CustomBooleanField :
+                        value.format === 'customBoolean' ? CustomBooleanField :
                         undefined;
                       return Component ? (
                         <Component field={field} form={form} options={value.enum} title={value.title} singleValue={value.maxtags} />

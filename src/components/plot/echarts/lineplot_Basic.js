@@ -5,11 +5,11 @@ import ColorScale from './utils/ColorScales';
 import { formSchema, initialValues } from '../form/schemas/lineplot'
 
 import { LineChart } from "echarts/charts";
-import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LegendComponent, ToolboxComponent} from "echarts/components";
+import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LegendComponent, ToolboxComponent, DataZoomComponent} from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 
-echarts.use([ LineChart, TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer, LegendComponent, ToolboxComponent]);
+echarts.use([ LineChart, TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer, LegendComponent, ToolboxComponent, DataZoomComponent]);
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -145,8 +145,12 @@ class LinePlot extends HTMLElement {
     }
   }
 
-  plotData(seriesName, columnCategory, columnsValues, aggregation, colorScale, primaryColor, secondaryColor, smoothLine, symbolSize, lineStyle, showArea) {
+  plotData(seriesName, columnCategory, columnsValues, aggregation, lineColor, colorScale, primaryColor, secondaryColor, smoothLine, symbolSize, lineStyle, showArea, showLabels) {
     aggregation = aggregation === '' ? 'none' : aggregation.toLowerCase();
+    showArea = showArea === 'show' ? true : false;
+    showLabels = showLabels === 'show' ? true : false;
+    smoothLine = smoothLine.toLowerCase() === 'smooth' ? true : false;
+
     // let columnCategory = this.getAttribute("column-category") || "";
     // let columnsValues = this.getAttribute("column-values") || "";
     // let aggregation = this.getAttribute("aggregation") || "";
@@ -168,6 +172,7 @@ class LinePlot extends HTMLElement {
     //   },
     // };
 
+    console.log("lineColor:  ", lineColor)
     let series = {
       type: "line",
       name: seriesName,
@@ -176,18 +181,26 @@ class LinePlot extends HTMLElement {
       symbolSize: symbolSize,
       lineStyle: {
         type: lineStyle.toLowerCase(),
+        color: lineColor || "#3A9BDC"
       },
       label: {
-        show: "true", // Show labels on markers
+        show: showLabels, // Show labels on markers
         position: "top", // Position the labels at the top of markers
         formatter: "{c}", // Format the labels to show the value
       },
+      areaStyle: {
+        color: showArea ? "#3A9BDC" : 'rgba(255,255,255,0)'
+      }
     };
 
-    if (showArea) {
-      series['areaStyle']={}
-    }
+    // if (showArea) {
+    //   series.areaStyle = {};
+    // } else {
+    //   delete series.areaStyle;
+    // }
 
+    console.log("THE AREA FLAG:  ", showArea)
+    console.log("SERIES:   ", series)
     // TODO: ADD LOGIC TO GET THE DATA IF THERE IS A HASH / FILENAME.
     if (!this.data_ || columnCategory === "" || columnsValues === "") {
       return series;
@@ -247,12 +260,13 @@ class LinePlot extends HTMLElement {
       if (value % 1 !== 0) {
         value = value.toFixed(2);
       }
+      console.log('COLORRRR: ', scale(index))
+ 
       return {
         value: value,
         name: item[0],
         itemStyle: { color: scale(index) },
-        //   percentage:
-        //     ((item[1][validColumns[0]] / totalSum) * 100).toFixed(2) + "%", // Round the percentage to two decimal places
+
       };
     });
 
@@ -267,10 +281,9 @@ class LinePlot extends HTMLElement {
     let title = this.getAttribute("chart-title") || "Line Plot";
     let xAxisLabel = this.getAttribute("chart-x-axis-label") || "";
     let yAxisLabel = this.getAttribute("chart-y-axis-label") || "";
-
     let subtitle = this.getAttribute("chart-subtitle") || "";
-    // let legendPosition = this.getAttribute("legend-position") || "";
-    // let showBackground = this.getAttribute("show-background") === "true" || false;
+    let showDataZoom = this.getAttribute('chart-show-zoom') === 'show';
+    let showLegend = this.getAttribute('chart-show-legend') === 'show';
 
     const seriesData = [];
     const xAxisData = [];
@@ -284,13 +297,17 @@ class LinePlot extends HTMLElement {
         const columnCategory = getAttributeByPrefixAndIndex('series-column-category', index);
         const columnValues = getAttributeByPrefixAndIndex('series-column-values', index);
         const aggregation = getAttributeByPrefixAndIndex('series-aggregation', index);
-        const seriesColorspace = getAttributeByPrefixAndIndex('series-colorspace', index);
-        const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color', index);
-        const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color', index);
+        const seriesLineColor = getAttributeByPrefixAndIndex('series-color-line', index);
+        const seriesColorspace = getAttributeByPrefixAndIndex('series-colorspace-marker', index);
+        const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color-marker', index);
+        const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color-marker', index);
         const seriesLineType = getAttributeByPrefixAndIndex('series-line-type', index);
         const seriesSymbolSize = getAttributeByPrefixAndIndex('series-symbol-size', index);
         const seriesLineStyle = getAttributeByPrefixAndIndex('series-line-style', index);
         const seriesArea = getAttributeByPrefixAndIndex('series-show-area', index);
+        const seriesLabels = getAttributeByPrefixAndIndex('series-show-labels', index);
+
+        
 
 
         if (!seriesTitle || !columnCategory || !columnValues) {
@@ -303,23 +320,22 @@ class LinePlot extends HTMLElement {
             columnCategory,
             columnValues,
             aggregation,
+            seriesLineColor,
             seriesColorspace,
             seriesPrimaryColor,
             seriesSecondaryColor,
             seriesLineType, 
             seriesSymbolSize, 
-            seriesLineStyle
+            seriesLineStyle,
+            seriesArea,
+            seriesLabels
         );
 
-        console.log("AXIS DATA:  ", plotData.xAxisData)
         seriesData.push(plotData.series);
         if (index === 0){
-          // plotData.xAxisData.forEach(data => xAxisData.add(data));
           xAxisData.push(...plotData.xAxisData);
 
-      }
-        console.log("THE PLOT:  ", xAxisData)
-
+        }
         index++;
     }
 
@@ -329,17 +345,76 @@ class LinePlot extends HTMLElement {
         subtext: subtitle,
         left: "center",
       },
-      // legend: {
-      //   show: legendPosition !== "none",
-      //   orient: "vertical",
-      //   top: "15%",
-      //   left: legendPosition,
-      // },
       tooltip: {
         trigger: "item",
+        axisPointer: {
+          type: 'cross'
+        }
       },
+      legend: {
+        show: showLegend,
+        orient: "horizontal",
+        top: "30",
+        right: '100',
+        itemStyle: {
+          color: "#1E395C"
+        }
+      },
+      dataZoom: [
+        {
+          type: 'slider',
+          show: showDataZoom,
+          xAxisIndex: [0],
+          start: 0,
+          end: 100,
+          backgroundColor: "rgba(0, 0, 0, 0)",
+            dataBackground: {
+              areaStyle: {
+                color: "#80A5D6"
+                },
+              lineStyle: {
+                color: '#1E395C'
+              }
+            },
+          bottom: 10,
+          height: 20
+          },
+        {
+          type: 'slider',
+          show: showDataZoom,
+          yAxisIndex: [0],
+          left: '93%',
+          start: 0,
+          end: 100,
+          backgroundColor: "rgba(0, 0, 0, 0)",
+            dataBackground: {
+              areaStyle: {
+                color: "#80A5D6"
+                },
+              lineStyle: {
+                color: '#1E395C'
+              }
+            }
+          },
+        {
+          type: 'inside',
+          xAxisIndex: [0],
+          start: 0,
+          end: 100
+        },
+        {
+          type: 'inside',
+          yAxisIndex: [0],
+          start: 0,
+          end: 100
+        }
+      ] ,
       toolbox: {
         feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
+          restore:{},
           saveAsImage: {
             title: "Save as Image",
             type: "png",
@@ -353,6 +428,7 @@ class LinePlot extends HTMLElement {
         data: xAxisData,
         name: xAxisLabel,
         axisLabel: {interval: 0, rotate: 30},
+        axisTick: { alignWithLabel: true}
       },
       yAxis: {
         name: yAxisLabel,

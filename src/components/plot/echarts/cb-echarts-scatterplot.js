@@ -302,7 +302,7 @@ class ScatterPlot extends HTMLElement {
     let subtitle = this.getAttribute("chart-subtitle") || "";
     let showLegend = this.getAttribute('chart-show-legend') === 'show';
     let showDataZoom = this.getAttribute('chart-show-zoom') === 'show';
-    let showLabels = this.getAttribute('chart-show-labels') === 'show';
+    // let showLabels = this.getAttribute('chart-show-labels') === 'show';
 
 
     const seriesData = [];
@@ -340,7 +340,7 @@ class ScatterPlot extends HTMLElement {
             seriesPrimaryColor,
             seriesSecondaryColor,
             seriesSymbolSize,
-            showLabels
+            seriesShowLabels
         );
 
         seriesData.push(plotData.series);

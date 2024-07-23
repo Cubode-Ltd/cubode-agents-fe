@@ -140,7 +140,7 @@ export const formSchema = {
             "series-aggregation": {
               type: "string",
               title: "Aggregation",
-              enum: ["Sum", "Count"],
+              enum: ["Sum", "Mean", "Min", "Max", "Count"],
               format: "tagify",
               maxtags: 1,
               options: {
@@ -212,9 +212,39 @@ export const formSchema = {
                 { value: 'hide', label: 'Hide' },
               ],
           },
-            "series-colorspace": {
+          "series-show-labels": {
+            type: "boolean",
+            title: "Show Data Labels",
+            format: "customBoolean",
+            options: {
+              inputAttributes: {
+                class: "w-full mt-3 p-2 border rounded-md",
+              },
+              containerAttributes: {
+                class: "mt-2 text-sm font-bold",
+              },
+            },
+            enum: [
+              { value: 'show', label: 'Show' },
+              { value: 'hide', label: 'Hide' },
+            ],
+        },
+        "series-color-line": {
               type: "string",
-              title: "Color Space",
+              format: "color",
+              title: "Line Color",
+              options: {
+                inputAttributes: {
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                },
+                containerAttributes: {
+                  class: "mt-2 text-sm text-gray-600 font-bold",
+                },
+              },
+            },
+        "series-colorspace-marker": {
+              type: "string",
+              title: "Marker Color Space",
               format: "colorsDropdown",
               enum: [
                 "Viridis", "YlGnBu", "Inferno", "Magma", "Plasma", "Warm", "Cool",
@@ -232,10 +262,10 @@ export const formSchema = {
                 },
               },
             },
-            "series-primary-color": {
+        "series-primary-color-marker": {
               type: "string",
               format: "color",
-              title: "Color Primary",
+              title: "Marker Color Primary",
               options: {
                 inputAttributes: {
                   class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
@@ -245,10 +275,10 @@ export const formSchema = {
                 },
               },
             },
-            "series-secondary-color": {
+            "series-secondary-color-marker": {
               type: "string",
               format: "color",
-              title: "Color Secondary",
+              title: "Marker Color Secondary",
               options: {
                 inputAttributes: {
                   class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
