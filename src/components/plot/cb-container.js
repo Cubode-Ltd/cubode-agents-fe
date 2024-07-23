@@ -118,9 +118,19 @@ class Container extends HTMLElement {
     this.showSlide(this.currentIndex - 1);
   }
 
+  handleExport() {
+    const slotElements = this.slotElement.assignedElements({ flatten: true });
+    const activeElement = slotElements[this.currentIndex];
+    if (activeElement && typeof activeElement.exportPNG === 'function') {
+      activeElement.exportPNG();
+    }
+  }
+  
+
   connectedCallback() {
     this.regenerate.addEventListener('click', this.emitEvent.bind(this, 'regenerate'));
-    this.export.addEventListener('click', this.emitEvent.bind(this, 'export'));
+    // this.export.addEventListener('click', this.emitEvent.bind(this, 'export'));
+    this.export.addEventListener('click', this.handleExport.bind(this));
     this.viewdata.addEventListener('click', this.toggleView.bind(this));
     this.shadowRoot.querySelector('.carousel-control.next').addEventListener('click', this.nextSlide.bind(this));
     this.shadowRoot.querySelector('.carousel-control.prev').addEventListener('click', this.prevSlide.bind(this));
@@ -131,7 +141,8 @@ class Container extends HTMLElement {
 
   disconnectedCallback() {
     this.regenerate.removeEventListener('click', this.emitEvent);
-    this.export.removeEventListener('click', this.emitEvent);
+    // this.export.removeEventListener('click', this.emitEvent);
+    this.export.removeEventListener('click', this.handleExport);
     this.viewdata.removeEventListener('click', this.toggleView);
     this.shadowRoot.querySelector('.carousel-control.next').removeEventListener('click', this.nextSlide);
     this.shadowRoot.querySelector('.carousel-control.prev').removeEventListener('click', this.prevSlide);
