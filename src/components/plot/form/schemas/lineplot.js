@@ -195,6 +195,19 @@ export const formSchema = {
                 },
               },
             },
+            "series-color-line": {
+              type: "string",
+              format: "color",
+              title: "Line Color",
+              options: {
+                inputAttributes: {
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                },
+                containerAttributes: {
+                  class: "mt-2 text-sm text-gray-600 font-bold",
+                },
+              },
+            },
             "series-show-area": {
               type: "boolean",
               title: "Show Area",
@@ -212,6 +225,19 @@ export const formSchema = {
                 { value: 'hide', label: 'Hide' },
               ],
           },
+          "series-color-area": {
+              type: "string",
+              format: "color",
+              title: "Area Color",
+              options: {
+                inputAttributes: {
+                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                },
+                containerAttributes: {
+                  class: "mt-2 text-sm text-gray-600 font-bold",
+                },
+              },
+            },
           "series-show-labels": {
             type: "boolean",
             title: "Show Data Labels",
@@ -229,19 +255,6 @@ export const formSchema = {
               { value: 'hide', label: 'Hide' },
             ],
         },
-        "series-color-line": {
-              type: "string",
-              format: "color",
-              title: "Line Color",
-              options: {
-                inputAttributes: {
-                  class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
-                },
-                containerAttributes: {
-                  class: "mt-2 text-sm text-gray-600 font-bold",
-                },
-              },
-            },
         "series-colorspace-marker": {
               type: "string",
               title: "Marker Color Space",
