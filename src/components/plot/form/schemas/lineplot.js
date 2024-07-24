@@ -308,6 +308,7 @@ export const formSchema = {
 };
 
 export const initialValues = {  
+  'chart-show-legend': 'hide',
   dynamicForms: [{ 
     'series-title': 'Enter Series Title', 
     'series-column-category': '', 

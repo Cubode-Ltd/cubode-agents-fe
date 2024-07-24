@@ -188,7 +188,7 @@ export const formSchema = {
 };
 
 export const initialValues = {
-    showBackgroundField: 'show',
+    'chart-show-background': 'hide',
     dynamicForms: [{ 
       'series-title': '', 
       'series-column-category': '', 

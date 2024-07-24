@@ -67,8 +67,6 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
                       value.format === 'tagify' ? TagifyField :
                       value.format === 'colorsDropdown' ? ColorsDropdownField :
                       value.format === 'slider' ? SliderField :
-                      key.includes('Boolean') ? CustomBooleanField :
-
                       value.format === 'customBoolean' ? CustomBooleanField :
 
                       undefined;
