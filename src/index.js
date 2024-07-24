@@ -20,6 +20,8 @@ import "./components/data/cb-generate-charts-button.js"
 
 import "./components/plot/form/cb-form-modal.js"
 import "./components/plot/form/cb-form-sidebar.js"
+import "./components/plot/echarts/cb-echarts-lineplot.js"
+// import "./components/plot/echarts/lineplot_Basic.js"
 import "./components/plot/echarts/cb-echart-barplot.js"
 import "./components/plot/echarts/cb-echart-pieplot.js"
 import "./components/plot/echarts/cb-echart-scatterplot.js"

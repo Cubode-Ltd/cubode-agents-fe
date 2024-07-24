@@ -2,32 +2,32 @@ import * as echarts from "echarts/core";
 const { DataFrame } = require("dataframe-js");
 
 import ColorScale from './utils/ColorScales';
-import { formSchema, initialValues } from "../form/schemas/scatterplot";
-import { ScatterChart } from "echarts/charts";
+import { formSchema, initialValues } from '../form/schemas/lineplot'
 
+import { LineChart } from "echarts/charts";
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LegendComponent, ToolboxComponent, DataZoomComponent} from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 
-echarts.use([ ScatterChart, TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer, LegendComponent, ToolboxComponent, DataZoomComponent]);
+echarts.use([ LineChart, TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer, LegendComponent, ToolboxComponent, DataZoomComponent]);
 
 const template = document.createElement("template");
 template.innerHTML = `
     <style>@import "dev/css/main.css";</style>
 
-    <div class="cb-echart-scatterplot cb-wc-height relative w-full overflow-hidden pt-2">
+    <div class="cb-echart-lineplot cb-wc-height relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>
-        <cb-plot-sidebar class="absolute top-0 z-50"></cb-plot-sidebar>
+        <cb-plot-sidebar class="absolute top-0"></cb-plot-sidebar>
     </div>
 `;
 
-class ScatterPlot extends HTMLElement {
+class LinePlot extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.main = this.shadowRoot.querySelector('.cb-echart-scatterplot');
+    this.main = this.shadowRoot.querySelector('.cb-echart-barplot');
     this.element = this.shadowRoot.querySelector('.cb-chart-container');
     this.modal = this.shadowRoot.querySelector('cb-plot-modal');
     this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
@@ -61,7 +61,7 @@ class ScatterPlot extends HTMLElement {
       this.main.classList.remove('hidden');
       this.hidden = false;
   }
-  
+
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
       this.render();
@@ -106,7 +106,6 @@ class ScatterPlot extends HTMLElement {
       this.sidebar.schema = this.formSchema;
     }
 
-    // Event coming from data source selector
     window.addEventListener("data-selected", this.handleDataSetSelected);
   }
 
@@ -135,9 +134,8 @@ class ScatterPlot extends HTMLElement {
     const categoryColumnEnum = columns;
     const valueColumnEnum = columns;
 
-    this.formSchema.properties.dynamicForms.items.properties['series-column-xaxis'].enum = categoryColumnEnum;
-    this.formSchema.properties.dynamicForms.items.properties['series-column-yaxis'].enum = valueColumnEnum;
-    
+    this.formSchema.properties.dynamicForms.items.properties['series-column-category'].enum = categoryColumnEnum;
+    this.formSchema.properties.dynamicForms.items.properties['series-column-values'].enum = valueColumnEnum;
 
     if (this.modal) {
       this.modal.schema = this.formSchema;
@@ -146,30 +144,32 @@ class ScatterPlot extends HTMLElement {
       this.sidebar.schema = this.formSchema;
     }
   }
-  // showBackground
-  plotData(seriesName, columnCategory, columnsValues, aggregation, colorScale, primaryColor, secondaryColor, seriesSymbolSize, showLabels) {
-    aggregation = aggregation === "" ? "none" : aggregation.toLowerCase();
 
-    // let columnCategory = this.getAttribute("column-category") || "";
-    // let columnsValues = this.getAttribute("column-values") || "";
-    // let aggregation = this.getAttribute("aggregation") || "";
-    // let symbolSize = this.getAttribute("symbol-size") || "";
-    // let showLabels = this.getAttribute("show-labels") || "";
-
+  plotData(seriesName, columnCategory, columnsValues, aggregation, lineColor, areaColor, colorScale, primaryColor, secondaryColor, smoothLine, symbolSize, lineStyle, showArea, showLabels) {
+    aggregation = aggregation === '' ? 'none' : aggregation.toLowerCase();
+    showArea = showArea === 'show' ? true : false;
+    showLabels = showLabels === 'show' ? true : false;
+    smoothLine = smoothLine.toLowerCase() === 'smooth' ? true : false;
+    areaColor = areaColor ? areaColor : '#3A9BDC'
 
     let series = {
-      type: "scatter",
+      type: "line",
       name: seriesName,
       data: [],
-      style: {
-        color: "black",
+      smooth: smoothLine, // Make the line smooth
+      symbolSize: symbolSize,
+      lineStyle: {
+        type: lineStyle.toLowerCase(),
+        color: lineColor || "#3A9BDC"
       },
-      symbolSize: seriesSymbolSize,
       label: {
         show: showLabels, // Show labels on markers
         position: "top", // Position the labels at the top of markers
         formatter: "{c}", // Format the labels to show the value
       },
+      areaStyle: {
+        color: showArea ? areaColor : 'rgba(255,255,255,0)'
+      }
     };
 
     // TODO: ADD LOGIC TO GET THE DATA IF THERE IS A HASH / FILENAME.
@@ -177,165 +177,102 @@ class ScatterPlot extends HTMLElement {
       return series;
     }
 
-    const validColumns = columnsValues.split(",").filter((col) => this.columns_.includes(col));
+    const validColumns = columnsValues
+      .split(",")
+      .filter((col) => this.columns_.includes(col));
     if (validColumns.length === 0) {
       return series;
     }
 
     this.df = new DataFrame(this.data_);
 
-    let rawData = this.df
-      .toArray()
-      .map((row) => [
-        row[this.columns_.indexOf(columnCategory)],
-        row[this.columns_.indexOf(validColumns[0])],
-      ]);
+    const grouped = this.df.groupBy(columnCategory);
 
-    rawData.sort((a, b) => a[0] - b[0]);
-    series.data = rawData;
+    const aggregations = {
+      sum: (df, col) => df.stat.sum(col),
+      mean: (df, col) => df.stat.mean(col),
+      median: (df, col) => df.stat.median(col),
+      count: (df, col) => df.count(),
+      min: (df, col) => df.stat.min(col),
+      max: (df, col) => df.stat.max(col),
+    };
+
+    if (aggregation === 'none') {
+      aggregation = 'sum'
+    }
+
+    let aggregatedData;
+    aggregatedData = grouped.aggregate(group => {
+        const result = {};
+        validColumns.forEach(col => {
+          result[col] = aggregations[aggregation](group, col);
+        });
+        return result;
+      }).toArray();
 
     const scale = ColorScale.getColorScale(
       colorScale || 'Viridis',
       primaryColor || '#000000',
       secondaryColor || '#ffffff',
-      rawData.length
+      aggregatedData.length
     );
 
-    series.data = rawData.map((item, index) => ({
-      value: item,
-      itemStyle: { color: scale(index) },
-    }));
+    const xAxisData = aggregatedData.map((item) => item[0]);
 
-    // }
-    //   } else {
-    //     const grouped = this.df.groupBy(columnCategory);
+    series.data = aggregatedData.map((item, index) => {
+      let value = item[1][validColumns[0]];
+      if (value % 1 !== 0) {
+        value = value.toFixed(2);
+      } 
+      return {
+        value: value,
+        name: item[0],
+        itemStyle: { color: scale(index) },
 
-    //     const aggregations = {
-    //       sum: (df, col) => df.stat.sum(col),
-    //       mean: (df, col) => df.stat.mean(col),
-    //       median: (df, col) => df.stat.median(col),
-    //       min: (df, col) => df.stat.min(col),
-    //       max: (df, col) => df.stat.max(col),
-    //     };
-
-    //     const aggregatedData = grouped
-    //       .aggregate((group) => {
-    //         const result = {};
-    //         validColumns.forEach((col) => {
-    //           result[col] = aggregations[aggregation](group, col);
-    //         });
-    //         return result;
-    //       })
-    //       .toArray();
-
-    //     const scale = ColorScale.getColorScale(
-    //       this.getAttribute("color-scale") || "Viridis",
-    //       this.getAttribute("color-primary") || "#000000",
-    //       this.getAttribute("color-secundary") || "#ffffff",
-    //       aggregatedData.length
-    //     );
-
-    //     const xAxisData = aggregatedData.map((item) => item[0]);
-
-    //     series.data = aggregatedData.map((item, index) => ({
-    //       value: item[1][validColumns[0]],
-    //       name: item[0],
-    //       itemStyle: { color: scale(index) },
-    //     }));
-    //   }
-
-    // // in here should be done a if statement where the user checks if we want an aggregation run the code below
-    // // if aggregation is === none just serve the an array of array that have [x,y]
-    // // series: [
-    // // {
-    // //     type: 'scatter',
-    // //     data: [
-    // //       [10, 5],
-    // //       [0, 8],
-    // //       [6, 10],
-    // //       [2, 12],
-    // //       [8, 9],
-    // //       [8,7]
-    // //     ]
-    // // }
-    // // ]
-    // // };
-    // const grouped = this.df.groupBy(columnCategory);
-
-    // console.log(grouped,`<<<DF Grouped on ${columnCategory}`);
-
-    // const aggregations = {
-    //   sum: (df, col) => df.stat.sum(col),
-    //   mean: (df, col) => df.stat.mean(col),
-    //   median: (df, col) => df.stat.median(col),
-    //   min: (df, col) => df.stat.min(col),
-    //   max: (df, col) => df.stat.max(col),
-    // };
-
-    // const aggregatedData = grouped
-    //   .aggregate((group) => {
-    //     const result = {};
-    //     validColumns.forEach((col) => {
-    //       result[col] = aggregations[aggregation](group, col);
-    //     });
-    //     return result;
-    //   })
-    //   .toArray();
-
-    // const scale = ColorScale.getColorScale(
-    //   this.getAttribute("color-scale") || "Viridis",
-    //   this.getAttribute("color-primary") || "#000000",
-    //   this.getAttribute("color-secundary") || "#ffffff",
-    //   aggregatedData.length
-    // );
-
-    // const xAxisData = aggregatedData.map((item) => item[0]);
-
-    // series.data = aggregatedData.map((item, index) => ({
-    //   value: item[1][validColumns[0]],
-    //   name: item[0],
-    //   itemStyle: { color: scale(index) },
-    // }));
-
-    // console.log(series.data,'<<<SeriesData');
+      };
+    });
 
     return {
       series,
+      xAxisData,
     };
   }
 
   updateOption() {
-    let title = this.getAttribute("chart-title") || "Scatter Plot";
+    let title = this.getAttribute("chart-title") || "Line Plot";
     let xAxisLabel = this.getAttribute("chart-x-axis-label") || "";
     let yAxisLabel = this.getAttribute("chart-y-axis-label") || "";
     let subtitle = this.getAttribute("chart-subtitle") || "";
-    let showLegend = this.getAttribute('chart-show-legend') === 'show';
     let showDataZoom = this.getAttribute('chart-show-zoom') === 'show';
-    // let showLabels = this.getAttribute('chart-show-labels') === 'show';
-
+    let showLegend = this.getAttribute('chart-show-legend') === 'show';
 
     const seriesData = [];
-    
-    // Helper function to get attribute by prefix and index
+    const xAxisData = [];
+
     const getAttributeByPrefixAndIndex = (prefix, index) => this.getAttribute(`${prefix}-${index}`) || '';
 
     // Series attributes series-xxxx-1
     let index = 0;
     while (true) {
         const seriesTitle = getAttributeByPrefixAndIndex('series-title', index);
-        const columnCategory = getAttributeByPrefixAndIndex('series-column-xaxis', index);
-        const columnValues = getAttributeByPrefixAndIndex('series-column-yaxis', index);
+        const columnCategory = getAttributeByPrefixAndIndex('series-column-category', index);
+        const columnValues = getAttributeByPrefixAndIndex('series-column-values', index);
         const aggregation = getAttributeByPrefixAndIndex('series-aggregation', index);
-        const seriesColorspace = getAttributeByPrefixAndIndex('series-colorspace', index);
-        const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color', index);
-        const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color', index);
+        const seriesLineColor = getAttributeByPrefixAndIndex('series-color-line', index);
+        const seriesAreaColor = getAttributeByPrefixAndIndex('series-color-area', index);
+        const seriesColorspace = getAttributeByPrefixAndIndex('series-colorspace-marker', index);
+        const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color-marker', index);
+        const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color-marker', index);
+        const seriesLineType = getAttributeByPrefixAndIndex('series-line-type', index);
         const seriesSymbolSize = getAttributeByPrefixAndIndex('series-symbol-size', index);
-        const seriesShowLabels = getAttributeByPrefixAndIndex('series-show-labels', index) === 'show';
+        const seriesLineStyle = getAttributeByPrefixAndIndex('series-line-style', index);
+        const seriesArea = getAttributeByPrefixAndIndex('series-show-area', index);
+        const seriesLabels = getAttributeByPrefixAndIndex('series-show-labels', index);
+
+        
 
 
-
-
-        if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
+        if (!seriesTitle || !columnCategory || !columnValues) {
             break;
         }
         
@@ -345,14 +282,23 @@ class ScatterPlot extends HTMLElement {
             columnCategory,
             columnValues,
             aggregation,
+            seriesLineColor,
+            seriesAreaColor,
             seriesColorspace,
             seriesPrimaryColor,
             seriesSecondaryColor,
-            seriesSymbolSize,
-            seriesShowLabels
+            seriesLineType, 
+            seriesSymbolSize, 
+            seriesLineStyle,
+            seriesArea,
+            seriesLabels
         );
 
         seriesData.push(plotData.series);
+        if (index === 0){
+          xAxisData.push(...plotData.xAxisData);
+
+        }
         index++;
     }
 
@@ -361,24 +307,20 @@ class ScatterPlot extends HTMLElement {
         text: title,
         subtext: subtitle,
         left: "center",
-        textStyle: {
-          fontFamily: "Poppins",
-          fontWeight: "bold",
-        },
-        subtextStyle: {
-          fontFamily: "Poppins"
+      },
+      tooltip: {
+        trigger: "item",
+        axisPointer: {
+          type: 'cross'
         }
       },
       legend: {
         show: showLegend,
         orient: "horizontal",
         top: "30",
-        right: '100'
-      },
-      tooltip: {
-        trigger: "item",
-        axisPointer: {
-          type: 'cross'
+        right: '100',
+        itemStyle: {
+          color: "#1E395C"
         }
       },
       dataZoom: [
@@ -433,9 +375,13 @@ class ScatterPlot extends HTMLElement {
       toolbox: {
         feature: {
           dataZoom: {
-            yAxisIndex: 'none'
+            yAxisIndex: 'none',
+            emphasis: {
+              iconStyle: {
+                textPosition: 'left'
+              }
+            }
           },
-          restore:{},
           saveAsImage: {
             title: "Save as Image",
             type: "png",
@@ -444,26 +390,20 @@ class ScatterPlot extends HTMLElement {
           },
         },
       },
-      xAxis:
-         {
-              type: "value",
-              name: xAxisLabel,
-              nameLocation: 'middle',
-              nameTextStyle: "Poppins",
-              nameGap:  20,
-            },
-      yAxis:
-         {    type: 'value',
-              name: yAxisLabel,
-              nameTextStyle: "Poppins",
-              nameRotate: 90,
-              nameLocation: 'middle',
-              nameGap:  20,
-            },
+      xAxis: {
+        type: "category",
+        data: xAxisData,
+        name: xAxisLabel,
+        axisLabel: {interval: 0, rotate: 30},
+        axisTick: { alignWithLabel: true}
+      },
+      yAxis: {
+        name: yAxisLabel,
+      },
       series: seriesData,
       animationDuration: 1000,
     };
-    
+
     this.chart_.setOption(this.option);
   }
 
@@ -494,21 +434,6 @@ class ScatterPlot extends HTMLElement {
 
     window.addEventListener("resize", this.handleResize.bind(this));
   }
-  
-  exportPNG() {
-    if (this.chart_) {
-        const url = this.chart_.getDataURL({
-            type: 'png',
-            backgroundColor: '#fff',
-            pixelRatio: 2,
-        });
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'chart.png';
-        a.click();
-        a.remove();
-    }
-  }
 
   handleResize() {
     if (this.chart_) {
@@ -522,4 +447,4 @@ class ScatterPlot extends HTMLElement {
   }
 }
 
-customElements.define("cb-echart-scatterplot", ScatterPlot);
+customElements.define("cb-echart-lineplot", LinePlot);
