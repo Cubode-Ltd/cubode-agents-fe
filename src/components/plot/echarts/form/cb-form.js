@@ -16,6 +16,7 @@ const OnChangeHandler = ({ onChange }) => {
   }, [values, onChange]);
   return null;
 };
+
 const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, formSchema }) => {
   const [seriesTitle, setSeriesTitle] = useState(`Series ${index + 1}`);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -126,8 +127,8 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
 };
 
 const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit, onFormChange }) => {
-  const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
 
+  const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
   const addForm = () => {
     setDynamicForms([...dynamicForms, { 'series-title': '', 'series-column-category': '', 'series-column-values': '', 'series-aggregation': '', 'series-primary-color': '', 'series-secondary-color': '' }]);
   };

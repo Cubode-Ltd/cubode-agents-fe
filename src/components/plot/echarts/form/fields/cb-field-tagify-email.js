@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Tagify from '@yaireo/tagify';
-import "../../../../css/main.css"; // Ensure this includes Tailwind CSS
+import "../../../../../css/main.css";
 
 const AdvancedTagifyField = ({ field, form }) => {
   const tagifyRef = useRef();

@@ -2,7 +2,7 @@ import * as echarts from "echarts/core";
 const { DataFrame } = require("dataframe-js");
 
 import ColorScale from './utils/ColorScales';
-import { formSchema, initialValues } from "../form/schemas/scatterplot";
+import { formSchema, initialValues } from "./schemas/scatterplot";
 import { ScatterChart } from "echarts/charts";
 
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LegendComponent, ToolboxComponent, DataZoomComponent} from "echarts/components";

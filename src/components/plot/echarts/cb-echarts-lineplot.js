@@ -2,7 +2,7 @@ import * as echarts from "echarts/core";
 const { DataFrame } = require("dataframe-js");
 
 import ColorScale from './utils/ColorScales';
-import { formSchema, initialValues } from '../form/schemas/lineplot'
+import { formSchema, initialValues } from './schemas/lineplot'
 
 import { LineChart } from "echarts/charts";
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LegendComponent, ToolboxComponent, DataZoomComponent} from "echarts/components";

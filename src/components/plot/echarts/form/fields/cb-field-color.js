@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
-import "../../../../css/main.css";
+import "../../../../../css/main.css";
 
 const ColorPickerField = ({ field, form, title }) => {
   const [showPicker, setShowPicker] = useState(false);

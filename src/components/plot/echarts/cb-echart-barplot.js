@@ -2,7 +2,7 @@ import * as echarts from 'echarts/core';
 const { DataFrame } = require('dataframe-js');
 
 import ColorScale from './utils/ColorScales';
-import { formSchema, initialValues } from '../form/schemas/barplot'
+import { formSchema, initialValues } from './schemas/barplot'
 import { BarChart } from 'echarts/charts';
 
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent } from 'echarts/components';

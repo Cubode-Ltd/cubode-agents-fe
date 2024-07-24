@@ -22,7 +22,7 @@ const { DataFrame } = require("dataframe-js");
 
 // Utils and Form
 import ColorScale from './utils/ColorScales';
-import { formSchema ,initialValues } from '../form/schemas/pieplot'
+import { formSchema ,initialValues } from './schemas/pieplot'
 
 const template = document.createElement("template");
 template.innerHTML = `
