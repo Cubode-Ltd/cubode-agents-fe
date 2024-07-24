@@ -229,8 +229,8 @@ export const initialValues = {
       'series-column-xaxis': '', 
       'series-column-yaxis': '', 
       'series-aggregation': '', 
-      'series-primary-color': '', 
-      'series-secondary-color': '',
+      'series-primary-color': '#ffffff', 
+      'series-secondary-color': '#000000',
       'series-symbol-size': 10
     }],
 };
