@@ -10,31 +10,14 @@ class MenuDropdown extends HTMLElement {
     template.innerHTML = `
       <style>
         @import "dev/css/main.css";
-
-        .dropdown-content {
-          display: none;
-          position: absolute;
-          background-color: white;
-          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-          z-index: 1;
-          list-style-type: none;
-          padding: 0;
-          margin: 0;
-          min-width: 160px;
-          top: 100%; /* Position the dropdown below the burger icon */
-          left: 0;   /* Align the dropdown to the left of the burger icon */
-        }
-        .show {
-          display: block;
-        }
       </style>
 
-      <div class="flex items-center h-11 px-2 ml-4 border rounded justify-center relative no-select">
-        <div class="burger-icon cursor-pointer w-6 h-6 mr-3 fill-gray-400 hover:fill-gray-500">
+      <div class="flex items-center h-11 px-2 border rounded justify-center relative no-select bg-black">
+        <div class="burger-icon cursor-pointer w-6 h-6 mr-3 fill-gray-300 hover:fill-gray-200">
           <svg width="1.5rem" height="1.5rem" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 8h24v2H4zm0 7h24v2H4zm0 7h24v2H4z" />
           </svg>
-          <ul class="dropdown-content absolute mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <ul class="dropdown-content hidden absolute bg-white shadow-lg z-10 list-none p-0 m-0 min-w-[160px] top-full left-0 ring-1 ring-black ring-opacity-5">
             <li class="px-4 py-3 hover:bg-gray-100 cursor-pointer whitespace-nowrap">Sign In</li>
             <hr class="mx-2">
             <li class="px-4 py-3 hover:bg-gray-100 cursor-pointer whitespace-nowrap">Profile Settings</li>
@@ -46,7 +29,7 @@ class MenuDropdown extends HTMLElement {
           </ul>
         </div>
         <a href="#" class="avatar cursor-pointer">
-          <svg class="rounded-full border w-8 h-8" width="2rem" height="2rem" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" viewBox="0 0 480 480" xml:space="preserve">
+          <svg class="rounded-full w-8 h-8" width="2rem" height="2rem" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" viewBox="0 0 480 480" xml:space="preserve">
             <circle style="fill:#B8BAC0;" cx="240" cy="240" r="240" />
             <path style="fill:#FFFFFF;" d="M240,360.07c-27.944,0-53.297-11.991-72.003-31.372c-0.014,11.615-0.436,28.379-3.516,40.611 c2.02,1.235,3.588,3.262,3.894,5.784c3.992,32.484,34.781,56.977,71.625,56.977c36.836,0,67.625-24.496,71.625-56.977 c0.31-2.525,1.844-4.549,3.895-5.78c-3.08-12.233-3.503-28.999-3.517-40.615C293.297,348.079,267.944,360.07,240,360.07z" />
             <path style="fill:#D7DBE0;" d="M310.44,330.174c-18.549,18.477-43.242,29.896-70.44,29.896 c-27.944,0-53.297-11.991-72.003-31.372c-0.014,11.615-0.436,28.379-3.516,40.611c2.02,1.235,3.588,3.262,3.894,5.784 c1.765,14.359,8.778,27.144,19.223,36.954C235.766,405.265,290.437,357.702,310.44,330.174z" />
@@ -74,14 +57,14 @@ class MenuDropdown extends HTMLElement {
 
   toggleDropdown(event) {
     const dropdown = this.shadowRoot.querySelector('.dropdown-content');
-    dropdown.classList.toggle('show');
+    dropdown.classList.toggle('hidden');
     event.stopPropagation(); // Prevent click event from bubbling up to document
   }
 
   handleOutsideClick(event) {
     const dropdown = this.shadowRoot.querySelector('.dropdown-content');
     if (!this.contains(event.target)) {
-      dropdown.classList.remove('show');
+      dropdown.classList.add('hidden');
     }
   }
 }

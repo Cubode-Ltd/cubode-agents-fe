@@ -12,7 +12,7 @@ export const formSchema = {
         title: "Chart Title",
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md text-sm",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -24,7 +24,7 @@ export const formSchema = {
         title: "Chart Subtitle",
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md text-sm",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -36,7 +36,7 @@ export const formSchema = {
         title: "X Axis Label",
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md text-sm",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -48,7 +48,7 @@ export const formSchema = {
         title: "Y Axis Label",
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md text-sm",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
