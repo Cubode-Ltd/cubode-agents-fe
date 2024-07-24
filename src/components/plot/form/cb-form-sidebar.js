@@ -40,6 +40,8 @@ class SidebarComponent extends HTMLElement {
     this.openButton.addEventListener('click', this.toggleSidebar.bind(this));
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+
   }
     
   static get observedAttributes() {
@@ -50,6 +52,11 @@ class SidebarComponent extends HTMLElement {
 
   connectedCallback() {
     this.renderReactComponent();
+    document.addEventListener('click', this.handleOutsideClick);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('click', this.handleOutsideClick);
   }
 
   set callBack(cb) {
@@ -98,6 +105,16 @@ class SidebarComponent extends HTMLElement {
   handleFormSubmit(value) {
     if (this.callBack) {
       this._callBack(value);
+    }
+  }
+
+  handleOutsideClick(event) {
+    const path = event.composedPath();
+    const isClickInsideComponent = path.includes(this) || path.includes(this.shadowRoot);
+    const isClickOnOpenButton = path.includes(this.openButton);
+  
+    if (!isClickInsideComponent && !isClickOnOpenButton) {
+      this.closeSidebar();
     }
   }
 
