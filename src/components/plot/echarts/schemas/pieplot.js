@@ -101,6 +101,7 @@ export const formSchema = {
     "dynamicForms": {
         type: "array",
         title: "Series",
+        onlyOne: true,
         items: {
           type: "object",
           properties: {

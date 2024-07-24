@@ -17,7 +17,7 @@ const OnChangeHandler = ({ onChange }) => {
   return null;
 };
 
-const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, formSchema }) => {
+const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, formSchema, onlyOne }) => {
   const [seriesTitle, setSeriesTitle] = useState(`Series ${index + 1}`);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -107,7 +107,7 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
               </button>
             )}
 
-            {allowAddForms && isLastForm && (
+            {allowAddForms && isLastForm && !onlyOne && (
               <button
                 type="button"
                 onClick={addForm}
@@ -127,10 +127,13 @@ const DynamicForm = ({ index, removeForm, addForm, isLastForm, allowAddForms, fo
 };
 
 const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onFormSubmit, onFormChange }) => {
+  const onlyOne = formSchema.properties.dynamicForms.onlyOne;
 
   const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
   const addForm = () => {
-    setDynamicForms([...dynamicForms, { 'series-title': '', 'series-column-category': '', 'series-column-values': '', 'series-aggregation': '', 'series-primary-color': '', 'series-secondary-color': '' }]);
+    if (!onlyOne || dynamicForms.length === 0) {
+      setDynamicForms([...dynamicForms, { 'series-title': '', 'series-column-category': '', 'series-column-values': '', 'series-aggregation': '', 'series-primary-color': '', 'series-secondary-color': '' }]);
+    }
   };
 
   const removeForm = (index) => {
@@ -188,6 +191,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
                 isLastForm={index === dynamicForms.length - 1}
                 allowAddForms={allowAddForms}
                 formSchema={formSchema}
+                onlyOne={onlyOne}
               />
             ))}
           </Form>
