@@ -20,7 +20,7 @@ template.innerHTML = `
             </button>    
         </div>
         
-        <div class="space-x-2 hidden xl:flex">
+        <div class="hidden space-x-2">
             <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
             <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
             <img class="w-[102px] h-[58px]" src="https://via.placeholder.com/102x58" />
