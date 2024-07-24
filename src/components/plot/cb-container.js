@@ -5,18 +5,18 @@ template.innerHTML = `
   <div class="cb-maincontainer cb-fixed-top p-5 container dark:bg-gray-700 mx-auto sm:w-full lg:w-1/2 no-select">
     <div class="flex justify-between w-full mb-4">
         <div class="whitespace-nowrap h-11 px-2 py-2.5 rounded-sm border border-gray-200 justify-center items-center gap-2.5 inline-flex">
-            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
-                <div class="cb-plot-button-regenerate text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">Regenerate</div>
+            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex font-normal hover:font-medium">
+                <div class="cb-plot-button-regenerate text-center text-zinc-800 text-[13px] font-['Poppins'] leading-[30px]">Regenerate</div>
             </button>
-            <div class="w-1 h-[20px] origin-top-left border border-gray-200"></div>
-            
-            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
-                <div class="cb-plot-button-export text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">Export</div>
+            <div class="w-1 h-[20px] origin-top-left border-l border-gray-200"></div>
+
+            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex font-normal hover:font-medium">
+                <div class="cb-plot-button-export text-center text-zinc-800 text-[13px] font-['Poppins'] leading-[30px]">Export</div>
             </button>
-            <div class="w-1 h-[20px] origin-top-left border border-gray-200"></div>
+            <div class="w-1 h-[20px] origin-top-left  border-l border-gray-200"></div>
             
-            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex">
-                <div class="cb-plot-button-viewdata text-center text-zinc-800 text-[13px] font-normal font-['Poppins'] leading-[30px]">View Data</div>
+            <button class="px-5 cursor-pointer rounded-sm justify-center items-center gap-2.5 flex font-normal hover:font-medium">
+                <div class="cb-plot-button-viewdata text-center text-zinc-800 text-[13px] font-['Poppins'] leading-[30px]">View Data</div>
             </button>    
         </div>
         
