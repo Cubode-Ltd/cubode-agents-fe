@@ -13,7 +13,7 @@ sidebarTemplate.innerHTML = `
     </div>
 
     <div class="sidebar closed fixed left-0 xl:-left-[22rem] top-5 z-5 bg-gray-50 dark:bg-gray-600 w-[22rem] h-[94%] flex flex-col">
-        <div class="flex-grow h-full overflow-auto custom-scrollbar border">
+        <div class="flex-grow h-full overflow-auto custom-scrollbar border rounded-sm">
             <div class="react-component h-full mt-6"></div>
         </div>
         <button class="cb-close-sidebar-button absolute top-3 right-4 h-5 w-5 p-1 hover:border rounded-sm  hover:bg-gray-100 flex items-center justify-center">

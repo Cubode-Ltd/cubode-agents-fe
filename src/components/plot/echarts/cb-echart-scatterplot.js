@@ -494,6 +494,21 @@ class ScatterPlot extends HTMLElement {
 
     window.addEventListener("resize", this.handleResize.bind(this));
   }
+  
+  exportPNG() {
+    if (this.chart_) {
+        const url = this.chart_.getDataURL({
+            type: 'png',
+            backgroundColor: '#fff',
+            pixelRatio: 2,
+        });
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'chart.png';
+        a.click();
+        a.remove();
+    }
+  }
 
   handleResize() {
     if (this.chart_) {

@@ -10,6 +10,8 @@ import "./components/canvas/cb-canvas-layer.js"
 import "./components/canvas/cb-canvas-main.js" 
 import "./components/cubes/cb-shape.js"
 import "./components/cubes/cb-cube.js"
+import "./components/layout/cb-login-dropdown.js"
+
 
 import "./components/data/cb-data-upload.js"
 import "./components/data/cb-data-vis.js"

@@ -32,15 +32,16 @@
       </div>
       
       <!-- Center Component -->
-      <div class="absolute left-1/2 transform -translate-x-1/2 flex">
-        <div class="flex justify-center">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="flex items-center justify-center space-x-4">
           <cb-data-upload></cb-data-upload>
+          <cb-login-dropdown></cb-login-dropdown>
         </div>
       </div>
       
       <!-- Right Component -->
       <div class="flex-shrink-0 hidden lg:flex">
-        <button class="px-6 py-3 text-sm bg-transparent border rounded-md hover:bg-gray-100">Invite</button>
+        <button class="px-6 py-3 text-sm bg-transparent border rounded-md hover:bg-gray-100 no-select">Invite</button>
       </div>
     </div>
   </nav>
