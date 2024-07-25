@@ -10,7 +10,7 @@ module.exports = {
 
     output: {
         path: path.resolve(__dirname, 'dist/dev/'),
-        filename: '[name].bundle.js',
+        filename: 'js/[name].bundle.js',
     },
 
     module: {
@@ -35,8 +35,14 @@ module.exports = {
                 ],
             },
             {
-                test: /\.svg$/,
-                use: 'file-loader'
+                test: /\.(svg|png|jpg|jpeg|gif)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'assets/',
+                    },
+                },
             }
         ]
     },
@@ -44,17 +50,17 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/html/index.html',
-            filename: 'index.html',
+            filename: 'html/index.html',
             chunks: ['index']
         }),
         new HtmlWebpackPlugin({
             template: './src/html/login.html',
-            filename: 'login.html',
+            filename: 'html/login.html',
             chunks: ['login']
         }),
         new HtmlWebpackPlugin({
             template: './src/html/register.html',
-            filename: 'register.html',
+            filename: 'html/register.html',
             chunks: ['register']
         }),
     ],
