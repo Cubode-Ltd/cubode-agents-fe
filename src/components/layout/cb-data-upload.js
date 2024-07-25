@@ -1,4 +1,4 @@
-import dataNursery from '../data/DataNursery';
+import dataNursery from '../../utils/DataNursery';
 
 const template = document.createElement('template');
 template.innerHTML = `
