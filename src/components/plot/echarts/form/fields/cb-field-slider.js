@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../../../css/main.css";
+import "../../../../../css/main.css";
 
 const SliderField = ({ field, form, min, max, step, title }) => {
   const handleChange = (e) => {

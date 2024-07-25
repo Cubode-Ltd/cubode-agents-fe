@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Tagify from '@yaireo/tagify';
 import * as d3 from 'd3';
-import "../../../../css/main.css";
+import "../../../../../css/main.css";
 
 const ColorScale = {
   colorScales: {

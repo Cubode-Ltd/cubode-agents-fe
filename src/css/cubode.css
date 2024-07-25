@@ -80,7 +80,8 @@ select {
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #f8f8f8;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 8px;
 }
 
@@ -149,6 +150,8 @@ select {
   display: block;
 }
 
+
+/* Slider */
 .cb-custom-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;

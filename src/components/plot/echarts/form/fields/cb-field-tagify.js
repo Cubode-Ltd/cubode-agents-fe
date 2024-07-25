@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Tagify from '@yaireo/tagify';
-import "../../../../css/main.css";
+import "../../../../../css/main.css";
 
 const TagifyField = ({ field, form, options, singleValue, title }) => {
   const tagifyRef = useRef();

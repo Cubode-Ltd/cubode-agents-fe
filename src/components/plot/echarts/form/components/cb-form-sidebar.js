@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FormComponent from './cb-form';
+import FormComponent from '../cb-form';
 
 const sidebarTemplate = document.createElement('template');
 sidebarTemplate.innerHTML = `
@@ -43,13 +43,7 @@ class SidebarComponent extends HTMLElement {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
 
   }
-    
-  static get observedAttributes() {
-        return ['allow-multiple-series'];  
-  }
-
-  // #get the attributes
-
+  
   connectedCallback() {
     this.renderReactComponent();
     document.addEventListener('click', this.handleOutsideClick);
@@ -128,7 +122,6 @@ class SidebarComponent extends HTMLElement {
           initialValues={this.initialValues}
           onFormSubmit={this.handleFormSubmit}
           onFormChange={this.handleFormSubmit}
-          hasMultipleSeries={this.hasAttribute('has-multiple-series')}
         />
       );
     }

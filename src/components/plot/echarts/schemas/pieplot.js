@@ -1,61 +1,53 @@
 export const formSchema = {
-    title: "Scatter Plot Customization",
-    type: "object",
-    options: {
-      inputAttributes: {
-        class: "w-full mt-1 rounded-lg p-2 h-12",
-      },
+  title: "Pie Plot Customization",
+  type: "object",
+  options: {
+    inputAttributes: {
+      class: "w-full mt-1 rounded-lg p-2 h-12",
     },
-    properties: {
-      "chart-title": {
+  },
+  properties: {
+    "chart-title": {
         type: "string",
         title: "Chart Title",
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md text-sm",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
           },
         },
-      },
-      "chart-subtitle": {
+    },
+    "chart-subtitle": {
         type: "string",
         title: "Chart Subtitle",
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md",
+            class: "mt-3 w-full p-2 border rounded-md text-sm",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
           },
         },
-      },
-      "chart-x-axis-label": {
+    },
+    "chart-pie-type": {
         type: "string",
-        title: "X Axis Label",
+        title: "Pie Type",
+        enum: ["Basic", "Ring", "Half Ring", "Rose"],
+        format: "tagify",
+        maxtags: 1,
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md",
+            class:
+              "w-full mb-4 bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-xl border-blue-gray-200 focus:border-gray-300",
           },
           containerAttributes: {
-            class: "mt-2 text-sm font-bold",
+            class: "mt-2 text-sm text-gray-600 font-bold",
           },
         },
-      },
-      "chart-y-axis-label": {
-        type: "string",
-        title: "Y Axis Label",
-        options: {
-          inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md",
-          },
-          containerAttributes: {
-            class: "mt-2 text-sm font-bold",
-          },
-        },
-      },
-      "chart-show-legend": {
+    },
+    "chart-show-legend": {
         type: "boolean",
         title: "Show Legend",
         format: "customBoolean",
@@ -72,9 +64,9 @@ export const formSchema = {
           { value: 'hide', label: 'Hide' },
         ],
     },
-    "chart-show-zoom": {
+    "chart-show-percentage": {
         type: "boolean",
-        title: "Show Zoom Slider",
+        title: "Show Percentage",
         format: "customBoolean",
         options: {
           inputAttributes: {
@@ -89,9 +81,27 @@ export const formSchema = {
           { value: 'hide', label: 'Hide' },
         ],
     },
-      "dynamicForms": {
+    "chart-show-currency": {
+        type: "boolean",
+        title: "Show as Currency",
+        format: "customBoolean",
+        options: {
+          inputAttributes: {
+            class: "w-full mt-3 p-2 border rounded-md",
+          },
+          containerAttributes: {
+            class: "mt-2 text-sm font-bold",
+          },
+        },
+        enum: [
+          { value: 'show', label: 'Show' },
+          { value: 'hide', label: 'Hide' },
+        ],
+    },
+    "dynamicForms": {
         type: "array",
         title: "Series",
+        onlyOne: true,
         items: {
           type: "object",
           properties: {
@@ -107,9 +117,9 @@ export const formSchema = {
                 },
               },
             },
-            "series-column-xaxis": {
+            "series-column-category": {
               type: "string",
-              title: "X Axis Values",
+              title: "Column Category",
               format: "tagify",
               enum: [],
               maxtags: 1,
@@ -122,9 +132,9 @@ export const formSchema = {
                 },
               },
             },
-            "series-column-yaxis": {
+            "series-column-values": {
               type: "string",
-              title: "Y Axis Values",
+              title: "Column Values",
               enum: [],
               format: "tagify",
               maxtags: 1,
@@ -137,16 +147,15 @@ export const formSchema = {
                 },
               },
             },
-            "series-symbol-size": {
-              type: "number",
-              title: "Marker Size",
-              format: "slider",
-              min: 1,
-              max: 20,
-              step: 1,
+            "series-aggregation": {
+              type: "string",
+              title: "Aggregation",
+              enum: ["Sum", "Count"],
+              format: "tagify",
+              maxtags: 1,
               options: {
                 inputAttributes: {
-                  class: "w-full mt-3 p-2",
+                  class: "w-full mt-3 bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -155,7 +164,7 @@ export const formSchema = {
             },
             "series-colorspace": {
               type: "string",
-              title: "Marker Color Space",
+              title: "Color Space",
               format: "colorsDropdown",
               enum: [
                 "Viridis", "YlGnBu", "Inferno", "Magma", "Plasma", "Warm", "Cool",
@@ -176,7 +185,7 @@ export const formSchema = {
             "series-primary-color": {
               type: "string",
               format: "color",
-              title: "Marker Color Primary",
+              title: "Color Primary",
               options: {
                 inputAttributes: {
                   class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
@@ -189,7 +198,7 @@ export const formSchema = {
             "series-secondary-color": {
               type: "string",
               format: "color",
-              title: "Marker Color Secondary",
+              title: "Color Secondary",
               options: {
                 inputAttributes: {
                   class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
@@ -202,21 +211,19 @@ export const formSchema = {
           },
         },
       },
-    },
+  },
 };
 
-export const initialValues = {
-  
-    "chart-show-legend": 'hide',
-    "chart-show-labels": 'hide',
-    "chart-show-zoom": 'hide',
-    dynamicForms: [{ 
-      'series-title': '', 
-      'series-column-xaxis': '', 
-      'series-column-yaxis': '', 
-      'series-aggregation': '', 
-      'series-primary-color': '', 
-      'series-secondary-color': '',
-      'series-symbol-size': 10
-    }],
+export const initialValues = {  
+  "chart-show-legend": 'hide',
+  "chart-show-percentage": 'hide',
+  "chart-show-currency": 'hide',
+  dynamicForms: [{ 
+    'series-title': '', 
+    'series-column-category': '', 
+    'series-column-values': '', 
+    'series-aggregation': '', 
+    'series-primary-color': '#ffffff', 
+    'series-secondary-color': '#000000' 
+  }],
 };
