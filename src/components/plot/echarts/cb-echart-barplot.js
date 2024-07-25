@@ -147,9 +147,9 @@ class BarPlot extends HTMLElement {
         }
     }
 
-    plotData(seriesName, columnCategory, columnsValues, aggregation, colorScale, primaryColor, secondaryColor, showBackground) {
+    plotData(seriesName, columnCategory, columnsValues, aggregation, colorScale, primaryColor, secondaryColor, showBackground, showLabels) {
         aggregation = aggregation === '' ? 'none' : aggregation.toLowerCase();
-    
+        showLabels = showLabels === 'show' ? true : false;
         let series = {
             'type': 'bar', 
             'name': seriesName,
@@ -157,7 +157,13 @@ class BarPlot extends HTMLElement {
             'style': {
                 'color': 'black'
             },
-            'showBackground': showBackground
+            'showBackground': showBackground,
+            label: {
+                show: showLabels,
+                position: 'outside',
+                fontFamily: 'Poppins',
+                fontWeight: 'normal'
+              }
         }
     
         if (!this.data_ || columnCategory === '' || columnsValues === '') {
@@ -204,11 +210,17 @@ class BarPlot extends HTMLElement {
     
         const xAxisData = aggregatedData.map(item => item[0]);
     
-        series.data = aggregatedData.map((item, index) => ({
-            value: item[1][validColumns[0]],
+        series.data = aggregatedData.map((item, index) => {
+            let value = item[1][validColumns[0]];
+            if (value % 1 !== 0) {
+                value = value.toFixed(2); // Round the value to two decimal places only if it has decimals
+            }
+            return {
+            value: value,
             name: item[0],
             itemStyle: { color: scale(index) }
-        }));
+            };
+        });
     
         return {
             series,
@@ -223,9 +235,13 @@ class BarPlot extends HTMLElement {
         let xAxisLabel = this.getAttribute('chart-xaxis-label') || '';
         let yAxisLabel = this.getAttribute('chart-yaxis-label') || '';
         let showBackground = this.getAttribute('chart-show-background') === 'show';
+        let showLegend = this.getAttribute('chart-show-legend') === 'show';
+
         
         const seriesData = [];
-        const xAxisData = new Set();
+        // const xAxisData = new Set();
+        const xAxisData = [];
+
     
         // Helper function to get attribute by prefix and index
         const getAttributeByPrefixAndIndex = (prefix, index) => this.getAttribute(`${prefix}-${index}`) || '';
@@ -240,8 +256,13 @@ class BarPlot extends HTMLElement {
             const seriesColorspace = getAttributeByPrefixAndIndex('series-colorspace', index);
             const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color', index);
             const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color', index);
-    
-            if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
+            const seriesShowLabels = getAttributeByPrefixAndIndex('series-show-labels', index);
+
+            // if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
+            //     break;
+            // }
+
+            if (!columnCategory || !columnValues || !aggregation) {
                 break;
             }
             
@@ -254,43 +275,65 @@ class BarPlot extends HTMLElement {
                 seriesColorspace,
                 seriesPrimaryColor,
                 seriesSecondaryColor,
-                showBackground
+                showBackground,
+                seriesShowLabels
             );
 
             seriesData.push(plotData.series);
+            if (index === 0){
+                xAxisData.push(...plotData.xAxisData);
+      
+              }
             // plotData.xAxisData.forEach(data => xAxisData.add(data));
             index++;
         }
-
     
         this.option = {
             title: {
                 text: title,
                 subtext: subtitle,
-                left: 'center',
-            },
-            toolbox: {
-                feature: {
-                  dataZoom: {
-                    yAxisIndex: 'none'
-                  },
-                  restore:{},
-                  saveAsImage: {
-                    title: "Save as Image",
-                    type: "png",
-                    backgroundColor: "#fff",
-                    pixelRatio: 2,
-                  },
+                left: "center",
+                textStyle: {
+                  fontFamily: "Poppins",
+                  fontWeight: 500,
                 },
+                subtextStyle: {
+                  fontFamily: "Poppins"
+                }
               },
-            tooltip: {},
+            label: {
+                fontFamily:"Poppins",
+              },
+            toolbox: {},
+            tooltip: {
+                trigger: "item",
+                axisPointer: {
+                  type: 'cross'
+                }
+              },
+            legend: {
+                show: showLegend,
+                right: "20%",
+                top: "6%",
+                itemStyle: {
+                  color: "#1E395C"
+                }
+              },
             xAxis: {
                 type: 'category',
-                data: Array.from(xAxisData),
-                name: xAxisLabel
+                data: xAxisData, 
+                // Array.from(xAxisData),
+                name: xAxisLabel,
+                axisLabel: {interval: 0, rotate: 30},
+                axisTick: { alignWithLabel: true},
+     
             },
             yAxis: {
-                name: yAxisLabel
+                name: yAxisLabel,
+                nameTextStyle: "Poppins",
+                nameRotate: 90,
+                nameLocation: 'middle',
+                nameGap:  20,
             },
             series: seriesData,
             animationDuration: 1000

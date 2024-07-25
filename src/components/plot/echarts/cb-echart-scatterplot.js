@@ -206,99 +206,6 @@ class ScatterPlot extends HTMLElement {
       itemStyle: { color: scale(index) },
     }));
 
-    // }
-    //   } else {
-    //     const grouped = this.df.groupBy(columnCategory);
-
-    //     const aggregations = {
-    //       sum: (df, col) => df.stat.sum(col),
-    //       mean: (df, col) => df.stat.mean(col),
-    //       median: (df, col) => df.stat.median(col),
-    //       min: (df, col) => df.stat.min(col),
-    //       max: (df, col) => df.stat.max(col),
-    //     };
-
-    //     const aggregatedData = grouped
-    //       .aggregate((group) => {
-    //         const result = {};
-    //         validColumns.forEach((col) => {
-    //           result[col] = aggregations[aggregation](group, col);
-    //         });
-    //         return result;
-    //       })
-    //       .toArray();
-
-    //     const scale = ColorScale.getColorScale(
-    //       this.getAttribute("color-scale") || "Viridis",
-    //       this.getAttribute("color-primary") || "#000000",
-    //       this.getAttribute("color-secundary") || "#ffffff",
-    //       aggregatedData.length
-    //     );
-
-    //     const xAxisData = aggregatedData.map((item) => item[0]);
-
-    //     series.data = aggregatedData.map((item, index) => ({
-    //       value: item[1][validColumns[0]],
-    //       name: item[0],
-    //       itemStyle: { color: scale(index) },
-    //     }));
-    //   }
-
-    // // in here should be done a if statement where the user checks if we want an aggregation run the code below
-    // // if aggregation is === none just serve the an array of array that have [x,y]
-    // // series: [
-    // // {
-    // //     type: 'scatter',
-    // //     data: [
-    // //       [10, 5],
-    // //       [0, 8],
-    // //       [6, 10],
-    // //       [2, 12],
-    // //       [8, 9],
-    // //       [8,7]
-    // //     ]
-    // // }
-    // // ]
-    // // };
-    // const grouped = this.df.groupBy(columnCategory);
-
-    // console.log(grouped,`<<<DF Grouped on ${columnCategory}`);
-
-    // const aggregations = {
-    //   sum: (df, col) => df.stat.sum(col),
-    //   mean: (df, col) => df.stat.mean(col),
-    //   median: (df, col) => df.stat.median(col),
-    //   min: (df, col) => df.stat.min(col),
-    //   max: (df, col) => df.stat.max(col),
-    // };
-
-    // const aggregatedData = grouped
-    //   .aggregate((group) => {
-    //     const result = {};
-    //     validColumns.forEach((col) => {
-    //       result[col] = aggregations[aggregation](group, col);
-    //     });
-    //     return result;
-    //   })
-    //   .toArray();
-
-    // const scale = ColorScale.getColorScale(
-    //   this.getAttribute("color-scale") || "Viridis",
-    //   this.getAttribute("color-primary") || "#000000",
-    //   this.getAttribute("color-secundary") || "#ffffff",
-    //   aggregatedData.length
-    // );
-
-    // const xAxisData = aggregatedData.map((item) => item[0]);
-
-    // series.data = aggregatedData.map((item, index) => ({
-    //   value: item[1][validColumns[0]],
-    //   name: item[0],
-    //   itemStyle: { color: scale(index) },
-    // }));
-
-    // console.log(series.data,'<<<SeriesData');
-
     return {
       series,
     };
@@ -333,8 +240,6 @@ class ScatterPlot extends HTMLElement {
         const seriesShowLabels = getAttributeByPrefixAndIndex('series-show-labels', index) === 'show';
 
 
-
-
         if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
             break;
         }
@@ -363,7 +268,7 @@ class ScatterPlot extends HTMLElement {
         left: "center",
         textStyle: {
           fontFamily: "Poppins",
-          fontWeight: "bold",
+          fontWeight: 500,
         },
         subtextStyle: {
           fontFamily: "Poppins"
@@ -371,9 +276,11 @@ class ScatterPlot extends HTMLElement {
       },
       legend: {
         show: showLegend,
-        orient: "horizontal",
-        top: "30",
-        right: '100'
+          right: "20%",
+          top: "6%",
+          itemStyle: {
+            color: "#1E395C"
+          }
       },
       tooltip: {
         trigger: "item",
@@ -435,7 +342,6 @@ class ScatterPlot extends HTMLElement {
           dataZoom: {
             yAxisIndex: 'none'
           },
-          restore:{},
           saveAsImage: {
             title: "Save as Image",
             type: "png",
@@ -465,6 +371,15 @@ class ScatterPlot extends HTMLElement {
     };
     
     this.chart_.setOption(this.option);
+  }
+
+  listeners() {
+    const container = document.querySelector('cb-container');
+    if (container) {
+        container.addEventListener('export', () => {
+            console.log('Export button clicked');
+          });
+    }
   }
 
   render() {
