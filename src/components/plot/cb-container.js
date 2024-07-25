@@ -1,6 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-  <style>@import "dev/css/main.css";</style>
+  <style>@import "css/main.css";</style>
 
   <div class="cb-maincontainer cb-fixed-top p-5 container dark:bg-gray-700 mx-auto sm:w-full lg:w-1/2 no-select">
     <div class="flex justify-between w-full mb-4">

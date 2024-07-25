@@ -2,7 +2,7 @@ import dataNursery from '../../utils/DataNursery';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "dev/css/main.css";</style>
+    <style>@import "css/main.css";</style>
 
     <div class="data-source-button flex relative">
         <div class="absolute top-1/2 transform -translate-y-1/2 -left-14 w-[26px] h-[26px] flex-col justify-start items-start inline-flex">

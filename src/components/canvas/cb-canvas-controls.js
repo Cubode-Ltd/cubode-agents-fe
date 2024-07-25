@@ -1,6 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "dev/css/main.css";</style>
+    <style>@import "css/main.css";</style>
 
     <div id="cb-canvas-low-controls" class="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex bg-white dark:bg-gray-700 py-3 px-4 rounded-lg shadow-xl border">
         

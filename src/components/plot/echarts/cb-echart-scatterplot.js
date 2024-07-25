@@ -13,7 +13,7 @@ echarts.use([ ScatterChart, TitleComponent, TooltipComponent, GridComponent, Dat
 
 const template = document.createElement("template");
 template.innerHTML = `
-    <style>@import "dev/css/main.css";</style>
+    <style>@import "css/main.css";</style>
 
     <div class="cb-echart-scatterplot cb-wc-height relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>

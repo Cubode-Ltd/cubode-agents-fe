@@ -27,9 +27,9 @@
     "webpack-merge": "^6.0.1"
   },
   "scripts": {
-    "start": "concurrently \"webpack serve --open\" \"./runtailwind.sh\" ",
-    "build": "webpack --mode=development",
-    "build:prod": "webpack --mode=production"
+      "start": "concurrently \"webpack serve --config webpack.dev.js --open\" \"./runtailwind.sh\"",
+      "build": "webpack --config webpack.dev.js",
+      "build:prod": "webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",

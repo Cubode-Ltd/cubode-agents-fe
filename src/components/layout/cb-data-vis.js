@@ -2,7 +2,7 @@ import { createGrid } from 'ag-grid-community';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "dev/css/main.css";</style>
+    <style>@import "css/main.css";</style>
 
     <div class="cb-data-visual cb-wc-height container mx-auto bg-white">
         <div id="data-table" class="ag-theme-alpine w-full h-full" style="width:100% !important;"></div>

@@ -4,7 +4,7 @@ import FormComponent from '../cb-form';
 
 const sidebarTemplate = document.createElement('template');
 sidebarTemplate.innerHTML = `
-  <style>@import "dev/css/main.css";</style>
+  <style>@import "css/main.css";</style>
   
   <div class="sidebar-container relative">
     <div class="cb-sidebar-button cursor-pointer absolute top-0 left-1 drop-shadow-md hover:drop-shadow-lg ml-2 mt-2 fill-gray-400 hover:fill-gray-500">
