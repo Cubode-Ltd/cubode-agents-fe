@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist/prod/'),
-        filename: 'js/[name].bundle.js',
+        filename: 'js/[name].min.js',
     },
     module: {
         rules: [
@@ -50,17 +50,20 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/html/prod/index.html',
             filename: 'html/index.html',
-            chunks: ['index']
+            chunks: ['index'],
+            inject: false,
         }),
         new HtmlWebpackPlugin({
             template: './src/html/prod/login.html',
             filename: 'html/login.html',
-            chunks: ['login']
+            chunks: ['login'],
+            inject: false,
         }),
         new HtmlWebpackPlugin({
             template: './src/html/prod/register.html',
             filename: 'html/register.html',
-            chunks: ['register']
+            chunks: ['register'],
+            inject: false,
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
