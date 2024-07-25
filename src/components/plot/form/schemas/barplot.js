@@ -72,6 +72,23 @@ export const formSchema = {
           { value: 'hide', label: 'Hide' },
         ],
       },
+      "chart-show-legend": {
+        type: "boolean",
+        title: "Show Legend",
+        format: "customBoolean",
+        options: {
+          inputAttributes: {
+            class: "w-full mt-3 p-2 border rounded-md",
+          },
+          containerAttributes: {
+            class: "mt-2 text-sm font-bold",
+          },
+        },
+        enum: [
+          { value: 'show', label: 'Show' },
+          { value: 'hide', label: 'Hide' },
+        ],
+      },
       "dynamicForms": {
         type: "array",
         title: "Series",
@@ -135,6 +152,23 @@ export const formSchema = {
                 },
               },
             },
+            "series-show-labels": {
+            type: "boolean",
+            title: "Show Data Labels",
+            format: "customBoolean",
+            options: {
+              inputAttributes: {
+                class: "w-full mt-3 p-2 border rounded-md",
+              },
+              containerAttributes: {
+                class: "mt-2 text-sm font-bold",
+              },
+            },
+            enum: [
+              { value: 'show', label: 'Show' },
+              { value: 'hide', label: 'Hide' },
+            ],
+          },
             "series-colorspace": {
               type: "string",
               title: "Color Space",
@@ -189,12 +223,14 @@ export const formSchema = {
 
 export const initialValues = {
     'chart-show-background': 'hide',
+    'chart-show-legend': 'hide',
     dynamicForms: [{ 
       'series-title': '', 
       'series-column-category': '', 
       'series-column-values': '', 
       'series-aggregation': '', 
       'series-primary-color': '', 
-      'series-secondary-color': '' 
+      'series-secondary-color': '',
+      'series-show-labels': 'hide',
     }],
 };

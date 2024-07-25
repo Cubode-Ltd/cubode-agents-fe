@@ -72,23 +72,6 @@ export const formSchema = {
           { value: 'hide', label: 'Hide' },
         ],
     },
-    "chart-show-labels": {
-        type: "boolean",
-        title: "Show Value Labels",
-        format: "customBoolean",
-        options: {
-          inputAttributes: {
-            class: "w-full mt-3 p-2 border rounded-md",
-          },
-          containerAttributes: {
-            class: "mt-2 text-sm font-bold",
-          },
-        },
-        enum: [
-          { value: 'show', label: 'Show' },
-          { value: 'hide', label: 'Hide' },
-        ],
-    },
     "chart-show-zoom": {
         type: "boolean",
         title: "Show Zoom Slider",
@@ -172,7 +155,7 @@ export const formSchema = {
             },
             "series-colorspace": {
               type: "string",
-              title: "Color Space",
+              title: "Marker Color Space",
               format: "colorsDropdown",
               enum: [
                 "Viridis", "YlGnBu", "Inferno", "Magma", "Plasma", "Warm", "Cool",
@@ -193,7 +176,7 @@ export const formSchema = {
             "series-primary-color": {
               type: "string",
               format: "color",
-              title: "Color Primary",
+              title: "Marker Color Primary",
               options: {
                 inputAttributes: {
                   class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
@@ -206,7 +189,7 @@ export const formSchema = {
             "series-secondary-color": {
               type: "string",
               format: "color",
-              title: "Color Secondary",
+              title: "Marker Color Secondary",
               options: {
                 inputAttributes: {
                   class: "w-full bg-white text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
@@ -223,9 +206,12 @@ export const formSchema = {
 };
 
 export const initialValues = {
-    showBackgroundField: 'show',
+  
+    "chart-show-legend": 'hide',
+    "chart-show-labels": 'hide',
+    "chart-show-zoom": 'hide',
     dynamicForms: [{ 
-      'series-title': 'Series', 
+      'series-title': '', 
       'series-column-xaxis': '', 
       'series-column-yaxis': '', 
       'series-aggregation': '', 

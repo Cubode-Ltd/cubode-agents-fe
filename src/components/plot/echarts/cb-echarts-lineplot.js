@@ -269,11 +269,8 @@ class LinePlot extends HTMLElement {
         const seriesArea = getAttributeByPrefixAndIndex('series-show-area', index);
         const seriesLabels = getAttributeByPrefixAndIndex('series-show-labels', index);
 
-        
-
-
-        if (!seriesTitle || !columnCategory || !columnValues) {
-            break;
+        if (!columnCategory || !columnValues || !aggregation) {
+          break;
         }
         
         // Generate plot data for the current series
@@ -307,6 +304,13 @@ class LinePlot extends HTMLElement {
         text: title,
         subtext: subtitle,
         left: "center",
+        textStyle: {
+          fontFamily: "Poppins",
+          fontWeight: 500,
+        },
+        subtextStyle: {
+          fontFamily: "Poppins"
+        }
       },
       tooltip: {
         trigger: "item",
@@ -316,9 +320,8 @@ class LinePlot extends HTMLElement {
       },
       legend: {
         show: showLegend,
-        orient: "horizontal",
-        top: "30",
-        right: '100',
+        right: "20%",
+        top: "6%",
         itemStyle: {
           color: "#1E395C"
         }
@@ -382,12 +385,6 @@ class LinePlot extends HTMLElement {
               }
             }
           },
-          saveAsImage: {
-            title: "Save as Image",
-            type: "png",
-            backgroundColor: "#fff",
-            pixelRatio: 2,
-          },
         },
       },
       xAxis: {
@@ -399,12 +396,25 @@ class LinePlot extends HTMLElement {
       },
       yAxis: {
         name: yAxisLabel,
-      },
+        nameTextStyle: "Poppins",
+        nameRotate: 90,
+        nameLocation: 'middle',
+        nameGap:  20,
+    },
       series: seriesData,
       animationDuration: 1000,
     };
 
     this.chart_.setOption(this.option);
+  }
+
+  listeners() {
+    const container = document.querySelector('cb-container');
+    if (container) {
+        container.addEventListener('export', () => {
+            console.log('Export button clicked');
+          });
+    }
   }
 
   render() {
@@ -433,6 +443,20 @@ class LinePlot extends HTMLElement {
     this.resizeObserver = resizeObserver;
 
     window.addEventListener("resize", this.handleResize.bind(this));
+  }
+  exportPNG() {
+    if (this.chart_) {
+        const url = this.chart_.getDataURL({
+            type: 'png',
+            backgroundColor: '#fff',
+            pixelRatio: 2,
+        });
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'chart.png';
+        a.click();
+        a.remove();
+    }
   }
 
   handleResize() {

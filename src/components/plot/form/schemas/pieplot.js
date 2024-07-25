@@ -214,6 +214,9 @@ export const formSchema = {
 };
 
 export const initialValues = {  
+  "chart-show-legend": 'hide',
+  "chart-show-percentage": 'hide',
+  "chart-show-currency": 'hide',
   dynamicForms: [{ 
     'series-title': '', 
     'series-column-category': '', 

@@ -155,10 +155,13 @@ export const formSchema = {
             "series-symbol-size": {
               type: "number",
               title: "Marker Size",
-              enum: [],
+              format: "slider",
+              min: 1,
+              max: 20,
+              step: 1,
               options: {
                 inputAttributes: {
-                  class: "w-full mt-3 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  class: "w-full mt-3 p-2",
                 },
                 containerAttributes: {
                   class: "mt-2 text-sm text-gray-600 font-bold",
@@ -309,12 +312,19 @@ export const formSchema = {
 
 export const initialValues = {  
   'chart-show-legend': 'hide',
+  'chart-show-labels': 'hide',
+  'chart-show-zoom': 'hide',
   dynamicForms: [{ 
-    'series-title': 'Enter Series Title', 
+    'series-title': '', 
     'series-column-category': '', 
     'series-column-values': '', 
     'series-aggregation': '', 
-    'series-primary-color': '', 
-    'series-secondary-color': '' 
+    'series-primary-color-marker': '', 
+    'series-secondary-color-marker': '',
+    'series-color-line': '#3A9BDC',
+    'series-color-area': '#3A9BDC',
+    'series-show-area': 'hide',
+    'series-show-labels': 'hide',
+    'series-symbol-size': 10
   }],
 };

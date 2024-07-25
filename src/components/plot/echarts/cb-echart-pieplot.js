@@ -338,7 +338,6 @@ class PiePlot extends HTMLElement {
         seriesData.push(plotData.series);
         index++;
     }
-
     this.option = {
       title: {
         text: title,
@@ -346,7 +345,7 @@ class PiePlot extends HTMLElement {
         left: "center",
         textStyle: {
           fontFamily: "Poppins",
-          fontWeight: "bold",
+          fontWeight: 500,
         },
         subtextStyle: {
           fontFamily: "Poppins"
@@ -382,16 +381,8 @@ class PiePlot extends HTMLElement {
           dataZoom: {
             yAxisIndex: 'none'
           },
-          restore:{},
-          saveAsImage: {
-            title: "Save as Image",
-            type: "png",
-            backgroundColor: "#fff",
-            pixelRatio: 2,
-          },
         },
       },
-
       series: seriesData,
       animationDuration: 1000,
     };
@@ -425,6 +416,15 @@ class PiePlot extends HTMLElement {
 
     this.chart_.setOption(this.option);
 
+  }
+
+  listeners() {
+    const container = document.querySelector('cb-container');
+    if (container) {
+        container.addEventListener('export', () => {
+            console.log('Export button clicked');
+          });
+    }
   }
 
   render() {
