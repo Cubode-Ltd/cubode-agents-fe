@@ -12,7 +12,7 @@ export const formSchema = {
         title: "Chart Title",
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md text-sm",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -24,7 +24,7 @@ export const formSchema = {
         title: "Chart Subtitle",
         options: {
           inputAttributes: {
-            class: "mt-3 w-full p-2 border rounded-md text-sm",
+            class: "mt-3 w-full p-2 border rounded-md",
           },
           containerAttributes: {
             class: "mt-2 text-sm font-bold",
@@ -101,7 +101,6 @@ export const formSchema = {
     "dynamicForms": {
         type: "array",
         title: "Series",
-        onlyOne: true,
         items: {
           type: "object",
           properties: {
@@ -223,7 +222,7 @@ export const initialValues = {
     'series-column-category': '', 
     'series-column-values': '', 
     'series-aggregation': '', 
-    'series-primary-color': '#ffffff', 
-    'series-secondary-color': '#000000' 
+    'series-primary-color': '', 
+    'series-secondary-color': '' 
   }],
 };
