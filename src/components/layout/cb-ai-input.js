@@ -1,6 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "css/main.css";</style>
+    <style>@import "css/index.css";</style>
 
     <div class="cb-ai-input fixed bottom-14 w-3/4 left-1/2 transform -translate-x-1/2 min-w-[500px] bg-white shadow-lg rounded-2xl z-50">
         <label for="aiPromt" for="aiPromt" class="sr-only">ai prompt</label>

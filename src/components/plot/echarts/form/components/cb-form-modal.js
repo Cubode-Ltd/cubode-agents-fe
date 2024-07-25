@@ -4,7 +4,7 @@ import FormComponent from '../cb-form';
 
 const modalTemplate = document.createElement('template');
 modalTemplate.innerHTML = `
-  <style>@import "css/main.css";</style>
+  <style>@import "css/index.css";</style>
   
   <div>    
     <dialog class="modal rounded-2xl">

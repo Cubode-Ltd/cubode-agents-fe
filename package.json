@@ -27,9 +27,9 @@
     "webpack-merge": "^6.0.1"
   },
   "scripts": {
-      "start": "concurrently \"webpack serve --config webpack.dev.js --open\" \"./runtailwind.sh\"",
-      "build": "webpack --config webpack.dev.js",
-      "build:prod": "webpack --config webpack.prod.js"
+    "start": "webpack serve --config webpack.dev.js --open",
+    "build": "webpack --config webpack.dev.js",
+    "build:prod": "webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
@@ -39,6 +39,8 @@
     "dataframe-js": "^1.4.4",
     "echarts": "^5.5.0",
     "formik": "^2.4.6",
+    "htmx-ext-ws": "^2.0.0",
+    "htmx.org": "^2.0.1",
     "localforage": "^1.10.0",
     "mitt": "^3.0.1",
     "papaparse": "^5.4.1",

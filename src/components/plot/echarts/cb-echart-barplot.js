@@ -13,7 +13,7 @@ echarts.use([BarChart, TitleComponent, TooltipComponent, GridComponent, DatasetC
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "css/main.css";</style>
+    <style>@import "css/index.css";</style>
 
     <div class="cb-echart-barplot cb-wc-height relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>

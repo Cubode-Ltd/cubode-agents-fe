@@ -1,6 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-      <style>@import "css/main.css";</style>
+      <style>@import "css/index.css";</style>
       <div class="flex items-center h-11 px-2 border rounded justify-center relative no-select bg-[#2D2D2A]">
         <div class="burger-icon cursor-pointer w-6 h-6 mr-3 fill-gray-50">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1.5rem" height="1.5rem" id="Layer_1" version="1.1" viewBox="0 0 32 32" xml:space="preserve">

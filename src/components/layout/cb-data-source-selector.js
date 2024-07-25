@@ -3,7 +3,7 @@ import dataNursery from '../../utils/DataNursery';
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
-        @import "css/main.css";
+        @import "css/index.css";
     </style>
     <div class="data-source-selector relative flex items-center">
         <div class="absolute w-6 h-6 top-[7px] left-2">

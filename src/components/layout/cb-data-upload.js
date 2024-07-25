@@ -2,7 +2,7 @@ import dataNursery from '../../utils/DataNursery';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "css/main.css";</style>
+    <style>@import "css/index.css";</style>
 
     <div class="cb-data-upload container mx-auto py-3 flex flex-nowrap items-center no-select">
 

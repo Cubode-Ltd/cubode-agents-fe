@@ -1,6 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "css/main.css";</style>
+    <style>@import "css/index.css";</style>
     <div class="cb-cube-main"></div>
 `;
 

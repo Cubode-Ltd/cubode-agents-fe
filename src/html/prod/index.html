@@ -5,17 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cubode</title>
-  <link rel="stylesheet" src="css/main.css"/>
+
   <script src="https://unpkg.com/htmx.org@1.8.5" integrity="sha384-7aHh9lqPYGYZ7sTHvzP1t3BAfLhYSTy9ArHdP3Xsr9/3TlGurYgcPBoFmXX2TX/w" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
 </head>
 
 <body class="bg-gray-[#g8g8g8]" hx-ext="ws" ws-connect="ws://localhost:8000/ws/notifications/" hx-target="dynamic-content-ws">
-  
   <nav class="sticky top-0 z-50 my-6">
     <div class="container mx-auto px-4 py-2 flex items-center justify-between">
-      
-      <!-- Left Component -->
       <div class="flex-shrink-0">
         <svg height="2rem" class="max-w-xs hidden lg:flex" alt="Cubode" id="Layer_1" data-name="Layer 1" viewBox="0 0 987.38 240.60608" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
           <path d="m 986.68,173.09305 c 0.25,-0.12 -117.17,67.62 -118.14,67.51 -0.09,0.65 0.41,-103.16 0.49,-103.16 L 987.14,69.233046 v 0 l -0.49,103.900004" style="fill:#1e395c" id="path438" />
@@ -31,7 +28,6 @@
         </svg>
       </div>
       
-      <!-- Center Component -->
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="flex items-center justify-center space-x-4">
           <cb-data-upload></cb-data-upload>
@@ -39,21 +35,20 @@
         </div>
       </div>
       
-      <!-- Right Component -->
       <div class="flex-shrink-0 hidden lg:flex">
         <button class="px-6 py-3 text-sm bg-transparent border rounded-md hover:bg-gray-100 no-select">Invite</button>
       </div>
     </div>
   </nav>
 
-  <div>
-    <cb-container>
-      <cb-echart-barplot> </cb-echart-barplot>
-      <cb-echart-scatterplot> </cb-echart-scatterplot>       
-      <cb-echart-lineplot> </cb-echart-lineplot>
-      <cb-echart-pieplot> </cb-echart-pieplot>
-      <cb-data-vis></cb-data-vis>
-    </cb-container>
+  <cb-container>
+    <cb-echart-barplot> </cb-echart-barplot>
+    <cb-echart-scatterplot> </cb-echart-scatterplot>       
+    <cb-echart-lineplot> </cb-echart-lineplot>
+    <cb-echart-pieplot> </cb-echart-pieplot>
+    <cb-data-vis></cb-data-vis>
+  </cb-container>
 
-  </body>
+</body>
+
 </html>
