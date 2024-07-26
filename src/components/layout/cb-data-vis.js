@@ -10,7 +10,6 @@ template.innerHTML = `
 class CBDataVis extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
         const templateContent = template.content.cloneNode(true);
         this.appendChild(templateContent);
 
