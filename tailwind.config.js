@@ -26,6 +26,13 @@ module.exports = {
       },
     },
   },
+  variants: {
+    extend: {
+      backgroundColor: ['dark'],
+      textColor: ['dark'],
+      borderColor: ['dark'],
+    },
+  },
   plugins: [
     require('tailwindcss-animated'),
   ],
