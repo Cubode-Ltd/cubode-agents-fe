@@ -1,7 +1,8 @@
+// Or do not use shadowRoot or if use (because of slot), use the addGlobalStyles to point to the styles.
+import { addGlobalStyles } from '../../utils/WebComponents'
+
 const template = document.createElement('template');
 template.innerHTML = `
-  <style>@import "css/index.css";</style>
-
   <div class="cb-maincontainer cb-fixed-top p-5 container dark:bg-gray-700 mx-auto sm:w-full lg:w-1/2 no-select">
     <div class="flex justify-between w-full mb-4">
         <div class="whitespace-nowrap h-11 px-2 py-2.5 rounded-sm border border-gray-200 justify-center items-center gap-2.5 inline-flex">
@@ -47,6 +48,7 @@ class Container extends HTMLElement {
       mode: 'open'
     });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+    addGlobalStyles(this.shadowRoot);
 
     this.regenerate = this.shadowRoot.querySelector('.cb-plot-button-regenerate');
     this.export = this.shadowRoot.querySelector('.cb-plot-button-export');

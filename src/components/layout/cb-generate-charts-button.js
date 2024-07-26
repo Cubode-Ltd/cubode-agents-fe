@@ -2,8 +2,6 @@ import dataNursery from '../../utils/DataNursery';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "css/index.css";</style>
-
     <div class="data-source-button flex relative">
         <div class="absolute top-1/2 transform -translate-y-1/2 -left-14 w-[26px] h-[26px] flex-col justify-start items-start inline-flex">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -24,9 +22,8 @@ template.innerHTML = `
 class CBDataSourceButton extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
         const templateContent = template.content.cloneNode(true);
-        this.shadowRoot.appendChild(templateContent);
+        this.appendChild(templateContent);
 
         this.handleClick = this.handleClick.bind(this);
         this.updateSelectedData = this.updateSelectedData.bind(this);
@@ -36,12 +33,12 @@ class CBDataSourceButton extends HTMLElement {
     }
 
     connectedCallback() {
-        this.shadowRoot.querySelector('button').addEventListener('click', this.handleClick);
+        this.querySelector('button').addEventListener('click', this.handleClick);
         window.addEventListener('data-selected', this.updateSelectedData);
     }
 
     disconnectedCallback() {
-        this.shadowRoot.querySelector('button').removeEventListener('click', this.handleClick);
+        this.querySelector('button').removeEventListener('click', this.handleClick);
         window.removeEventListener('data-selected', this.updateSelectedData);
     }
 

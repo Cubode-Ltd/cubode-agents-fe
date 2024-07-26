@@ -2,9 +2,6 @@ import dataNursery from '../../utils/DataNursery';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>
-        @import "css/index.css";
-    </style>
     <div class="data-source-selector relative flex items-center">
         <div class="absolute w-6 h-6 top-[7px] left-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="20" viewBox="0 0 17 20" fill="none">
@@ -21,9 +18,8 @@ template.innerHTML = `
 class CBDataSourceSelector extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
         const templateContent = template.content.cloneNode(true);
-        this.shadowRoot.appendChild(templateContent);
+        this.appendChild(templateContent);
 
         this.handleFileSelection = this.handleFileSelection.bind(this);
         this.updateDropdown = this.updateDropdown.bind(this);
@@ -31,17 +27,17 @@ class CBDataSourceSelector extends HTMLElement {
 
     connectedCallback() {
         this.populateDropdown();
-        this.shadowRoot.querySelector('#data-source-selector').addEventListener('change', this.handleFileSelection);
+        this.querySelector('#data-source-selector').addEventListener('change', this.handleFileSelection);
         window.addEventListener('fileStored', this.updateDropdown);
     }
 
     disconnectedCallback() {
-        this.shadowRoot.querySelector('#data-source-selector').removeEventListener('change', this.handleFileSelection);
+        this.querySelector('#data-source-selector').removeEventListener('change', this.handleFileSelection);
         window.removeEventListener('fileStored', this.updateDropdown);
     }
 
     async populateDropdown() {
-        const selector = this.shadowRoot.querySelector('#data-source-selector');
+        const selector = this.querySelector('#data-source-selector');
         const nameToHashMapping = await dataNursery.name2hash.keys();
 
         selector.innerHTML = '<option value="">Choose File</option>';
@@ -55,7 +51,7 @@ class CBDataSourceSelector extends HTMLElement {
 
     async updateDropdown(event) {
         const { fileName } = event.detail;
-        const selector = this.shadowRoot.querySelector('#data-source-selector');
+        const selector = this.querySelector('#data-source-selector');
         const option = document.createElement('option');
         option.value = fileName;
         option.textContent = fileName;

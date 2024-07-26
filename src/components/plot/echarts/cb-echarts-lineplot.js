@@ -13,8 +13,6 @@ echarts.use([ LineChart, TitleComponent, TooltipComponent, GridComponent, Datase
 
 const template = document.createElement("template");
 template.innerHTML = `
-    <style>@import "css/index.css";</style>
-
     <div class="cb-echart-lineplot cb-wc-height relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-sidebar class="absolute top-0"></cb-plot-sidebar>
@@ -24,13 +22,12 @@ template.innerHTML = `
 class LinePlot extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.appendChild(template.content.cloneNode(true));
 
-    this.main = this.shadowRoot.querySelector('.cb-echart-barplot');
-    this.element = this.shadowRoot.querySelector('.cb-chart-container');
-    this.modal = this.shadowRoot.querySelector('cb-plot-modal');
-    this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
+    this.main = this.querySelector('.cb-echart-barplot');
+    this.element = this.querySelector('.cb-chart-container');
+    this.modal = this.querySelector('cb-plot-modal');
+    this.sidebar = this.querySelector('cb-plot-sidebar');
 
     this.chart_ = echarts.init(this.element);
 

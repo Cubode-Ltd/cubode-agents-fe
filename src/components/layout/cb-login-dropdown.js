@@ -1,6 +1,5 @@
 const template = document.createElement('template');
 template.innerHTML = `
-      <style>@import "css/index.css";</style>
       <div class="flex items-center h-11 px-2 border rounded justify-center relative no-select bg-[#2D2D2A]">
         <div class="burger-icon cursor-pointer w-6 h-6 mr-3 fill-gray-50">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1.5rem" height="1.5rem" id="Layer_1" version="1.1" viewBox="0 0 32 32" xml:space="preserve">
@@ -29,26 +28,25 @@ template.innerHTML = `
 class MenuDropdown extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.shadowRoot.querySelector('.burger-icon').addEventListener('click', (event) => {
+    this.appendChild(template.content.cloneNode(true));
+
+    this.querySelector('.burger-icon').addEventListener('click', (event) => {
       this.toggleDropdown(event);
     });
 
-    // Event listener for outside click
     document.addEventListener('click', (event) => {
       this.handleOutsideClick(event);
     });
   }
 
   toggleDropdown(event) {
-    const dropdown = this.shadowRoot.querySelector('.dropdown-content');
+    const dropdown = this.querySelector('.dropdown-content');
     dropdown.classList.toggle('hidden');
     event.stopPropagation(); // Prevent click event from bubbling up to document
   }
 
   handleOutsideClick(event) {
-    const dropdown = this.shadowRoot.querySelector('.dropdown-content');
+    const dropdown = this.querySelector('.dropdown-content');
     if (!this.contains(event.target)) {
       dropdown.classList.add('hidden');
     }

@@ -2,12 +2,8 @@ import dataNursery from '../../utils/DataNursery';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "css/index.css";</style>
-
     <div class="cb-data-upload container mx-auto py-3 flex flex-nowrap items-center no-select">
-
         <cb-data-source-selector class="-mr-[200px] z-10"></cb-data-source-selector>
-
         <label for="fileInput" class="upload-label cursor-pointer rounded-l-sm
                 overflow-clip w-[34rem] py-3 pl-56 border border-neutral-300 bg-white text-sm text-neutral-800 
                 file:mr-4 file:cursor-pointer file:border-none file:bg-white file:px-4 file:py-2 file:font-medium file:text-black 
@@ -24,9 +20,8 @@ template.innerHTML = `
 class CBDataUpload extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
         const templateContent = template.content.cloneNode(true);
-        this.shadowRoot.appendChild(templateContent);
+        this.appendChild(templateContent);
         this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
@@ -41,7 +36,7 @@ class CBDataUpload extends HTMLElement {
     }
 
     toggleVisibility() {
-        const container = this.shadowRoot.querySelector('.cb-data-upload');
+        const container = this.querySelector('.cb-data-upload');
         if (this.hasAttribute('hidden')) {
             container.setAttribute('hidden', '');
         } else {
@@ -63,12 +58,12 @@ class CBDataUpload extends HTMLElement {
 
     connectedCallback() {
         window.addEventListener('click', this.handleClickOutside);
-        this.shadowRoot.querySelector('#fileInput').addEventListener('change', this.handleFileUpload);
+        this.querySelector('#fileInput').addEventListener('change', this.handleFileUpload);
     }
 
     disconnectedCallback() {
         window.removeEventListener('click', this.handleClickOutside);
-        this.shadowRoot.querySelector('#fileInput').removeEventListener('change', this.handleFileUpload);
+        this.querySelector('#fileInput').removeEventListener('change', this.handleFileUpload);
     }
 
 

@@ -4,8 +4,6 @@ import FormComponent from '../cb-form';
 
 const sidebarTemplate = document.createElement('template');
 sidebarTemplate.innerHTML = `
-  <style>@import "css/index.css";</style>
-  
   <div class="sidebar-container relative">
     <div class="cb-sidebar-button cursor-pointer absolute top-0 left-1 drop-shadow-md hover:drop-shadow-lg ml-2 mt-2 fill-gray-400 hover:fill-gray-500">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" xml:space="preserve"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/>
@@ -28,13 +26,12 @@ sidebarTemplate.innerHTML = `
 class SidebarComponent extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(sidebarTemplate.content.cloneNode(true));
+    this.appendChild(sidebarTemplate.content.cloneNode(true));
 
-    this.sidebar = this.shadowRoot.querySelector('.sidebar');
-    this.closeButton = this.shadowRoot.querySelector('.cb-close-sidebar-button');
-    this.openButton = this.shadowRoot.querySelector('.cb-sidebar-button');
-    this.reactForm = this.shadowRoot.querySelector('.react-component');
+    this.sidebar = this.querySelector('.sidebar');
+    this.closeButton = this.querySelector('.cb-close-sidebar-button');
+    this.openButton = this.querySelector('.cb-sidebar-button');
+    this.reactForm = this.querySelector('.react-component');
 
     this.closeButton.addEventListener('click', this.closeSidebar.bind(this));
     this.openButton.addEventListener('click', this.toggleSidebar.bind(this));
@@ -104,7 +101,7 @@ class SidebarComponent extends HTMLElement {
 
   handleOutsideClick(event) {
     const path = event.composedPath();
-    const isClickInsideComponent = path.includes(this) || path.includes(this.shadowRoot);
+    const isClickInsideComponent = path.includes(this) || path.includes(this.sidebar);
     const isClickOnOpenButton = path.includes(this.openButton);
   
     if (!isClickInsideComponent && !isClickOnOpenButton) {

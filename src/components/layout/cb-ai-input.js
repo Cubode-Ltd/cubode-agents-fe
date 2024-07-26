@@ -1,7 +1,5 @@
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "css/index.css";</style>
-
     <div class="cb-ai-input fixed bottom-14 w-3/4 left-1/2 transform -translate-x-1/2 min-w-[500px] bg-white shadow-lg rounded-2xl z-50">
         <label for="aiPromt" for="aiPromt" class="sr-only">ai prompt</label>
         
@@ -18,9 +16,8 @@ template.innerHTML = `
 class AITextInput extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
         const templateContent = template.content.cloneNode(true);
-        this.shadowRoot.appendChild(templateContent);
+        this.appendChild(templateContent);
 
         this.handleClickOutside = this.handleClickOutside.bind(this);
 
@@ -38,7 +35,7 @@ class AITextInput extends HTMLElement {
     }
 
     toggleVisibility() {
-        const container = this.shadowRoot.querySelector('.cb-ai-input');
+        const container = this.querySelector('.cb-ai-input');
         if (this.hasAttribute('hidden')) {
             container.setAttribute('hidden', '');
         } else {
@@ -68,7 +65,7 @@ class AITextInput extends HTMLElement {
     }
 
     handleClickOutside(event) {
-        const container = this.shadowRoot.querySelector('.cb-ai-input');
+        const container = this.querySelector('.cb-ai-input');
         if (!this.contains(event.target)) {
             const input = container.querySelector('input');
             if (input) {

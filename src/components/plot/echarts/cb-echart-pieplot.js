@@ -26,8 +26,6 @@ import { formSchema ,initialValues } from './schemas/pieplot'
 
 const template = document.createElement("template");
 template.innerHTML = `
-    <style>@import "css/index.css";</style>
-
     <div class="cb-echart-pieplot cb-wc-height relative w-full overflow-hidden pt-2">
         <div class="cb-chart-container w-full h-full"></div>
         <cb-plot-sidebar allow-multiple-series="false" class="absolute top-0"></cb-plot-sidebar>
@@ -37,11 +35,10 @@ template.innerHTML = `
 class PiePlot extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.element = this.shadowRoot.querySelector(".cb-chart-container");
-    
-    this.sidebar = this.shadowRoot.querySelector('cb-plot-sidebar');
+    this.appendChild(template.content.cloneNode(true));
+
+    this.element = this.querySelector(".cb-chart-container");
+    this.sidebar = this.querySelector('cb-plot-sidebar');
 
     this.chart_ = echarts.init(this.element);
     

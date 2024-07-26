@@ -2,8 +2,6 @@ import { createGrid } from 'ag-grid-community';
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>@import "css/index.css";</style>
-
     <div class="cb-data-visual cb-wc-height container mx-auto bg-white">
         <div id="data-table" class="ag-theme-alpine w-full h-full" style="width:100% !important;"></div>
     </div>
@@ -14,9 +12,9 @@ class CBDataVis extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         const templateContent = template.content.cloneNode(true);
-        this.shadowRoot.appendChild(templateContent);
+        this.appendChild(templateContent);
 
-        this.main = this.shadowRoot.querySelector('.cb-data-visual')
+        this.main = this.querySelector('.cb-data-visual')
 
         this.gridOptions = {
             pagination: true,
@@ -55,7 +53,7 @@ class CBDataVis extends HTMLElement {
     }
 
     connectedCallback() {
-        this.gridDiv = this.shadowRoot.querySelector('#data-table');
+        this.gridDiv = this.querySelector('#data-table');
         createGrid(this.gridDiv, this.gridOptions);
         window.addEventListener('data-selected', this.handleDataSelected);
     }

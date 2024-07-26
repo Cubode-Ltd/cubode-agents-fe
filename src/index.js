@@ -2,9 +2,9 @@ import './css/main.css';
 
 import "./components/layout/cb-login-dropdown.js"
 import "./components/layout/cb-data-upload.js"
-import "./components/layout/cb-data-vis.js"
 import "./components/layout/cb-data-source-selector.js"
 import "./components/layout/cb-generate-charts-button.js"
+import "./components/layout/cb-data-vis.js"
 
 import "./components/plot/echarts/form/components/cb-form-modal.js"
 import "./components/plot/echarts/form/components/cb-form-sidebar.js"

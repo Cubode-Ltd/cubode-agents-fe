@@ -3,9 +3,7 @@ import { createRoot } from 'react-dom/client';
 import FormComponent from '../cb-form';
 
 const modalTemplate = document.createElement('template');
-modalTemplate.innerHTML = `
-  <style>@import "css/index.css";</style>
-  
+modalTemplate.innerHTML = `  
   <div>    
     <dialog class="modal rounded-2xl">
       <div class="modal-box bg-white rounded-2xl dark:bg-gray-600 border-2 border-gray-300  m-0 p-5 flex flex-col" style="height:600px; min-width:500px; min-height:400px;">
@@ -29,12 +27,12 @@ class ModalComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(modalTemplate.content.cloneNode(true));
+    this.appendChild(modalTemplate.content.cloneNode(true));
 
-    this.modal = this.shadowRoot.querySelector('.modal');
-    this.closeButton = this.shadowRoot.querySelector('.cb-close-modal-button');
-    this.openButton = this.shadowRoot.querySelector('.cb-open-modal-button');
-    this.reactForm = this.shadowRoot.querySelector('.react-component');
+    this.modal = this.querySelector('.modal');
+    this.closeButton = this.querySelector('.cb-close-modal-button');
+    this.openButton = this.querySelector('.cb-open-modal-button');
+    this.reactForm = this.querySelector('.react-component');
 
     this.closeButton.addEventListener('click', this.closeModal.bind(this));
     this.openButton.addEventListener('click', this.openModal.bind(this));
