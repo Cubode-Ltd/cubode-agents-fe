@@ -1,5 +1,6 @@
 import './css/main.css';
 
+import "./components/layout/cb-navbar.js"
 import "./components/layout/cb-login-dropdown.js"
 import "./components/layout/cb-data-upload.js"
 import "./components/layout/cb-data-source-selector.js"
