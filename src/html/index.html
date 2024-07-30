@@ -4,12 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cubode</title>
+  <title>Cubode Visual Lib</title>
 </head>
 
-<body class="bg-cubode-bg dark:bg-cubode-bg-dark" hx-ext="ws" ws-connect="ws://localhost:8000/ws/notifications/" hx-target="dynamic-content-ws">
+<body hx-ext="ws" ws-connect="ws://localhost:8000/ws/notifications/" hx-target="dynamic-content-ws">
   <cb-navbar></cb-navbar>
-
   <cb-container>
     <cb-echart-barplot> </cb-echart-barplot>
     <cb-echart-scatterplot> </cb-echart-scatterplot>       
@@ -17,6 +16,5 @@
     <cb-echart-pieplot> </cb-echart-pieplot>
     <cb-data-vis></cb-data-vis>
   </cb-container>
-
 </body>
 </html>

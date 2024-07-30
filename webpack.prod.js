@@ -7,7 +7,8 @@ module.exports = {
     entry: {
         index: './src/index.js',
         login: './src/login.js',
-        register: './src/register.js'
+        register: './src/register.js',
+        // reset_password: './src/reset_password.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist/prod/'),
@@ -65,9 +66,15 @@ module.exports = {
             chunks: ['register'],
             inject: false,
         }),
+        // new HtmlWebpackPlugin({
+        //     template: './src/html/prod/reset_password.html',
+        //     filename: 'html/reset_password.html',
+        //     chunks: ['reset_password'],
+        //     inject: false,
+        // }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
         }),
     ],
-    mode: 'production'
+    mode: 'production',
 };

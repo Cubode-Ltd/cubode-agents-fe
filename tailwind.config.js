@@ -1,4 +1,5 @@
 module.exports = {
+  darkMode: 'class', 
   content: [
     "./src/**/*.{html,js}",
     "./src/**/**/*.{html,js}",
@@ -6,7 +7,6 @@ module.exports = {
     "./src/**/**/**/**/*.{html,js}",
     "./src/*.{html,js}",
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {

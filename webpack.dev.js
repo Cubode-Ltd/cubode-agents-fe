@@ -7,7 +7,8 @@ module.exports = {
     entry: {
       index: './src/index.js',
       login: './src/login.js',
-      register: './src/register.js'
+      register: './src/register.js',
+      reset_password: './src/reset_password.js'
     },
     output: {
       path: path.resolve(__dirname, 'dist/dev/'),
@@ -63,6 +64,11 @@ module.exports = {
         filename: 'html/register.html',
         chunks: ['register']
       }),
+      new HtmlWebpackPlugin({
+        template: './src/html/reset_password.html',
+        filename: 'html/reset_password.html',
+        chunks: ['reset_password']
+      }),
       new MiniCssExtractPlugin({
         filename: 'css/[name].css',
       }),
@@ -81,7 +87,13 @@ module.exports = {
           index: '/html/index.html',
         },
     },
+    watch: true,
     watchOptions: {
-        ignored: /node_modules/,
+      poll: 1000,
+      ignored: [
+        '**/node_modules',
+        '**/dist/**',
+        '**/dist',
+      ],
     },
 };

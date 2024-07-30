@@ -1,29 +1,27 @@
 import './css/main.css';
 import { getCookie } from './utils/Mix'
 
-document.getElementById('continueButton').addEventListener('click', function() {
-    document.getElementById('passwordField').classList.remove('hidden');
-    passwordField.classList.add('fade-in');
 
-    document.getElementById('continueButton').classList.add('hidden');
-    document.getElementById('submitButton').classList.remove('hidden');
-});
-
-document.getElementById('loginForm').addEventListener('submit', function(event) {
+document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const repeatPassword = document.getElementById('repeat_password').value;
 
-    fetch('/auth/api/login/', {
+    if (password !== repeatPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    fetch('/auth/api/reset-password/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-CSRFToken': getCookie('csrftoken')
         },
         body: new URLSearchParams({
-            email: email,
-            password: password
+            password: password,
+            repeat_password: repeatPassword
         })
     })
     .then(response => response.json())
