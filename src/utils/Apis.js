@@ -1,4 +1,3 @@
-// api.js
 import axios from 'axios';
 
 export class APIs {

@@ -1,10 +1,11 @@
 import './css/main.css';
-import { getCookie } from './utils/Mix'
+import { APIs } from './utils/Apis.js';
+
 
 document.getElementById('continueButton').addEventListener('click', function() {
-    document.getElementById('passwordField').classList.remove('hidden');
-    passwordField.classList.add('fade-in');
-
+    const passwordField = document.getElementById('passwordField')
+          passwordField.classList.remove('hidden');
+          passwordField.classList.add('fade-in');
     document.getElementById('continueButton').classList.add('hidden');
     document.getElementById('submitButton').classList.remove('hidden');
 });
@@ -15,24 +16,15 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    fetch('/auth/api/login/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: new URLSearchParams({
-            email: email,
-            password: password
+    APIs.login(email, password)
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+            } else {
+                alert(data.error);
+            }
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            alert(data.message);
-        } else {
-            alert(data.error);
-        }
-    })
-    .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error)
+        });
 });
