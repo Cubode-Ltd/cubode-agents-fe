@@ -18,9 +18,9 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     APIs.resetPassword(password, repeatPassword)
         .then(data => {
             if (data.message) {
-                notyf.success('We have sent you an email!');
+                alert(data.message);
             } else {
-                notyf.error('Something went wrong');
+                alert(data.error);
             }
         })
         .catch(error => {

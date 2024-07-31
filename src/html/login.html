@@ -1,3 +1,5 @@
+<!-- cb-templatetifier:: loadstatic -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +7,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login | Cubode</title>
+        <!-- cb-templatetifier: static_url_css:css/login.css -->
+        <!-- cb-templatetifier: static_url_js:js/login.min.js -->
     </head>
 
     <body class="bg-white font-poppins flex items-center justify-center min-h-screen no-select">
@@ -30,6 +34,7 @@
                 </h2>
 
                 <form id="loginForm">
+                    <!-- cb-templatetifier:: csrftoken -->
                   <div class="mb-4">
                       <label for="email" class="block text-xs font-normal leading-6 text-[#2D2D2A]">Email address</label>
                       <input type="email" id="email" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter email address" required>
@@ -49,6 +54,7 @@
 
                 <div class="text-center mt-8">
                     <p class="text-sm font-normal leading-5 text-[#2D2D2A]">Don't have an account? <a href="" class="font-extrabold">Sign Up</a></p>
+                    <a href="/recover_password" class="text-xs font-light hover:font-normal leading-5 text-cubode-darkblue cursor-pointer">Forgot Password?</a>
                 </div>
                 <div class="flex items-center my-10">
                     <hr class="flex-grow border-t border-gray-300">

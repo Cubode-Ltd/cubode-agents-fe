@@ -44,6 +44,7 @@
     "htmx.org": "^2.0.1",
     "localforage": "^1.10.0",
     "mitt": "^3.0.1",
+    "notyf": "^3.10.0",
     "papaparse": "^5.4.1",
     "react": "^18.3.1",
     "react-color": "^2.19.3",
@@ -51,6 +52,7 @@
     "react-dom": "^18.3.1",
     "react-table": "^7.8.0",
     "react-to-webcomponent": "^2.0.0",
-    "roughjs": "^4.6.6"
+    "roughjs": "^4.6.6",
+    "templatifier-webpack-plugin": "^1.0.1"
   }
 }
