@@ -53,6 +53,6 @@
     "react-table": "^7.8.0",
     "react-to-webcomponent": "^2.0.0",
     "roughjs": "^4.6.6",
-    "templatifier-webpack-plugin": "^1.0.1"
+    "templatifier-webpack-plugin": "^1.0.2"
   }
 }

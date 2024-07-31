@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,6 +31,7 @@
             </h2>
             
             <form id="registerForm">
+                {% csrf_token %}
                 <div class="mb-4">
                     <label for="email" class="block text-xs font-normal leading-6 text-[#2D2D2A]">Email address</label>
                     <input type="email" id="email" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter email address" required>

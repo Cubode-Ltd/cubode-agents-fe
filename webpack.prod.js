@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TemplatifierWebpackPlugin = require('templatifier-webpack-plugin');
 const path = require('path');
 
 
@@ -48,6 +49,27 @@ module.exports = {
         ]
     },
     plugins: [
+        new TemplatifierWebpackPlugin({
+            inputFile: './src/html/index.html',
+            outputDirectory: 'prod'
+        }),
+        new TemplatifierWebpackPlugin({
+            inputFile: './src/html/login.html',
+            outputDirectory: 'prod'
+        }),
+        new TemplatifierWebpackPlugin({
+            inputFile: './src/html/register.html',
+            outputDirectory: 'prod'
+        }),
+        new TemplatifierWebpackPlugin({
+            inputFile: './src/html/reset_password.html',
+            outputDirectory: 'prod'
+        }),
+        new TemplatifierWebpackPlugin({
+            inputFile: './src/html/reset_password_confirm.html',
+            outputDirectory: 'prod'
+        }),
+          
         new HtmlWebpackPlugin({
             template: './src/html/prod/index.html',
             filename: 'html/index.html',
@@ -66,12 +88,18 @@ module.exports = {
             chunks: ['register'],
             inject: false,
         }),
-        // new HtmlWebpackPlugin({
-        //     template: './src/html/prod/reset_password.html',
-        //     filename: 'html/reset_password.html',
-        //     chunks: ['reset_password'],
-        //     inject: false,
-        // }),
+        new HtmlWebpackPlugin({
+            template: './src/html/prod/reset_password.html',
+            filename: 'html/reset_password.html',
+            chunks: ['reset_password'],
+            inject: false,
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/html/prod/reset_password_confirm.html',
+            filename: 'html/reset_password_confirm.html',
+            chunks: ['reset_password'],
+            inject: false,
+        }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
         }),
