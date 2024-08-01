@@ -1,4 +1,4 @@
-{% load static %}
+<!-- <cb-templatifier type="loadstatic" /> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,9 +7,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login | Cubode</title>
-        <link href="{% static 'css/login.css' %}" rel="stylesheet">
-        <script defer="defer" src="{% static 'js/login.min.js' %}"></script>
 
+        <!-- <cb-templatifier type="static-css" route="css/login.css" /> -->
+        <!-- <cb-templatifier type="static-script" route="js/login.js" /> -->
     </head>
 
     <body class="bg-white font-poppins flex items-center justify-center min-h-screen no-select">
@@ -35,7 +35,8 @@
                 </h2>
 
                 <form id="loginForm">
-                    {% csrf_token %}
+                    <!-- <cb-templatifier type="csrf_token" /> -->
+
                     <div class="mb-4">
                       <label for="email" class="block text-xs font-normal leading-6 text-[#2D2D2A]">Email address</label>
                       <input type="email" id="email" class="w-full p-2 px-4 border text-xs font-normal leading-5 text-[#2D2D2AB2] rounded mt-1" placeholder="Enter email address" required>
