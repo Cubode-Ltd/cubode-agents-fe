@@ -1,6 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TemplatifierWebpackPlugin = require('templatifier-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const path = require('path');
 
 
@@ -9,7 +11,8 @@ module.exports = {
         index: './src/index.js',
         login: './src/login.js',
         register: './src/register.js',
-        // reset_password: './src/reset_password.js'
+        reset_password: './src/reset_password.js',
+        reset_password_confirm: './src/reset_password_confirm.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist/prod/'),
@@ -100,8 +103,29 @@ module.exports = {
             chunks: ['reset_password'],
             inject: false,
         }),
+        
         new MiniCssExtractPlugin({
-            filename: 'css/[name].css',
+            filename: 'css/[name].min.css',
+        }),
+
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'dist/prod/html'),
+                    to: path.resolve(__dirname, '../../CUBODE_AGENTS_BE/cubode-agents-be/cubode_agent/assets/html'),
+                    force: true,
+                },
+                {
+                    from: path.resolve(__dirname, 'dist/prod/css'),
+                    to: path.resolve(__dirname, '../../CUBODE_AGENTS_BE/cubode-agents-be/cubode_agent/static/css'),
+                    force: true,
+                },
+                {
+                    from: path.resolve(__dirname, 'dist/prod/js'),
+                    to: path.resolve(__dirname, '../../CUBODE_AGENTS_BE/cubode-agents-be/cubode_agent/static/js'),
+                    force: true,
+                },
+            ],
         }),
     ],
     mode: 'production',

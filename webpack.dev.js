@@ -8,7 +8,8 @@ module.exports = {
       index: './src/index.js',
       login: './src/login.js',
       register: './src/register.js',
-      reset_password: './src/reset_password.js'
+      reset_password: './src/reset_password.js',
+      reset_password_confirm: './src/reset_password_confirm.js'
     },
     output: {
       path: path.resolve(__dirname, 'dist/dev/'),
@@ -69,6 +70,12 @@ module.exports = {
         filename: 'html/reset_password.html',
         chunks: ['reset_password']
       }),
+      new HtmlWebpackPlugin({
+        template: './src/html/reset_password_confirm.html',
+        filename: 'html/reset_password_confirm.html',
+        chunks: ['reset_password_confirm']
+      }),
+      
       new MiniCssExtractPlugin({
         filename: 'css/[name].css',
       }),

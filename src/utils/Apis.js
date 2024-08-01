@@ -27,10 +27,16 @@ export class APIs {
         return response.data;
     }
 
-    static resetPassword(password, repeatPassword) {
-        return this.postRequest('/auth/api/reset-password/', {
+    static resetPasswordConfirm(password, repeatPassword) {
+        return this.postRequest('/auth/api/reset-password-confirm/', {
             password: password,
             repeat_password: repeatPassword
+        });
+    }
+
+    static resetPassword(email) {
+        return this.postRequest('/auth/api/reset-password/', {
+            email: email
         });
     }
 

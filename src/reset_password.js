@@ -8,14 +8,9 @@ const notyf = new Notyf();
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const password = document.getElementById('password').value;
-    const repeatPassword = document.getElementById('repeat_password').value;
-    if (password !== repeatPassword) {
-        notyf.error('Passwords do not match!');
-        return;
-    }
+    const email = document.getElementById('email').value;
 
-    APIs.resetPassword(password, repeatPassword)
+    APIs.resetPassword(email)
         .then(data => {
             if (data.message) {
                 notyf.success('We have sent you an email!');
@@ -24,6 +19,6 @@ document.getElementById('registerForm').addEventListener('submit', function(even
             }
         })
         .catch(error => {
-            console.error('Error:', error)
+            notyf.error('Something went wrong');
         })
 });

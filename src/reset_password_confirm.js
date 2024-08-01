@@ -15,15 +15,15 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         return;
     }
 
-    APIs.resetPassword(password, repeatPassword)
+    APIs.resetPasswordConfirm(password, repeatPassword)
         .then(data => {
             if (data.message) {
-                alert(data.message);
+                notyf.success('Your password has been changed!');
             } else {
-                alert(data.error);
+                notyf.error('Something went wrong');
             }
         })
         .catch(error => {
-            console.error('Error:', error)
+            notyf.error('Something went wrong');
         })
 });
