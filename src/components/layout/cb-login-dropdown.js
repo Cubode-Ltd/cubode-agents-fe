@@ -10,44 +10,44 @@ template.innerHTML = `
 
           <ul class="dropdown-content rounded hidden absolute bg-[#2D2D2A] text-white text-sm shadow-lg z-10 list-none p-0 m-0 mt-1 min-w-[200px] top-full left-0 ring-1 ring-black ring-opacity-5">
             
-            <li class="sign-in px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a href="/auth/login" class="mb-2">Sign In</a>
+            <li href="/auth/login" class="sign-in px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <p>Sign In</p>
             </li>
             
             <hr class="mx-2 sign-in">
             
-            <li class="profile-settings hidden px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a href="/auth/profile">Profile Settings</a>
+            <li href="/auth/profile" class="profile-settings hidden px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <p>Profile Settings</p>
             </li>
             
             <li class="file-history hidden px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a>File History</a>
+              <p>File History</p>
             </li>
             
-            <li class="px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a href="https://github.com/Cubode-Ltd/cubode-agents-fe" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <li href="https://github.com/Cubode-Ltd/cubode-agents-fe" target="_blank" rel="noopener noreferrer" class="px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <p>GitHub</p>
             </li>
             
-            <li class="hidden px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a href="" target="_blank" rel="noopener noreferrer">Join Community</a>
+            <li href="" target="_blank" rel="noopener noreferrer" class="hidden px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <p>Join Community</p>
             </li>
             
-            <li class="px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a href="/auth/plans">Upgrade</a>
+            <li href="/auth/plans" class="px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <p>Upgrade</p>
             </li>
             
-            <li class="px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a href="https://github.com/Cubode-Ltd/cubode-agents-fe/issues" target="_blank" rel="noopener noreferrer">Request a Feature</a>
+            <li href="https://github.com/Cubode-Ltd/cubode-agents-fe/issues" target="_blank" rel="noopener noreferrer" class="px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <p>Request a Feature</p>
             </li>
             
-            <li class="hidden sign-out px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a href="/auth/recover_password">Change your password</a>
+            <li href="/auth/recover_password" class="hidden sign-out px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <p>Change your password</p>
             </li>
 
             <hr class="hidden mx-2 sign-out">
 
             <li class="hidden sign-out log-out-button px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
-              <a>Log Out</a>
+              <p>Log Out</p>
             </li>
           
           </ul>
