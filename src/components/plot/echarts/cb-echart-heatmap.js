@@ -156,6 +156,7 @@ class HeatMapPlot extends HTMLElement {
   updateFormSchema(columns) {
     const categoryColumnEnum = columns;
     const valueColumnEnum = columns;
+    const aggregationColumnEnum = columns;
 
     this.formSchema.properties.dynamicForms.items.properties[
       "series-column-category"
@@ -163,6 +164,10 @@ class HeatMapPlot extends HTMLElement {
     this.formSchema.properties.dynamicForms.items.properties[
       "series-column-values"
     ].enum = valueColumnEnum;
+
+    this.formSchema.properties.dynamicForms.items.properties[
+      "series-column-aggregation"
+    ].enum = aggregationColumnEnum;
 
     if (this.modal) {
       this.modal.schema = this.formSchema;
@@ -172,11 +177,11 @@ class HeatMapPlot extends HTMLElement {
     }
   }
 
-
   plotData(
     seriesName,
     columnCategory,
     columnsValues,
+    columnAggregation,
     aggregation,
     colorScale,
     primaryColor,
@@ -184,13 +189,23 @@ class HeatMapPlot extends HTMLElement {
   ) {
     aggregation = aggregation === "" ? "none" : aggregation.toLowerCase();
 
+    console.log("AGgregation Column into plot>>>>>>>>", columnAggregation);
+
     let series = {
       type: "heatmap",
       name: seriesName,
       data: [],
+      // label: {
+      //   show: true
+      // },
     };
 
-    if (!this.data_ || columnCategory === "" || columnsValues === "") {
+    if (
+      !this.data_ ||
+      columnCategory === "" ||
+      columnsValues === "" ||
+      columnAggregation === ""
+    ) {
       return series;
     }
 
@@ -202,7 +217,6 @@ class HeatMapPlot extends HTMLElement {
     }
 
     this.df = new DataFrame(this.data_);
-
 
     // Helper Function
     function getUniqueValues(arr) {
@@ -240,29 +254,20 @@ class HeatMapPlot extends HTMLElement {
 
       return indexObject;
     }
+
     const xAxisData = getUniqueValues(this.df.select(columnCategory).toArray());
     const yAxisData = getUniqueValues(this.df.select(columnsValues).toArray());
 
-    console.log(xAxisData, "<<<X_Category");
-    console.log(yAxisData, "<<<y_Category");
-
+    // console.log(xAxisData, "<<<X_Category");
+    // console.log(yAxisData, "<<<y_Category");
 
     const x_Values = generateIndexObject(xAxisData);
     const y_Values = generateIndexObject(yAxisData);
 
-    console.log(x_Values, "<<<<Dict X");
-    console.log(y_Values, "<<<<<Dict Y");
+    // console.log(x_Values, "<<<<Dict X");
+    // console.log(y_Values, "<<<<<Dict Y");
 
     const grouped = this.df.groupBy(columnCategory, columnsValues);
-
-    // console.log(grouped, "<<<<Grouped");
-
-    // const aggregated = grouped.aggregate((group) => group.stat.sum("Value"));
-
-    // // Convert back to array if needed
-    // const dataArray = aggregated.toArray();
-
-    // console.log(dataArray, "DataArray");
 
     const aggregations = {
       sum: (df, col) => df.stat.sum(col),
@@ -282,7 +287,7 @@ class HeatMapPlot extends HTMLElement {
       .aggregate((group) => {
         const result = {};
         // Change Dynamic
-        const columnAg = ["Value"];
+        const columnAg = [columnAggregation];
         columnAg.forEach((col) => {
           result[col] = aggregations[aggregation](group, col);
         });
@@ -294,15 +299,35 @@ class HeatMapPlot extends HTMLElement {
     series.data = aggregatedData.map((item) => [
       x_Values[item[0]],
       y_Values[item[1]],
-      item[2].Value,
+      item[2][columnAggregation],
     ]);
 
-    console.log(aggregatedData, "DataAggregated");
+    console.log(series.data, "seriesData");
+
+    const values = series.data
+      .filter(
+        (item) =>
+          item[2] !== null &&
+          item[2] !== undefined &&
+          item[0] !== null &&
+          item[1] !== undefined &&
+          item[1] !== null &&
+          item[0] !== undefined
+      )
+      .map((item) => item[2]);
+
+    const minValue = Math.min(...values);
+    const maxValue = Math.max(...values);
+
+    console.log("Min value: form plot", minValue);
+    console.log("Max value: from plot", maxValue);
 
     return {
       series,
       xAxisData,
       yAxisData,
+      minValue,
+      maxValue,
     };
   }
 
@@ -316,6 +341,8 @@ class HeatMapPlot extends HTMLElement {
     const seriesData = [];
     const xAxisData = [];
     const yAxisData = [];
+    let minValue = Infinity;
+    let maxValue = -Infinity;
 
     const getAttributeByPrefixAndIndex = (prefix, index) =>
       this.getAttribute(`${prefix}-${index}`) || "";
@@ -330,6 +357,10 @@ class HeatMapPlot extends HTMLElement {
       );
       const columnValues = getAttributeByPrefixAndIndex(
         "series-column-values",
+        index
+      );
+      const columnAggregation = getAttributeByPrefixAndIndex(
+        "series-column-aggregation",
         index
       );
       const aggregation = getAttributeByPrefixAndIndex(
@@ -349,7 +380,12 @@ class HeatMapPlot extends HTMLElement {
         index
       );
 
-      if (!seriesTitle || !columnCategory || !columnValues) {
+      if (
+        !seriesTitle ||
+        !columnCategory ||
+        !columnValues ||
+        !columnAggregation
+      ) {
         break;
       }
 
@@ -358,20 +394,36 @@ class HeatMapPlot extends HTMLElement {
         seriesTitle,
         columnCategory,
         columnValues,
+        columnAggregation,
         aggregation,
         seriesColorspace,
         seriesPrimaryColor,
         seriesSecondaryColor
       );
 
+      // console.log(columnAggregation,'<<<Column Aggregation');
+
       seriesData.push(plotData.series);
       if (index === 0) {
         xAxisData.push(...plotData.xAxisData);
         yAxisData.push(...plotData.yAxisData);
       }
+      if (plotData.minValue < minValue) {
+        minValue = plotData.minValue;
+      }
+      if (plotData.maxValue > maxValue) {
+        maxValue = plotData.maxValue;
+      }
+
       index++;
     }
-    console.log(seriesData, "Update");
+    // Ensure minValue and maxValue are not Infinity and -Infinity
+    if (minValue === Infinity) {
+      minValue = 0;
+    }
+    if (maxValue === -Infinity) {
+      maxValue = 0;
+    }
 
     this.option = {
       title: {
@@ -379,29 +431,42 @@ class HeatMapPlot extends HTMLElement {
         subtext: subtitle,
         left: "center",
       },
+      legend: {},
       tooltip: {
-        trigger: "item",
+        position: "top",
       },
       visualMap: {
-        min: 0,
-        max: 10,
+        min: minValue,
+        max: maxValue,
         calculable: true,
         orient: "horizontal",
         left: "center",
-        bottom: "15%",
+        bottom: "0%",
       },
       xAxis: {
         type: "category",
         data: xAxisData,
         name: xAxisLabel,
+        splitArea: {
+          show: true,
+        },
       },
       yAxis: {
         type: "category",
         data: yAxisData,
         name: yAxisLabel,
+        splitArea: {
+          show: true,
+        },
       },
       series: seriesData,
       animationDuration: 1000,
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowColor: "rgba(0, 0, 0, 0.5)",
+        },
+      },
     };
 
     this.chart_.setOption(this.option);

@@ -285,23 +285,7 @@ export const formSchema = {
             { value: 'hide', label: 'Hide' },
           ],
       },
-    //   "chart-show-zoom": {
-    //       type: "boolean",
-    //       title: "Show Data Zoom",
-    //       format: "customBoolean",
-    //       options: {
-    //         inputAttributes: {
-    //           class: "w-full mt-3 p-2 border rounded-md",
-    //         },
-    //         containerAttributes: {
-    //           class: "mt-2 text-sm font-bold",
-    //         },
-    //       },
-    //       enum: [
-    //         { value: 'show', label: 'Show' },
-    //         { value: 'hide', label: 'Hide' },
-    //       ],
-    //   },
+      
       "dynamicForms": {
           type: "array",
           title: "Series",
@@ -320,7 +304,7 @@ export const formSchema = {
                   },
                 },
               },
-              "series-x-axis": {
+              "series-column-category": {
                 type: "string",
                 title: "X Axis",
                 format: "tagify",
@@ -335,9 +319,24 @@ export const formSchema = {
                   },
                 },
               },
-              "series-y-axis": {
+              "series-column-values": {
                 type: "string",
-                title: "Column Values",
+                title: "Y Axis",
+                enum: [],
+                format: "tagify",
+                maxtags: 1,
+                options: {
+                  inputAttributes: {
+                    class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
+                  },
+                  containerAttributes: {
+                    class: "mt-2 text-sm text-gray-600 font-bold",
+                  },
+                },
+              },
+              "series-column-aggregation": {
+                type: "string",
+                title: "Column to aggregate",
                 enum: [],
                 format: "tagify",
                 maxtags: 1,
@@ -353,7 +352,7 @@ export const formSchema = {
               "series-aggregation": {
                 type: "string",
                 title: "Aggregation",
-                enum: ["Sum", "Mean", "Min", "Max", "Count"],
+                enum: ["Sum", "Mean",  "Count"],
                 format: "tagify",
                 maxtags: 1,
                 options: {
@@ -365,92 +364,7 @@ export const formSchema = {
                   },
                 },
               },
-              "series-symbol-size": {
-                type: "number",
-                title: "Marker Size",
-                enum: [],
-                options: {
-                  inputAttributes: {
-                    class: "w-full mt-3 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
-                  },
-                  containerAttributes: {
-                    class: "mt-2 text-sm text-gray-600 font-bold",
-                  },
-                },
-              },
-              "series-line-type": {
-                type: "string",
-                title: "Line Type",
-                enum: ["Normal", "Smooth"],
-                format: "tagify",
-                maxtags: 1,
-                options: {
-                  inputAttributes: {
-                    class: "w-full mt-3 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
-                  },
-                  containerAttributes: {
-                    class: "mt-2 text-sm text-gray-600 font-bold",
-                  },
-                },
-              },
-              "series-line-style": {
-                type: "string",
-                title: "Line Style",
-                enum: ["Solid", "Dashed", "Dotted"],
-                format: "tagify",
-                maxtags: 1,
-                options: {
-                  inputAttributes: {
-                    class: "w-full mt-3 bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
-                  },
-                  containerAttributes: {
-                    class: "mt-2 text-sm text-gray-600 font-bold",
-                  },
-                },
-              },
-              "series-color-line": {
-                type: "string",
-                format: "color",
-                title: "Line Color",
-                options: {
-                  inputAttributes: {
-                    class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
-                  },
-                  containerAttributes: {
-                    class: "mt-2 text-sm text-gray-600 font-bold",
-                  },
-                },
-              },
-              "series-show-area": {
-                type: "boolean",
-                title: "Show Area",
-                format: "customBoolean",
-                options: {
-                  inputAttributes: {
-                    class: "w-full mt-3 p-2 border rounded-md",
-                  },
-                  containerAttributes: {
-                    class: "mt-2 text-sm font-bold",
-                  },
-                },
-                enum: [
-                  { value: 'show', label: 'Show' },
-                  { value: 'hide', label: 'Hide' },
-                ],
-            },
-            "series-color-area": {
-                type: "string",
-                format: "color",
-                title: "Area Color",
-                options: {
-                  inputAttributes: {
-                    class: "w-full bg-transparent text-blue-gray-700 outline outline-0 focus:outline-0 transition-all border focus:border-2 text-sm px-3 py-2.5 rounded-md border-blue-gray-200 focus:border-gray-300",
-                  },
-                  containerAttributes: {
-                    class: "mt-2 text-sm text-gray-600 font-bold",
-                  },
-                },
-              },
+              
             "series-show-labels": {
               type: "boolean",
               title: "Show Data Labels",
