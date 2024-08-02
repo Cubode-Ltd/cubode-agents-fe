@@ -1,4 +1,6 @@
-const template = document.createElement('template');
+import { APIs } from "../../utils/Apis";
+
+const template = document.createElement("template");
 template.innerHTML = `
   <nav class="sticky top-0 z-50 my-6">
     <div class="container mx-auto px-4 py-2 flex items-center justify-between">
@@ -27,7 +29,7 @@ template.innerHTML = `
       <div class="flex-shrink-0 hidden lg:flex">
         <button class="px-6 py-3 text-sm bg-transparent border rounded-md hover:bg-gray-100 no-select">Invite</button>
         
-        <label class="inline-flex items-center cursor-pointer no-select">
+        <label class="inline-flex hidden items-center cursor-pointer no-select">
             <span id="lightDarkCheckboxLabel" class="ml-3 mr-2 text-xs font-medium text-gray-900 dark:text-gray-300">🌞Light</span>
 
             <input type="checkbox" id="lightDarkCheckbox" value="" class="sr-only peer">
@@ -55,36 +57,48 @@ class NavBar extends HTMLElement {
     super();
     this.appendChild(template.content.cloneNode(true));
 
-    this.checkbox = this.querySelector('#lightDarkCheckbox');
-    this.checkboxLabel = this.querySelector('#lightDarkCheckboxLabel');
-    this.mainElement = this.querySelector('nav');
+    this.checkbox = this.querySelector("#lightDarkCheckbox");
+    this.checkboxLabel = this.querySelector("#lightDarkCheckboxLabel");
+    this.dropdown = this.querySelector("cb-login-dropdown");
 
-    this.checkbox.addEventListener('change', () => this.toggleDarkMode());
+    this.mainElement = this.querySelector("nav");
+
+    this.checkbox.addEventListener("change", () => this.toggleDarkMode());
     this.updateDarkMode();
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     this.updateDarkMode();
+    await this.fetchUserData();
+  }
+
+  async fetchUserData() {
+    try {
+      const userData = await APIs.fetchUserData();
+      this.dropdown.authenticated = userData;
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
   }
 
   toggleDarkMode() {
     if (this.checkbox.checked) {
-      document.body.classList.add('dark');
-      this.checkboxLabel.textContent = '🌜 Dark';
+      document.body.classList.add("dark");
+      this.checkboxLabel.textContent = "🌜 Dark";
     } else {
-      document.body.classList.remove('dark');
-      this.checkboxLabel.textContent = '🌞 Light';
+      document.body.classList.remove("dark");
+      this.checkboxLabel.textContent = "🌞 Light";
     }
     this.updateDarkMode();
   }
 
   updateDarkMode() {
-    if (document.body.classList.contains('dark')) {
-      this.mainElement.classList.add('dark');
+    if (document.body.classList.contains("dark")) {
+      this.mainElement.classList.add("dark");
     } else {
-      this.mainElement.classList.remove('dark');
+      this.mainElement.classList.remove("dark");
     }
   }
 }
 
-customElements.define('cb-navbar', NavBar);
+customElements.define("cb-navbar", NavBar);
