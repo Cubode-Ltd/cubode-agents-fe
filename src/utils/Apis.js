@@ -68,4 +68,16 @@ export class APIs {
       password: password,
     });
   }
+
+  static async logout() {
+    try {
+      const response = await this.postRequest("/auth/api/logout/", {});
+      document.cookie = "access_token=; Max-Age=0; path=/;";
+      document.cookie = "refresh_token=; Max-Age=0; path=/;";
+      return response;
+    } catch (error) {
+      console.error("Failed to logout:", error);
+      throw error;
+    }
+  }
 }

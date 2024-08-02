@@ -1,3 +1,5 @@
+import { APIs } from "../../utils/Apis";
+
 const template = document.createElement("template");
 template.innerHTML = `
       <div class="flex items-center h-11 px-2 border rounded justify-center relative no-select bg-[#2D2D2A]">
@@ -37,6 +39,12 @@ template.innerHTML = `
             <li class="px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
               <a href="https://github.com/Cubode-Ltd/cubode-agents-fe/issues" target="_blank" rel="noopener noreferrer">Request a Feature</a>
             </li>
+                        
+            <hr class="mx-2 sign-out">
+
+            <li class="sign-out log-out-button px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <a>Log Out</a>
+            </li>
           
           </ul>
         </div>
@@ -58,6 +66,10 @@ class MenuDropdown extends HTMLElement {
       this.toggleDropdown(event);
     });
 
+    this.querySelector(".log-out-button").addEventListener("click", () => {
+      this.logOut();
+    });
+
     document.addEventListener("click", (event) => {
       this.handleOutsideClick(event);
     });
@@ -65,6 +77,8 @@ class MenuDropdown extends HTMLElement {
 
   set authenticated(userData) {
     const signInLinks = this.querySelectorAll(".sign-in");
+    const signOutLinks = this.querySelectorAll(".sign-out");
+
     const profileSettingsLink = this.querySelector(".profile-settings");
     const fileHistoryLink = this.querySelector(".file-history");
     const avatar = this.querySelector(".avatar");
@@ -73,6 +87,8 @@ class MenuDropdown extends HTMLElement {
     if (userData && userData.is_authenticated) {
       // User is authenticated
       signInLinks.forEach((link) => link.classList.add("hidden"));
+      signOutLinks.forEach((link) => link.classList.remove("hidden"));
+
       profileSettingsLink.classList.remove("hidden");
       fileHistoryLink.classList.remove("hidden");
       const initial = userData.username.charAt(0).toUpperCase();
@@ -80,9 +96,21 @@ class MenuDropdown extends HTMLElement {
     } else {
       // User is not authenticated
       signInLinks.forEach((link) => link.classList.remove("hidden"));
+      signOutLinks.forEach((link) => link.classList.add("hidden"));
+
       profileSettingsLink.classList.add("hidden");
       fileHistoryLink.classList.add("hidden");
       avatarText.textContent = "";
+    }
+  }
+
+  async logOut() {
+    try {
+      const response = await APIs.logout();
+      alert(response.message);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
   }
 
