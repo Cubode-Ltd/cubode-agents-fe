@@ -2,7 +2,7 @@
 @import "./ag-theme-alpine.css";
 @import "./tagify.min.css";
 @import "./notyf.min.css";
-
+@import "./fonts.css";
 @import "./cubode.css";
 
 @tailwind base;
