@@ -1,7 +1,7 @@
 // Or do not use shadowRoot or if use (because of slot), use the addGlobalStyles to point to the styles.
-import { addGlobalStyles } from '../../utils/WebComponents'
+import { addGlobalStyles } from "../../utils/WebComponents";
 
-const template = document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
   <div class="cb-maincontainer cb-fixed-top p-5 container mx-auto sm:w-full lg:w-1/2 no-select">
     <div class="flex justify-between w-full mb-4">
@@ -45,18 +45,20 @@ class Container extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({
-      mode: 'open'
+      mode: "open",
     });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     addGlobalStyles(this.shadowRoot);
 
-    this.regenerate = this.shadowRoot.querySelector('.cb-plot-button-regenerate');
-    this.export = this.shadowRoot.querySelector('.cb-plot-button-export');
-    this.viewdata = this.shadowRoot.querySelector('.cb-plot-button-viewdata');
+    this.regenerate = this.shadowRoot.querySelector(
+      ".cb-plot-button-regenerate"
+    );
+    this.export = this.shadowRoot.querySelector(".cb-plot-button-export");
+    this.viewdata = this.shadowRoot.querySelector(".cb-plot-button-viewdata");
 
-    this.prevButton = this.shadowRoot.querySelector('.carousel-control.prev');
-    this.nextButton = this.shadowRoot.querySelector('.carousel-control.next');
-    this.slotElement = this.shadowRoot.querySelector('slot');
+    this.prevButton = this.shadowRoot.querySelector(".carousel-control.prev");
+    this.nextButton = this.shadowRoot.querySelector(".carousel-control.next");
+    this.slotElement = this.shadowRoot.querySelector("slot");
     this.currentIndex = 0;
     this.isDataView = false;
   }
@@ -64,28 +66,30 @@ class Container extends HTMLElement {
   emitEvent(eventName) {
     const event = new CustomEvent(eventName, {
       bubbles: true,
-      composed: true
+      composed: true,
     });
     this.dispatchEvent(event);
   }
 
   toggleView() {
     const slotElements = this.slotElement.assignedElements({ flatten: true });
-    const dataViewElement = slotElements.find(element => element.tagName.toLowerCase() === 'cb-data-vis');
+    const dataViewElement = slotElements.find(
+      (element) => element.tagName.toLowerCase() === "cb-data-vis"
+    );
     if (this.isDataView) {
       this.isDataView = false;
-      this.viewdata.textContent = 'View Data';
-      this.prevButton.classList.remove('hidden');
-      this.nextButton.classList.remove('hidden');
+      this.viewdata.textContent = "View Data";
+      this.prevButton.classList.remove("hidden");
+      this.nextButton.classList.remove("hidden");
       this.showSlide(this.currentIndex); // Show the previously active plot
     } else {
       this.isDataView = true;
-      this.viewdata.textContent = 'View Plot';
-      this.prevButton.classList.add('hidden');
-      this.nextButton.classList.add('hidden');
-      slotElements.forEach(el => el.classList.remove('active'));
+      this.viewdata.textContent = "View Plot";
+      this.prevButton.classList.add("hidden");
+      this.nextButton.classList.add("hidden");
+      slotElements.forEach((el) => el.classList.remove("active"));
       if (dataViewElement) {
-        dataViewElement.classList.add('active');
+        dataViewElement.classList.add("active");
       }
     }
   }
@@ -102,12 +106,12 @@ class Container extends HTMLElement {
     } else {
       this.currentIndex = index;
     }
-    
+
     slotElements.forEach((el, idx) => {
       if (idx === this.currentIndex) {
-        el.classList.add('active');
+        el.classList.add("active");
       } else {
-        el.classList.remove('active');
+        el.classList.remove("active");
       }
     });
   }
@@ -123,32 +127,48 @@ class Container extends HTMLElement {
   handleExport() {
     const slotElements = this.slotElement.assignedElements({ flatten: true });
     const activeElement = slotElements[this.currentIndex];
-    if (activeElement && typeof activeElement.exportPNG === 'function') {
+    if (activeElement && typeof activeElement.exportPNG === "function") {
       activeElement.exportPNG();
     }
   }
-  
+
+  showData() {
+    this.isDataView = false;
+    this.toggleView();
+  }
 
   connectedCallback() {
-    this.regenerate.addEventListener('click', this.emitEvent.bind(this, 'regenerate'));
+    this.regenerate.addEventListener(
+      "click",
+      this.emitEvent.bind(this, "regenerate")
+    );
     // this.export.addEventListener('click', this.emitEvent.bind(this, 'export'));
-    this.export.addEventListener('click', this.handleExport.bind(this));
-    this.viewdata.addEventListener('click', this.toggleView.bind(this));
-    this.shadowRoot.querySelector('.carousel-control.next').addEventListener('click', this.nextSlide.bind(this));
-    this.shadowRoot.querySelector('.carousel-control.prev').addEventListener('click', this.prevSlide.bind(this));
-    
+    this.export.addEventListener("click", this.handleExport.bind(this));
+    this.viewdata.addEventListener("click", this.toggleView.bind(this));
+    this.shadowRoot
+      .querySelector(".carousel-control.next")
+      .addEventListener("click", this.nextSlide.bind(this));
+    this.shadowRoot
+      .querySelector(".carousel-control.prev")
+      .addEventListener("click", this.prevSlide.bind(this));
+    window.addEventListener("data-selected", this.showData.bind(this));
+
     // Show the first slide initially
     this.showSlide(this.currentIndex);
   }
 
   disconnectedCallback() {
-    this.regenerate.removeEventListener('click', this.emitEvent);
+    this.regenerate.removeEventListener("click", this.emitEvent);
     // this.export.removeEventListener('click', this.emitEvent);
-    this.export.removeEventListener('click', this.handleExport);
-    this.viewdata.removeEventListener('click', this.toggleView);
-    this.shadowRoot.querySelector('.carousel-control.next').removeEventListener('click', this.nextSlide);
-    this.shadowRoot.querySelector('.carousel-control.prev').removeEventListener('click', this.prevSlide);
+    this.export.removeEventListener("click", this.handleExport);
+    this.viewdata.removeEventListener("click", this.toggleView);
+    this.shadowRoot
+      .querySelector(".carousel-control.next")
+      .removeEventListener("click", this.nextSlide);
+    this.shadowRoot
+      .querySelector(".carousel-control.prev")
+      .removeEventListener("click", this.prevSlide);
   }
 }
 
-customElements.define('cb-container', Container);
+customElements.define("cb-container", Container);

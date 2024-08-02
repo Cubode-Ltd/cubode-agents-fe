@@ -1,6 +1,6 @@
-import dataNursery from '../../utils/DataNursery';
+import dataNursery from "../../utils/DataNursery";
 
-const template = document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
     <div class="data-source-selector relative flex items-center">
         <div class="absolute w-6 h-6 top-[7px] left-2">
@@ -13,89 +13,79 @@ template.innerHTML = `
     </div>
 `;
 
-
-
 class CBDataSourceSelector extends HTMLElement {
-    constructor() {
-        super();
-        const templateContent = template.content.cloneNode(true);
-        this.appendChild(templateContent);
+  constructor() {
+    super();
+    const templateContent = template.content.cloneNode(true);
+    this.appendChild(templateContent);
 
-        this.handleFileSelection = this.handleFileSelection.bind(this);
-        this.updateDropdown = this.updateDropdown.bind(this);
+    this.handleFileSelection = this.handleFileSelection.bind(this);
+    this.updateDropdown = this.updateDropdown.bind(this);
+  }
+
+  connectedCallback() {
+    this.populateDropdown();
+    this.querySelector("#data-source-selector").addEventListener(
+      "change",
+      this.handleFileSelection
+    );
+    window.addEventListener("fileStored", this.updateDropdown);
+  }
+
+  disconnectedCallback() {
+    this.querySelector("#data-source-selector").removeEventListener(
+      "change",
+      this.handleFileSelection
+    );
+    window.removeEventListener("fileStored", this.updateDropdown);
+  }
+
+  async populateDropdown() {
+    const selector = this.querySelector("#data-source-selector");
+    const nameToHashMapping = await dataNursery.name2hash.keys();
+
+    selector.innerHTML = '<option value="">Choose File</option>';
+    nameToHashMapping.forEach((fileName) => {
+      const option = document.createElement("option");
+      option.value = fileName;
+      option.textContent = fileName;
+      selector.appendChild(option);
+    });
+  }
+
+  async updateDropdown(event) {
+    const { fileName } = event.detail;
+    const selector = this.querySelector("#data-source-selector");
+    const option = document.createElement("option");
+    option.value = fileName;
+    option.textContent = fileName;
+    selector.appendChild(option);
+  }
+
+  async handleFileSelection(event) {
+    const fileName = event.target.value;
+    if (fileName) {
+      const hash = await dataNursery.name2hash.getItem(fileName);
+
+      const csvContent = await dataNursery.hashes2data.getItem(hash);
+      const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
+      const columns = await dataNursery.hash2columns.getItem(hash);
+
+      this.dispatchEvent(
+        new CustomEvent("data-selected", {
+          detail: {
+            csvContent,
+            csvDataRows,
+            columns,
+            hash,
+            fileName,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
     }
-
-    connectedCallback() {
-        this.populateDropdown();
-        this.querySelector('#data-source-selector').addEventListener('change', this.handleFileSelection);
-        window.addEventListener('fileStored', this.updateDropdown);
-    }
-
-    disconnectedCallback() {
-        this.querySelector('#data-source-selector').removeEventListener('change', this.handleFileSelection);
-        window.removeEventListener('fileStored', this.updateDropdown);
-    }
-
-    async populateDropdown() {
-        const selector = this.querySelector('#data-source-selector');
-        const nameToHashMapping = await dataNursery.name2hash.keys();
-
-        selector.innerHTML = '<option value="">Choose File</option>';
-        nameToHashMapping.forEach(fileName => {
-            const option = document.createElement('option');
-            option.value = fileName;
-            option.textContent = fileName;
-            selector.appendChild(option);
-        });
-    }
-
-    async updateDropdown(event) {
-        const { fileName } = event.detail;
-        const selector = this.querySelector('#data-source-selector');
-        const option = document.createElement('option');
-        option.value = fileName;
-        option.textContent = fileName;
-        selector.appendChild(option);
-    }
-
-    async handleFileSelection(event) {
-        const fileName = event.target.value;
-        if (fileName) {
-            const hash = await dataNursery.name2hash.getItem(fileName);
-
-            const csvContent = await dataNursery.hashes2data.getItem(hash);
-            const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
-            const columns = await dataNursery.hash2columns.getItem(hash);
-
-            this.dispatchEvent(new CustomEvent('data-selected', {
-                detail: { 
-                    csvContent, 
-                    csvDataRows, 
-                    columns, 
-                    hash, 
-                    fileName 
-                },
-                bubbles: true,
-                composed: true
-            }));
-        }
-    }
+  }
 }
 
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-customElements.define('cb-data-source-selector', CBDataSourceSelector);
+customElements.define("cb-data-source-selector", CBDataSourceSelector);
