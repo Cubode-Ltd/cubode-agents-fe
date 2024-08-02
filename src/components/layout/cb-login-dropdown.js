@@ -107,7 +107,6 @@ class MenuDropdown extends HTMLElement {
   async logOut() {
     try {
       const response = await APIs.logout();
-      alert(response.message);
       window.location.href = "/";
     } catch (error) {
       console.error("Logout failed:", error);
