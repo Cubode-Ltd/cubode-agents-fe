@@ -76,17 +76,20 @@ module.exports = {
     mode: 'development',
     devtool: 'source-map',
     devServer: {
-        static: {
+      static: {
           directory: path.join(__dirname, 'dist/dev'),
-        },
-        compress: true,
-        port: 9000,
-        open: true,
-        hot: true,
-        historyApiFallback: {
+      },
+      compress: true,
+      port: 9000,
+      open: true,
+      hot: true,
+      historyApiFallback: {
           index: '/html/index.html',
-        },
-    },
+      },
+      allowedHosts: [
+          '.loca.lt', // Allow Localtunnel's domain
+      ],
+  },
     watch: true,
     watchOptions: {
       poll: 1000,

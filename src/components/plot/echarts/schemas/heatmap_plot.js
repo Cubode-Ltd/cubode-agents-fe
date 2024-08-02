@@ -352,7 +352,7 @@ export const formSchema = {
               "series-aggregation": {
                 type: "string",
                 title: "Aggregation",
-                enum: ["Sum", "Mean",  "Count"],
+                enum: ["Sum", "Mean",  "Count","Min", "Max"],
                 format: "tagify",
                 maxtags: 1,
                 options: {

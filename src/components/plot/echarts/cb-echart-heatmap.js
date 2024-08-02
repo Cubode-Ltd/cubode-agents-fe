@@ -138,12 +138,11 @@ class HeatMapPlot extends HTMLElement {
 
   handleDataSetSelected(event) {
     const { csvContent, csvDataRows, columns, hash, fileName } = event.detail;
+
     this.columns_ = columns;
     this.data_ = csvDataRows;
     this.hash = hash;
     this.fileName = fileName;
-
-    console.log(this.data_, "<<<<Data");
 
     this.setAttribute("hash", hash);
     this.setAttribute("fileName", fileName);
@@ -183,21 +182,22 @@ class HeatMapPlot extends HTMLElement {
     columnsValues,
     columnAggregation,
     aggregation,
+    showLabels,
     colorScale,
     primaryColor,
     secondaryColor
   ) {
     aggregation = aggregation === "" ? "none" : aggregation.toLowerCase();
-
-    console.log("AGgregation Column into plot>>>>>>>>", columnAggregation);
+    showLabels = showLabels === "show" ? true : false;
 
     let series = {
       type: "heatmap",
       name: seriesName,
       data: [],
-      // label: {
-      //   show: true
-      // },
+      label: {
+        show: showLabels, // Show labels on markers
+        position: "inside", // Position the labels at the top of markers
+      },
     };
 
     if (
@@ -216,7 +216,18 @@ class HeatMapPlot extends HTMLElement {
       return series;
     }
 
-    this.df = new DataFrame(this.data_);
+    // Clean the dataset before the creation of the DF
+    const cleanedData = this.data_.filter(
+      (row) =>
+        row[columnCategory] !== null &&
+        row[columnCategory] !== undefined &&
+        row[columnsValues] !== null &&
+        row[columnsValues] !== undefined &&
+        row[columnAggregation] !== null &&
+        row[columnAggregation] !== undefined
+    );
+
+    this.df = new DataFrame(cleanedData);
 
     // Helper Function
     function getUniqueValues(arr) {
@@ -255,12 +266,14 @@ class HeatMapPlot extends HTMLElement {
       return indexObject;
     }
 
+    //This serves to get the values on x and y axis as arrays
     const xAxisData = getUniqueValues(this.df.select(columnCategory).toArray());
     const yAxisData = getUniqueValues(this.df.select(columnsValues).toArray());
 
     // console.log(xAxisData, "<<<X_Category");
     // console.log(yAxisData, "<<<y_Category");
 
+    // This is an obj that serve for the coordinate mapping
     const x_Values = generateIndexObject(xAxisData);
     const y_Values = generateIndexObject(yAxisData);
 
@@ -281,12 +294,12 @@ class HeatMapPlot extends HTMLElement {
     if (aggregation === "none") {
       aggregation = "sum";
     }
+    // console.log(grouped, "Before the aggregation");
 
     let aggregatedData;
     aggregatedData = grouped
       .aggregate((group) => {
         const result = {};
-        // Change Dynamic
         const columnAg = [columnAggregation];
         columnAg.forEach((col) => {
           result[col] = aggregations[aggregation](group, col);
@@ -302,7 +315,8 @@ class HeatMapPlot extends HTMLElement {
       item[2][columnAggregation],
     ]);
 
-    console.log(series.data, "seriesData");
+    // console.log(series.data, "seriesData");
+
 
     const values = series.data
       .filter(
@@ -319,8 +333,8 @@ class HeatMapPlot extends HTMLElement {
     const minValue = Math.min(...values);
     const maxValue = Math.max(...values);
 
-    console.log("Min value: form plot", minValue);
-    console.log("Max value: from plot", maxValue);
+    // console.log("Min value: form plot", minValue);
+    // console.log("Max value: from plot", maxValue);
 
     return {
       series,
@@ -363,8 +377,13 @@ class HeatMapPlot extends HTMLElement {
         "series-column-aggregation",
         index
       );
+      // const seriesLabels = getAttributeByPrefixAndIndex('series-show-labels', index);
       const aggregation = getAttributeByPrefixAndIndex(
         "series-aggregation",
+        index
+      );
+      const showLabels = getAttributeByPrefixAndIndex(
+        "series-show-labels",
         index
       );
       const seriesColorspace = getAttributeByPrefixAndIndex(
@@ -396,6 +415,7 @@ class HeatMapPlot extends HTMLElement {
         columnValues,
         columnAggregation,
         aggregation,
+        showLabels,
         seriesColorspace,
         seriesPrimaryColor,
         seriesSecondaryColor
@@ -431,12 +451,18 @@ class HeatMapPlot extends HTMLElement {
         subtext: subtitle,
         left: "center",
       },
-      legend: {},
+
+      legend: {
+        show: showLegend,
+        orient: "horizontal",
+        top: "30",
+        right: "100",
+      },
       tooltip: {
         position: "top",
       },
       visualMap: {
-        min: minValue,
+        min: minValue - 1,
         max: maxValue,
         calculable: true,
         orient: "horizontal",
