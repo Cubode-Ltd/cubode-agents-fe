@@ -39,7 +39,11 @@ template.innerHTML = `
             <li class="px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
               <a href="https://github.com/Cubode-Ltd/cubode-agents-fe/issues" target="_blank" rel="noopener noreferrer">Request a Feature</a>
             </li>
-                        
+            
+            <li class="hidden sign-out px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+              <a href="/auth/recover_password">Change your password</a>
+            </li>
+
             <hr class="hidden mx-2 sign-out">
 
             <li class="hidden sign-out log-out-button px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
