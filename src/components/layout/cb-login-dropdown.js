@@ -40,9 +40,9 @@ template.innerHTML = `
               <a href="https://github.com/Cubode-Ltd/cubode-agents-fe/issues" target="_blank" rel="noopener noreferrer">Request a Feature</a>
             </li>
                         
-            <hr class="mx-2 sign-out">
+            <hr class="hidden mx-2 sign-out">
 
-            <li class="sign-out log-out-button px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
+            <li class="hidden sign-out log-out-button px-4 py-3 hover:bg-gray-700 cursor-pointer whitespace-nowrap">
               <a>Log Out</a>
             </li>
           
