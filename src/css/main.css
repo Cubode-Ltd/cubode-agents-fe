@@ -1,10 +1,14 @@
+/* External */
 @import "./ag-grid.min.css";
 @import "./ag-theme-alpine.css";
 @import "./tagify.min.css";
 @import "./notyf.min.css";
+
+/* Internal */
 @import "./fonts.css";
 @import "./cubode.css";
 
+/* Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
