@@ -132,7 +132,7 @@ const FormComponent = ({ allowAddForms = true, formSchema, initialValues, onForm
   const [dynamicForms, setDynamicForms] = useState(initialValues.dynamicForms);
   const addForm = () => {
     if (!onlyOne || dynamicForms.length === 0) {
-      setDynamicForms([...dynamicForms, { 'series-title': '', 'series-column-category': '', 'series-column-values': '', 'series-aggregation': '', 'series-primary-color': '', 'series-secondary-color': '' }]);
+      setDynamicForms([...dynamicForms]);
     }
   };
 
