@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-// import FormComponent from '../cb-form';
-import { FormComponent } from 'henso';
+import FormComponent from '../cb-form';
+// import { FormComponent } from 'henso';
 
 
 const modalTemplate = document.createElement('template');

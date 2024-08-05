@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-//import { FormComponent } from 'henso';
+
+// import { FormComponent } from 'henso';
 import FormComponent from '../cb-form';
 
 const sidebarTemplate = document.createElement('template');
