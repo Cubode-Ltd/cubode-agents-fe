@@ -387,11 +387,12 @@ export const formSchema = {
                 title: "Marker Color Space",
                 format: "colorsDropdown",
                 enum: [
+                  "Default",
                   "Viridis", "YlGnBu", "Inferno", "Magma", "Plasma", "Warm", "Cool",
                   "CubehelixDefault", "BuGn", "BuPu", "GnBu", "OrRd", "PuBuGn", "PuBu",
                   "PuRd", "RdPu", "YlGn", "YlOrBr", "YlOrRd", "Turbo", "Cividis",
                   "Rainbow", "Sinebow", "Blues", "Greens", "Greys", "Purples", "Reds",
-                  "Spectral", "RdYlGn", "RdYlBu", "RdGy", "RdBu", "PiYG", "PRGn", "PuOr", "BrBG",
+                  "Spectral", "RdYlGn", "RdYlBu", "RdGy", "RdBu", "PiYG", "PRGn", "PuOr", "BrBG","Default"
                 ],
                 options: {
                   inputAttributes: {
@@ -441,6 +442,7 @@ export const formSchema = {
       'series-column-category': '', 
       'series-column-values': '', 
       'series-aggregation': '', 
+     "series-colorspace-marker":'Default',
       'series-primary-color': '#ffffff', 
       'series-secondary-color': '#000000' 
     }],

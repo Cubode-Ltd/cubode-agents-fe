@@ -1,3 +1,6 @@
+// This Version Work in terms of apply and create the new color palette but is not able to apply to the chart
+
+
 import * as echarts from "echarts/core";
 const { DataFrame } = require("dataframe-js");
 
@@ -317,7 +320,6 @@ class HeatMapPlot extends HTMLElement {
 
     // console.log(series.data, "seriesData");
 
-
     const values = series.data
       .filter(
         (item) =>
@@ -333,8 +335,18 @@ class HeatMapPlot extends HTMLElement {
     const minValue = Math.min(...values);
     const maxValue = Math.max(...values);
 
-    // console.log("Min value: form plot", minValue);
-    // console.log("Max value: from plot", maxValue);
+    let colorScaleAttr;
+
+    colorScaleAttr = ColorScale.getColorScale(
+      colorScale,
+      primaryColor,
+      secondaryColor,
+      values.length
+    );
+    colorScaleAttr = colorScaleAttr.range();
+    console.log(colorScaleAttr, "<<<<In plot");
+    console.log(values.length,'<<<Values length');
+    
 
     return {
       series,
@@ -342,6 +354,7 @@ class HeatMapPlot extends HTMLElement {
       yAxisData,
       minValue,
       maxValue,
+      colorScaleAttr,
     };
   }
 
@@ -353,10 +366,12 @@ class HeatMapPlot extends HTMLElement {
     let showLegend = this.getAttribute("chart-show-legend") === "show";
 
     const seriesData = [];
+
     const xAxisData = [];
     const yAxisData = [];
     let minValue = Infinity;
     let maxValue = -Infinity;
+    let colorsRange = [];
 
     const getAttributeByPrefixAndIndex = (prefix, index) =>
       this.getAttribute(`${prefix}-${index}`) || "";
@@ -421,7 +436,13 @@ class HeatMapPlot extends HTMLElement {
         seriesSecondaryColor
       );
 
-      // console.log(columnAggregation,'<<<Column Aggregation');
+
+      if (colorsRange.length === 0) {
+        console.log(colorsRange, "<<Before");
+        colorsRange = plotData.colorScaleAttr;
+        console.log(colorsRange, "<<After");
+      }
+
 
       seriesData.push(plotData.series);
       if (index === 0) {
@@ -445,6 +466,23 @@ class HeatMapPlot extends HTMLElement {
       maxValue = 0;
     }
 
+
+    let visualMapConfig = {
+      min: minValue - 1,
+      max: maxValue,
+      calculable: true,
+      orient: "horizontal",
+      left: "center",
+      bottom: "0%",
+    };
+
+    if (colorsRange.length > 0 ) {
+      visualMapConfig.inRange = {
+        color: colorsRange,
+      };
+    }
+
+
     this.option = {
       title: {
         text: title,
@@ -461,14 +499,8 @@ class HeatMapPlot extends HTMLElement {
       tooltip: {
         position: "top",
       },
-      visualMap: {
-        min: minValue - 1,
-        max: maxValue,
-        calculable: true,
-        orient: "horizontal",
-        left: "center",
-        bottom: "0%",
-      },
+      visualMap: visualMapConfig,
+      
       xAxis: {
         type: "category",
         data: xAxisData,
