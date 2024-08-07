@@ -13,5 +13,6 @@ import "./components/plot/echarts/cb-echarts-lineplot.js"
 import "./components/plot/echarts/cb-echart-barplot.js"
 import "./components/plot/echarts/cb-echart-pieplot.js"
 import "./components/plot/echarts/cb-echart-scatterplot.js"
+import "./components/plot/echarts/cb-echart-heatmap.js"
 import "./components/plot/cb-container.js"
 
