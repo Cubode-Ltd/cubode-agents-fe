@@ -45,6 +45,16 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.ttf$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]",
+            outputPath: "fonts/", // This will place your .ttf files in the "fonts/" directory inside the output path
+          },
+        },
+      },
     ],
   },
   plugins: [
