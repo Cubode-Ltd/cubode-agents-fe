@@ -215,12 +215,17 @@ export const formSchema = {
 };
 
 export const initialValues = {  
+  "chart-show-currency": "hide",
+  "chart-show-percentage": "hide",
+  "chart-show-legend": "hide",
+  "chart-pie-type": "Basic",
   dynamicForms: [{ 
     'series-title': '', 
     'series-column-category': '', 
     'series-column-values': '', 
     'series-aggregation': '', 
     'series-primary-color': '#ffffff', 
-    'series-secondary-color': '#000000' 
+    'series-secondary-color': '#000000' ,
+    'series-colorspace': ''
   }],
 };
