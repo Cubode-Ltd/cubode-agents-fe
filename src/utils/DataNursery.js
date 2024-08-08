@@ -51,25 +51,51 @@ class DataNursery extends EventTarget {
     return result;
   }
 
-  // extractMetadata(csvParsed) {
-  //   const metadata = {};
+  extractMetadata(csvParsed) {
+    const metadata = {};
+  
+    // Data types of each column
+    const dataTypes = {};
+    csvParsed.meta.fields.forEach(field => {
+      const fieldType = typeof csvParsed.data[0][field];
+      dataTypes[field] = fieldType === 'object' && csvParsed.data[0][field] === null ? 'null' : fieldType;
+    });
+    metadata['Data Types'] = dataTypes;
+  
+    // Sample (first row)
+    metadata['Sample'] = csvParsed.data.slice(0, 1);
+  
+    // Number of unique categories for non-numerical columns
+    const uniqueCategories = {};
+    csvParsed.meta.fields.forEach(field => {
+      if (dataTypes[field] !== 'number') {
+        const uniqueValues = new Set(csvParsed.data.map(row => row[field]));
+        uniqueCategories[field] = uniqueValues.size;
+      }
+    });
+    metadata['Unique Categories'] = uniqueCategories;
+  
+    return metadata;
+  }
 
-  //   // Column names
-  //   metadata['Schema'] = csvParsed.meta.fields;
-
-  //   // Data types of each column
-  //   const dataTypes = {};
-  //   csvParsed.meta.fields.forEach(field => {
-  //     const fieldType = typeof csvParsed.data[0][field];
-  //     dataTypes[field] = fieldType === 'object' && csvParsed.data[0][field] === null ? 'null' : fieldType;
-  //   });
-  //   metadata['Data Types'] = dataTypes;
-
-  //   // Sample (first row)
-  //   metadata['Sample'] = csvParsed.data.slice(0, 1);
-
-  //   return metadata;
-  // }
+  async getMetadataByHash(hash) {
+    try {
+      const csvRows = await this.hashes2dataRows.getItem(hash);
+      if (csvRows) {
+        const parsedData = Papa.parse(Papa.unparse(csvRows), {
+          header: true,
+          dynamicTyping: true
+        });
+        return this.extractMetadata(parsedData);
+      } else {
+        console.log('File not found for hash:', hash);
+        return null;
+      }
+    } catch (err) {
+      console.error('Error retrieving metadata:', err);
+      return null;
+    }
+  }
 
   async storeCsvFile(file) {
     const hash = await this.generateHash(file);

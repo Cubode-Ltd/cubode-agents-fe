@@ -48,20 +48,23 @@ class CBDataSourceButton extends HTMLElement {
         this.selectedFileName = fileName;
     }
 
-    handleClick() {
+    async handleClick() {
         if (this.selectedHash && this.selectedFileName) {
             console.log(`Processing data: ${this.selectedFileName} (Hash: ${this.selectedHash})`);
-            
+            // Fetch metadata
+            const metadata = await dataNursery.getMetadataByHash(this.selectedHash);
             this.dispatchEvent(new CustomEvent('inference-ai', {
                 detail: { 
                     hash: this.selectedHash, 
-                    fileName: this.selectedFileName 
+                    fileName: this.selectedFileName,
+                    metadata: metadata
                 },
                 bubbles: true,
                 composed: true
             }));
             
             // Uncomment the following block if you want to send data to a backend
+
             
             fetch('http://localhost:8000/ai/', {
                 method: 'POST',
@@ -69,7 +72,7 @@ class CBDataSourceButton extends HTMLElement {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': getCookie('csrftoken')
                 },
-                body: JSON.stringify({ hash: this.selectedHash, fileName: this.selectedFileName })
+                body: JSON.stringify({ hash: this.selectedHash, fileName: this.selectedFileName, metadata:metadata })
             })
             .then(response => {
                 if (response.ok) {

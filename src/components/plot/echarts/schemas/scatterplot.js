@@ -91,7 +91,7 @@ export const formSchema = {
     },
     "chart-show-zoom": {
         type: "boolean",
-        title: "Show Zoom Slider",
+        title: "Show Data Zoom",
         format: "customBoolean",
         options: {
           inputAttributes: {
@@ -124,7 +124,7 @@ export const formSchema = {
                 },
               },
             },
-            "series-column-xaxis": {
+            "series-column-x-axis": {
               type: "string",
               title: "X Axis Values",
               format: "tagify",
@@ -139,7 +139,7 @@ export const formSchema = {
                 },
               },
             },
-            "series-column-yaxis": {
+            "series-column-y-axis": {
               type: "string",
               title: "Y Axis Values",
               enum: [],
@@ -223,12 +223,18 @@ export const formSchema = {
 };
 
 export const initialValues = {
-    showBackgroundField: 'show',
+    'chart-show-legend': 'hide',
+    'chart-show-zoom': 'hide',
+    'chart-show-labels': 'hide',
+    'chart-x-axis-label': '',
+    'chart-y-axis-label': '',
+    'chart-show-zoom': 'hide',
     dynamicForms: [{ 
-      'series-title': 'Series', 
-      'series-column-xaxis': '', 
-      'series-column-yaxis': '', 
+      'series-title': '', 
+      'series-column-x-axis': '', 
+      'series-column-y-axis': '', 
       'series-aggregation': '', 
+      'series-colorspace': '',
       'series-primary-color': '#ffffff', 
       'series-secondary-color': '#000000',
       'series-symbol-size': 10

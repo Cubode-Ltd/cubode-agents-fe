@@ -4,6 +4,7 @@ const { DataFrame } = require('dataframe-js');
 import ColorScale from './utils/ColorScales';
 import { formSchema, initialValues } from './schemas/barplot'
 import { BarChart } from 'echarts/charts';
+import dataNursery from '../../../utils/DataNursery';
 
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
@@ -37,7 +38,7 @@ class BarPlot extends HTMLElement {
         this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.formSchema = formSchema;
-        this.initialValues = initialValues;
+        this.initialValues = this.updateInitialValues(initialValues);
     }
 
     static get observedAttributes() {
@@ -80,6 +81,20 @@ class BarPlot extends HTMLElement {
         this.render();
     }
 
+    updateInitialValues(initialValues) {
+        initialValues['chart-title'] = this.getAttribute("chart-title") || '';
+        initialValues['chart-subtitle'] = this.getAttribute("chart-subtitle") || '';
+        initialValues['chart-x-axis-label']= this.getAttribute("chart-x-axis-label");
+        initialValues['chart-y-axis-label']= this.getAttribute("chart-y-axis-label");
+
+        initialValues.dynamicForms[0]['series-column-category'] = this.getAttribute('series-column-category-0');
+        initialValues.dynamicForms[0]['series-column-values'] = this.getAttribute('series-column-values-0');
+        initialValues.dynamicForms[0]['series-aggregation'] = this.getAttribute('series-aggregation-0') || '';
+        initialValues.dynamicForms[0]['series-colorspace'] = this.getAttribute('series-colorspace-0');
+      
+        return initialValues;
+      }
+
     connectedCallback() {
         this.listeners();
         this.render();
@@ -105,7 +120,37 @@ class BarPlot extends HTMLElement {
         }
 
         window.addEventListener('data-selected', this.handleDataSetSelected);
+        // Handles already selected data
+        const hash = this.getAttribute('hash');
+        const fileName = this.getAttribute('fileName');
+        console.log("HASH:  ", hash)
+        console.log("fileName:  ", fileName)
 
+        if (hash && fileName) {
+            this.handlePreLoadedData(hash, fileName)
+        }
+    }
+
+    async handlePreLoadedData(hash, fileName){
+        try {
+            const csvContent = await dataNursery.hashes2data.getItem(hash);
+            const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
+            const columns = await dataNursery.hash2columns.getItem(hash);
+    
+            // Simulate a data-selected event with the fetched data
+            this.handleDataSetSelected({
+                detail: {
+                    csvContent,
+                    csvDataRows,
+                    columns,
+                    hash,
+                    fileName
+                }
+            });
+            console.log("doing the data selected")
+        } catch (error) {
+            console.error('Error fetching initial data:', error);
+        }
     }
 
     disconnectedCallback() {
@@ -168,7 +213,6 @@ class BarPlot extends HTMLElement {
     
         this.df = new DataFrame(this.data_);
         const grouped = this.df.groupBy(columnCategory);
-    
         const aggregations = {
             'sum': (df, col) => df.stat.sum(col),
             'mean': (df, col) => df.stat.mean(col),
@@ -191,6 +235,8 @@ class BarPlot extends HTMLElement {
                 return result;
         }).toArray();
         
+        console.log("DATA FROM THE PLOT:    ", aggregatedData)
+
     
         const scale = ColorScale.getColorScale(
             colorScale || 'Viridis',
@@ -217,12 +263,12 @@ class BarPlot extends HTMLElement {
         // Chart Attributes chart-xxxx
         let title = this.getAttribute('chart-title') || 'Bar Plot';
         let subtitle = this.getAttribute('chart-subtitle') || '';
-        let xAxisLabel = this.getAttribute('chart-xaxis-label') || '';
-        let yAxisLabel = this.getAttribute('chart-yaxis-label') || '';
+        let xAxisLabel = this.getAttribute('chart-x-axis-label') || '';
+        let yAxisLabel = this.getAttribute('chart-y-axis-label') || '';
         let showBackground = this.getAttribute('chart-show-background') === 'show';
         
         const seriesData = [];
-        const xAxisData = new Set();
+        const xAxisData = [];
     
         // Helper function to get attribute by prefix and index
         const getAttributeByPrefixAndIndex = (prefix, index) => this.getAttribute(`${prefix}-${index}`) || '';
@@ -238,7 +284,7 @@ class BarPlot extends HTMLElement {
             const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color', index);
             const seriesSecondaryColor = getAttributeByPrefixAndIndex('series-secondary-color', index);
     
-            if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
+            if (!columnCategory || !columnValues || !aggregation) {
                 break;
             }
             
@@ -255,7 +301,9 @@ class BarPlot extends HTMLElement {
             );
 
             seriesData.push(plotData.series);
-            // plotData.xAxisData.forEach(data => xAxisData.add(data));
+            if (index === 0 && plotData.xAxisData){
+                xAxisData.push(...plotData.xAxisData);
+            }
             index++;
         }
 
@@ -271,21 +319,21 @@ class BarPlot extends HTMLElement {
                   dataZoom: {
                     yAxisIndex: 'none'
                   },
-                  restore:{},
-                  saveAsImage: {
-                    title: "Save as Image",
-                    type: "png",
-                    backgroundColor: "#fff",
-                    pixelRatio: 2,
-                  },
                 },
               },
-            tooltip: {},
-            xAxis: {
-                type: 'category',
-                data: Array.from(xAxisData),
-                name: xAxisLabel
-            },
+            tooltip: {
+                trigger: "item",
+                axisPointer: {
+                  type: 'cross'
+                }
+              },
+              xAxis: {
+                type: "category",
+                data: xAxisData,
+                name: xAxisLabel,
+                axisLabel: {interval: 0, rotate: 30},
+                axisTick: { alignWithLabel: true}
+              },
             yAxis: {
                 name: yAxisLabel
             },

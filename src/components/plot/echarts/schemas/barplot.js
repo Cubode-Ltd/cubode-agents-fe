@@ -31,7 +31,7 @@ export const formSchema = {
           },
         },
       },
-      "chart-xaxis-label": {
+      "chart-x-axis-label": {
         type: "string",
         title: "X Axis Label",
         options: {
@@ -43,7 +43,7 @@ export const formSchema = {
           },
         },
       },
-      "chart-yaxis-label": {
+      "chart-y-axis-label": {
         type: "string",
         title: "Y Axis Label",
         options: {
@@ -189,11 +189,14 @@ export const formSchema = {
 
 export const initialValues = {
     'chart-show-background': 'hide',
+    'chart-x-axis-label': '',
+    'chart-y-axis-label': '',
     dynamicForms: [{ 
       'series-title': '', 
       'series-column-category': '', 
       'series-column-values': '', 
       'series-aggregation': '', 
+      'series-colorspace': '',
       'series-primary-color': '#ffffff', 
       'series-secondary-color': '#000000' 
     }],

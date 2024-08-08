@@ -8,6 +8,7 @@ import { LineChart } from "echarts/charts";
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LegendComponent, ToolboxComponent, DataZoomComponent} from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
+import dataNursery from '../../../utils/DataNursery';
 
 echarts.use([ LineChart, TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer, LegendComponent, ToolboxComponent, DataZoomComponent]);
 
@@ -37,7 +38,8 @@ class LinePlot extends HTMLElement {
     this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.formSchema = formSchema;
-    this.initialValues = initialValues;
+    this.initialValues = this.updateInitialValues(initialValues);
+
   }
 
   static get observedAttributes() {
@@ -80,6 +82,25 @@ class LinePlot extends HTMLElement {
     this.render();
   }
 
+  updateInitialValues(initialValues) {
+    // Logic to get initial values and update series-aggregation
+    initialValues['chart-title'] = this.getAttribute("chart-title") || '';
+    initialValues['chart-subtitle'] = this.getAttribute("chart-subtitle") || '';
+    initialValues['chart-x-axis-label'] =  this.getAttribute("chart-x-axis-label")
+    initialValues['chart-y-axis-label'] =  this.getAttribute("chart-y-axis-label")
+
+    // initialValues.dynamicForms[0]['series-title'] = this.getAttribute('series-title-0')
+    initialValues.dynamicForms[0]['series-column-category'] = this.getAttribute('series-column-category-0')
+    initialValues.dynamicForms[0]['series-column-values'] = this.getAttribute('series-column-values-0')
+    initialValues.dynamicForms[0]['series-aggregation'] = this.getAttribute('series-aggregation-0')
+    initialValues.dynamicForms[0]['series-colorspace-marker'] = this.getAttribute('series-colorspace-marker-0')
+    initialValues.dynamicForms[0]['series-color-line']= this.getAttribute('series-color-line-0')
+    initialValues.dynamicForms[0]['series-line-type']= this.getAttribute('series-line-type-0')
+    initialValues.dynamicForms[0]['series-line-style']= this.getAttribute('series-line-style-0')
+
+    return initialValues;
+  }
+
   connectedCallback() {
     this.render();
     this.observeResize({
@@ -104,6 +125,37 @@ class LinePlot extends HTMLElement {
     }
 
     window.addEventListener("data-selected", this.handleDataSetSelected);
+    // Handles already selected data
+    const hash = this.getAttribute('hash');
+    const fileName = this.getAttribute('fileName');
+    console.log("HASH:  ", hash)
+    console.log("fileName:  ", fileName)
+
+    if (hash && fileName) {
+        this.handlePreLoadedData(hash, fileName)
+    }
+  }
+
+  async handlePreLoadedData(hash, fileName){
+    try {
+        const csvContent = await dataNursery.hashes2data.getItem(hash);
+        const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
+        const columns = await dataNursery.hash2columns.getItem(hash);
+
+        // Simulate a data-selected event with the fetched data
+        this.handleDataSetSelected({
+            detail: {
+                csvContent,
+                csvDataRows,
+                columns,
+                hash,
+                fileName
+            }
+        });
+        console.log("doing the data selected")
+    } catch (error) {
+        console.error('Error fetching initial data:', error);
+    }
   }
 
   disconnectedCallback() {
@@ -216,6 +268,8 @@ class LinePlot extends HTMLElement {
 
     const xAxisData = aggregatedData.map((item) => item[0]);
 
+    console.log("XDATA:  ", xAxisData)
+
     series.data = aggregatedData.map((item, index) => {
       let value = item[1][validColumns[0]];
       if (value % 1 !== 0) {
@@ -266,10 +320,8 @@ class LinePlot extends HTMLElement {
         const seriesArea = getAttributeByPrefixAndIndex('series-show-area', index);
         const seriesLabels = getAttributeByPrefixAndIndex('series-show-labels', index);
 
-        
-
-
-        if (!seriesTitle || !columnCategory || !columnValues) {
+      
+        if (!columnCategory || !columnValues || !aggregation) {
             break;
         }
         
@@ -292,9 +344,8 @@ class LinePlot extends HTMLElement {
         );
 
         seriesData.push(plotData.series);
-        if (index === 0){
+        if (index === 0 && plotData.xAxisData){
           xAxisData.push(...plotData.xAxisData);
-
         }
         index++;
     }
@@ -379,12 +430,6 @@ class LinePlot extends HTMLElement {
               }
             }
           },
-          saveAsImage: {
-            title: "Save as Image",
-            type: "png",
-            backgroundColor: "#fff",
-            pixelRatio: 2,
-          },
         },
       },
       xAxis: {
@@ -404,6 +449,15 @@ class LinePlot extends HTMLElement {
     this.chart_.setOption(this.option);
   }
 
+  listeners() {
+    const container = document.querySelector('cb-container');
+    if (container) {
+        container.addEventListener('export', () => {
+            console.log('Export button clicked');
+          });
+    }
+  }
+   
   render() {
     this.updateOption();
     this.chart_.resize({
@@ -431,6 +485,21 @@ class LinePlot extends HTMLElement {
 
     window.addEventListener("resize", this.handleResize.bind(this));
   }
+
+  exportPNG() {
+    if (this.chart_) {
+        const url = this.chart_.getDataURL({
+            type: 'png',
+            backgroundColor: '#fff',
+            pixelRatio: 2,
+        });
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'chart.png';
+        a.click();
+        a.remove();
+    }
+}
 
   handleResize() {
     if (this.chart_) {

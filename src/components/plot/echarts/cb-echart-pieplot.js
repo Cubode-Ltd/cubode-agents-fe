@@ -3,6 +3,8 @@ import * as echarts from "echarts/core";
 import { PieChart } from "echarts/charts";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
+import dataNursery from '../../../utils/DataNursery';
+
 import {TitleComponent,TooltipComponent,GridComponent,DatasetComponent,TransformComponent, LegendComponent,ToolboxComponent} from "echarts/components";
 echarts.use([ 
   PieChart, 
@@ -48,7 +50,7 @@ class PiePlot extends HTMLElement {
     this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.formSchema = formSchema;
-    this.initialValues = initialValues;
+    this.initialValues = this.updateInitialValues(initialValues);
   }
 
   static get observedAttributes() {
@@ -91,6 +93,19 @@ class PiePlot extends HTMLElement {
     this.render();
   } 
 
+  updateInitialValues(initialValues) {
+    // Logic to get initial values and update series-aggregation
+    initialValues['chart-pie-type'] = this.getAttribute("chart-pie-type")
+    initialValues['chart-title'] = this.getAttribute("chart-title")
+    initialValues['chart-subtitle'] = this.getAttribute("chart-subtitle")
+    initialValues.dynamicForms[0]['series-column-category'] = this.getAttribute('series-column-category-0')
+    initialValues.dynamicForms[0]['series-column-values'] = this.getAttribute('series-column-values-0')
+    initialValues.dynamicForms[0]['series-aggregation'] = this.getAttribute('series-aggregation-0')
+    initialValues.dynamicForms[0]['series-colorspace'] = this.getAttribute('series-colorspace-0')
+  
+    return initialValues;
+  }
+
   connectedCallback() {
     this.render();
     this.observeResize({
@@ -101,7 +116,7 @@ class PiePlot extends HTMLElement {
     });
 
     if (this.modal) {
-      this.sidebar.initialValues = this.initialValues;
+      // this.sidebar.initialValues = this.initialValues;
       this.modal.callBack = this.handleFormSubmit;
       this.modal.schemaUI = this.formSchemaUI;
       this.modal.schema = this.formSchema;
@@ -114,9 +129,40 @@ class PiePlot extends HTMLElement {
       this.sidebar.schema = this.formSchema;
     }
 
-    window.addEventListener("data-selected", this.handleDataSetSelected);
-  
+    // Event coming from data source selector
+    window.addEventListener('data-selected', this.handleDataSetSelected);
+    // Handles already selected data
+    const hash = this.getAttribute('hash');
+    const fileName = this.getAttribute('fileName');
+    console.log("HASH:  ", hash)
+    console.log("fileName:  ", fileName)
+
+    if (hash && fileName) {
+        this.handlePreLoadedData(hash, fileName)
+    }
   }
+
+async handlePreLoadedData(hash, fileName){
+    try {
+        const csvContent = await dataNursery.hashes2data.getItem(hash);
+        const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
+        const columns = await dataNursery.hash2columns.getItem(hash);
+
+        // Simulate a data-selected event with the fetched data
+        this.handleDataSetSelected({
+            detail: {
+                csvContent,
+                csvDataRows,
+                columns,
+                hash,
+                fileName
+            }
+        });
+        console.log("doing the data selected")
+    } catch (error) {
+        console.error('Error fetching initial data:', error);
+    }
+}
 
   disconnectedCallback() {
     this.resizeObserver.disconnect();
@@ -379,13 +425,6 @@ class PiePlot extends HTMLElement {
           dataZoom: {
             yAxisIndex: 'none'
           },
-          restore:{},
-          saveAsImage: {
-            title: "Save as Image",
-            type: "png",
-            backgroundColor: "#fff",
-            pixelRatio: 2,
-          },
         },
       },
 
@@ -423,6 +462,15 @@ class PiePlot extends HTMLElement {
     this.chart_.setOption(this.option);
 
   }
+
+  listeners() {
+    const container = document.querySelector('cb-container');
+    if (container) {
+        container.addEventListener('export', () => {
+            console.log('Export button clicked');
+          });
+    }
+}
 
   render() {
     this.updateOption();

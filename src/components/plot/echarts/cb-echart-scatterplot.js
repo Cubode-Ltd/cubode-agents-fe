@@ -8,6 +8,7 @@ import { ScatterChart } from "echarts/charts";
 import { TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LegendComponent, ToolboxComponent, DataZoomComponent} from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
+import dataNursery from '../../../utils/DataNursery';
 
 echarts.use([ ScatterChart, TitleComponent, TooltipComponent, GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer, LegendComponent, ToolboxComponent, DataZoomComponent]);
 
@@ -37,7 +38,7 @@ class ScatterPlot extends HTMLElement {
     this.handleDataSetSelected = this.handleDataSetSelected.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.formSchema = formSchema;
-    this.initialValues = initialValues;
+    this.initialValues = this.updateInitialValues(initialValues);
   }
 
   static get observedAttributes() {
@@ -80,6 +81,21 @@ class ScatterPlot extends HTMLElement {
     this.render();
   }
 
+  updateInitialValues(initialValues) {
+    // Logic to get initial values and update series-aggregation
+    initialValues['chart-title'] = this.getAttribute("chart-title")
+    initialValues['chart-subtitle'] = this.getAttribute("chart-subtitle")
+    initialValues['chart-x-axis-label'] =  this.getAttribute("chart-x-axis-label")
+    initialValues['chart-y-axis-label'] =  this.getAttribute("chart-y-axis-label")
+    initialValues['chart-show-zoom'] =  this.getAttribute("chart-show-zoom")
+
+    initialValues.dynamicForms[0]['series-column-x-axis'] = this.getAttribute('series-column-x-axis-0')
+    initialValues.dynamicForms[0]['series-column-y-axis'] = this.getAttribute('series-column-y-axis-0')
+    initialValues.dynamicForms[0]['series-colorspace'] = this.getAttribute('series-colorspace-0')
+
+    return initialValues;
+  }
+
   connectedCallback() {
     this.render();
     this.observeResize({
@@ -105,6 +121,37 @@ class ScatterPlot extends HTMLElement {
 
     // Event coming from data source selector
     window.addEventListener("data-selected", this.handleDataSetSelected);
+    // Handles already selected data
+    const hash = this.getAttribute('hash');
+    const fileName = this.getAttribute('fileName');
+    console.log("HASH:  ", hash)
+    console.log("fileName:  ", fileName)
+
+    if (hash && fileName) {
+        this.handlePreLoadedData(hash, fileName)
+    }
+  }
+
+  async handlePreLoadedData(hash, fileName){
+    try {
+        const csvContent = await dataNursery.hashes2data.getItem(hash);
+        const csvDataRows = await dataNursery.hashes2dataRows.getItem(hash);
+        const columns = await dataNursery.hash2columns.getItem(hash);
+
+        // Simulate a data-selected event with the fetched data
+        this.handleDataSetSelected({
+            detail: {
+                csvContent,
+                csvDataRows,
+                columns,
+                hash,
+                fileName
+            }
+        });
+        console.log("doing the data selected")
+    } catch (error) {
+        console.error('Error fetching initial data:', error);
+    }
   }
 
   disconnectedCallback() {
@@ -132,8 +179,8 @@ class ScatterPlot extends HTMLElement {
     const categoryColumnEnum = columns;
     const valueColumnEnum = columns;
 
-    this.formSchema.properties.dynamicForms.items.properties['series-column-xaxis'].enum = categoryColumnEnum;
-    this.formSchema.properties.dynamicForms.items.properties['series-column-yaxis'].enum = valueColumnEnum;
+    this.formSchema.properties.dynamicForms.items.properties['series-column-x-axis'].enum = categoryColumnEnum;
+    this.formSchema.properties.dynamicForms.items.properties['series-column-y-axis'].enum = valueColumnEnum;
     
 
     if (this.modal) {
@@ -146,13 +193,6 @@ class ScatterPlot extends HTMLElement {
   // showBackground
   plotData(seriesName, columnCategory, columnsValues, aggregation, colorScale, primaryColor, secondaryColor, seriesSymbolSize, showLabels) {
     aggregation = aggregation === "" ? "none" : aggregation.toLowerCase();
-
-    // let columnCategory = this.getAttribute("column-category") || "";
-    // let columnsValues = this.getAttribute("column-values") || "";
-    // let aggregation = this.getAttribute("aggregation") || "";
-    // let symbolSize = this.getAttribute("symbol-size") || "";
-    // let showLabels = this.getAttribute("show-labels") || "";
-
 
     let series = {
       type: "scatter",
@@ -203,99 +243,6 @@ class ScatterPlot extends HTMLElement {
       itemStyle: { color: scale(index) },
     }));
 
-    // }
-    //   } else {
-    //     const grouped = this.df.groupBy(columnCategory);
-
-    //     const aggregations = {
-    //       sum: (df, col) => df.stat.sum(col),
-    //       mean: (df, col) => df.stat.mean(col),
-    //       median: (df, col) => df.stat.median(col),
-    //       min: (df, col) => df.stat.min(col),
-    //       max: (df, col) => df.stat.max(col),
-    //     };
-
-    //     const aggregatedData = grouped
-    //       .aggregate((group) => {
-    //         const result = {};
-    //         validColumns.forEach((col) => {
-    //           result[col] = aggregations[aggregation](group, col);
-    //         });
-    //         return result;
-    //       })
-    //       .toArray();
-
-    //     const scale = ColorScale.getColorScale(
-    //       this.getAttribute("color-scale") || "Viridis",
-    //       this.getAttribute("color-primary") || "#000000",
-    //       this.getAttribute("color-secundary") || "#ffffff",
-    //       aggregatedData.length
-    //     );
-
-    //     const xAxisData = aggregatedData.map((item) => item[0]);
-
-    //     series.data = aggregatedData.map((item, index) => ({
-    //       value: item[1][validColumns[0]],
-    //       name: item[0],
-    //       itemStyle: { color: scale(index) },
-    //     }));
-    //   }
-
-    // // in here should be done a if statement where the user checks if we want an aggregation run the code below
-    // // if aggregation is === none just serve the an array of array that have [x,y]
-    // // series: [
-    // // {
-    // //     type: 'scatter',
-    // //     data: [
-    // //       [10, 5],
-    // //       [0, 8],
-    // //       [6, 10],
-    // //       [2, 12],
-    // //       [8, 9],
-    // //       [8,7]
-    // //     ]
-    // // }
-    // // ]
-    // // };
-    // const grouped = this.df.groupBy(columnCategory);
-
-    // console.log(grouped,`<<<DF Grouped on ${columnCategory}`);
-
-    // const aggregations = {
-    //   sum: (df, col) => df.stat.sum(col),
-    //   mean: (df, col) => df.stat.mean(col),
-    //   median: (df, col) => df.stat.median(col),
-    //   min: (df, col) => df.stat.min(col),
-    //   max: (df, col) => df.stat.max(col),
-    // };
-
-    // const aggregatedData = grouped
-    //   .aggregate((group) => {
-    //     const result = {};
-    //     validColumns.forEach((col) => {
-    //       result[col] = aggregations[aggregation](group, col);
-    //     });
-    //     return result;
-    //   })
-    //   .toArray();
-
-    // const scale = ColorScale.getColorScale(
-    //   this.getAttribute("color-scale") || "Viridis",
-    //   this.getAttribute("color-primary") || "#000000",
-    //   this.getAttribute("color-secundary") || "#ffffff",
-    //   aggregatedData.length
-    // );
-
-    // const xAxisData = aggregatedData.map((item) => item[0]);
-
-    // series.data = aggregatedData.map((item, index) => ({
-    //   value: item[1][validColumns[0]],
-    //   name: item[0],
-    //   itemStyle: { color: scale(index) },
-    // }));
-
-    // console.log(series.data,'<<<SeriesData');
-
     return {
       series,
     };
@@ -320,8 +267,8 @@ class ScatterPlot extends HTMLElement {
     let index = 0;
     while (true) {
         const seriesTitle = getAttributeByPrefixAndIndex('series-title', index);
-        const columnCategory = getAttributeByPrefixAndIndex('series-column-xaxis', index);
-        const columnValues = getAttributeByPrefixAndIndex('series-column-yaxis', index);
+        const columnCategory = getAttributeByPrefixAndIndex('series-column-x-axis', index);
+        const columnValues = getAttributeByPrefixAndIndex('series-column-y-axis', index);
         const aggregation = getAttributeByPrefixAndIndex('series-aggregation', index);
         const seriesColorspace = getAttributeByPrefixAndIndex('series-colorspace', index);
         const seriesPrimaryColor = getAttributeByPrefixAndIndex('series-primary-color', index);
@@ -329,11 +276,8 @@ class ScatterPlot extends HTMLElement {
         const seriesSymbolSize = getAttributeByPrefixAndIndex('series-symbol-size', index);
         const seriesShowLabels = getAttributeByPrefixAndIndex('series-show-labels', index) === 'show';
 
-
-
-
-        if (!seriesTitle && !columnCategory && !columnValues && !aggregation) {
-            break;
+        if (!columnCategory || !columnValues) {
+          break;
         }
         
         // Generate plot data for the current series
@@ -432,13 +376,6 @@ class ScatterPlot extends HTMLElement {
           dataZoom: {
             yAxisIndex: 'none'
           },
-          restore:{},
-          saveAsImage: {
-            title: "Save as Image",
-            type: "png",
-            backgroundColor: "#fff",
-            pixelRatio: 2,
-          },
         },
       },
       xAxis:
@@ -463,6 +400,15 @@ class ScatterPlot extends HTMLElement {
     
     this.chart_.setOption(this.option);
   }
+
+  listeners() {
+    const container = document.querySelector('cb-container');
+    if (container) {
+        container.addEventListener('export', () => {
+            console.log('Export button clicked');
+          });
+    }
+}
 
   render() {
     this.updateOption();
